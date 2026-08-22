@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ROSE Admin Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;background:#fbfaf5;color:#29352b}
+:root{--olive:#586b3a;--olive-dark:#34472b;--olive-light:#edf0e5;--gold:#b89545;--danger:#a33a3a;--border:#ddd}
+header{background:var(--olive-dark);color:#fff;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.header-left{display:flex;align-items:center;gap:15px}
+.header-left img{width:55px;height:55px;object-fit:contain;background:#fff;border-radius:8px;padding:4px}
+.header-title{font-family:Georgia,"Times New Roman",serif;font-size:25px}
+.header-subtitle{margin-top:4px;font-size:13px;color:#e9e8d5}
+.logout-btn{background:#fff;color:var(--olive-dark);border:0;padding:10px 17px;border-radius:7px;cursor:pointer;font-weight:700}
+.logout-btn:hover{background:#f5eedc}
+.container{max-width:1400px;margin:auto;padding:40px 5% 80px}
+.card{background:#fff;border:1px solid rgba(88,107,58,.12);border-radius:14px;padding:28px;margin-bottom:30px;box-shadow:0 8px 28px rgba(52,71,43,.08)}
+.card h2{font-family:Georgia,"Times New Roman",serif;color:var(--olive-dark);margin-bottom:20px}
+
+/* Dashboard tabs */
+.dashboard-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:30px}
+.nav-card{border:1px solid #ddd;background:#fff;border-radius:12px;padding:25px;cursor:pointer;transition:.2s}
+.nav-card:hover{border-color:var(--olive);transform:translateY(-2px);box-shadow:0 6px 20px rgba(52,71,43,.10)}
+.nav-card.active{background:var(--olive-light);border-color:var(--olive)}
+.nav-card h3{font-family:Georgia,"Times New Roman",serif;color:var(--olive-dark);margin-bottom:8px}
+.nav-card p{color:#777;font-size:13px;line-height:1.5}
+
+/* Dashboard sections */
+.dashboard-section{display:none}
+.dashboard-section.active{display:block}
+
+/* Forms */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.form-group{display:flex;flex-direction:column;gap:7px}
+.form-group.full{grid-column:1/-1}
+label{font-size:14px;font-weight:700;color:var(--olive-dark)}
+select,input[type="text"],input[type="file"]{width:100%;padding:12px;border:1px solid #d7d9d1;border-radius:7px;background:#fff;font-size:14px}
+select:focus,input:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0 3px rgba(88,107,58,.10)}
+.primary-btn{background:var(--olive);color:#fff;border:0;padding:12px 20px;border-radius:7px;font-weight:700;cursor:pointer}
+.primary-btn:hover{background:var(--olive-dark)}
+.danger-btn{background:var(--danger);color:#fff;border:0;padding:12px 20px;border-radius:7px;font-weight:700;cursor:pointer}
+.danger-btn:hover{opacity:.9}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.message{display:none;margin-bottom:20px;padding:12px 15px;border-radius:7px;font-size:14px;line-height:1.5}
+.message.show{display:block}
+.message.success{background:#edf5e8;color:#3e6332;border:1px solid #cbdcbe}
+.message.error{background:#fbeaea;color:#9b3030;border:1px solid #efcaca}
+.note{margin-top:10px;color:#777;font-size:13px;line-height:1.5}
+
+/* Gallery category boxes */
+.category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.category-box{background:#fff;border:1px solid #ddd;border-radius:12px;padding:22px;cursor:pointer;transition:.2s;min-height:110px;display:flex;align-items:center}
+.category-box:hover{border-color:var(--olive);transform:translateY(-2px)}
+.category-box.active{background:var(--olive-light);border-color:var(--olive)}
+.category-box h3{font-family:Georgia,"Times New Roman",serif;color:var(--olive-dark);font-size:17px;line-height:1.35}
+
+/* Gallery images */
+.gallery-section{margin-top:30px}
+.section-title{display:flex;align-items:center;gap:10px;margin-bottom:15px}
+.section-title:before{content:"";width:5px;height:28px;background:var(--gold);border-radius:5px}
+.section-title h3{font-family:Georgia,"Times New Roman",serif;color:var(--olive-dark)}
+.admin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.admin-photo{border:1px solid #ddd;border-radius:10px;overflow:hidden;background:#fff}
+.admin-photo img{width:100%;height:180px;object-fit:cover;display:block}
+.photo-info{padding:12px}
+.photo-name{font-size:13px;font-weight:700;color:var(--olive-dark);word-break:break-word}
+.photo-title{font-size:13px;color:#777;margin-top:5px}
+.delete-label{display:flex;align-items:center;gap:7px;margin-top:12px;font-size:13px;color:#777}
+
+/* Private data */
+.private-file-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+.private-file{border:1px solid #ddd;border-radius:10px;background:#fff;padding:20px;cursor:pointer;transition:.2s}
+.private-file:hover{border-color:var(--olive);transform:translateY(-2px)}
+.private-file.active{background:var(--olive-light);border-color:var(--olive)}
+.private-file h3{color:var(--olive-dark);font-size:16px;margin-bottom:6px}
+.private-file p{color:#777;font-size:13px}
+.private-content{display:none;margin-top:25px;border:1px solid #ddd;border-radius:10px;overflow:hidden}
+.private-content.active{display:block}
+.data-header{background:var(--olive-light);color:var(--olive-dark);padding:13px 15px;font-weight:700}
+.data-content{background:#fff;padding:15px;white-space:pre-wrap;word-break:break-word;font-family:Consolas,"Courier New",monospace;font-size:13px;line-height:1.6;max-height:500px;overflow:auto}
+.loading{text-align:center;color:#777;padding:25px}
+.empty{padding:25px;text-align:center;color:#777;background:#fafafa;border-radius:8px}
+
+/* Responsive layout */
+@media(max-width:1000px){
+.admin-grid{grid-template-columns:repeat(3,1fr)}
+.category-grid{grid-template-columns:repeat(2,1fr)}
+.dashboard-nav{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+header{align-items:flex-start}
+.header-title{font-size:20px}
+.form-grid{grid-template-columns:1fr}
+.form-group.full{grid-column:auto}
+.admin-grid{grid-template-columns:repeat(2,1fr)}
+.dashboard-nav{grid-template-columns:1fr}
+.private-file-grid{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+header{flex-direction:column}
+.logout-btn{width:100%}
+.container{padding:25px 5% 60px}
+.card{padding:20px}
+.admin-grid{grid-template-columns:1fr}
+.category-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-left">
+<img src="rose_logo.png" alt="ROSE Logo">
+<div>
+<div class="header-title">ROSE Admin Dashboard</div>
+<div class="header-subtitle">Private Administration Area</div>
+</div>
+</div>
+<button class="logout-btn" id="logoutBtn">Logout</button>
+</header>
+
+<main class="container">
+<div id="message" class="message"></div>
+
+<!-- Dashboard navigation tabs -->
+<div class="dashboard-nav">
+<div class="nav-card active" data-section="gallery-management"><h3>Gallery Management</h3><p>Upload new images and choose a gallery section.</p></div>
+<div class="nav-card" data-section="current-gallery"><h3>Current Gallery</h3><p>Choose a gallery section to view its images.</p></div>
+<div class="nav-card" data-section="delete-images"><h3>Delete Images</h3><p>Select and permanently delete existing gallery images.</p></div>
+<div class="nav-card" data-section="private-data"><h3>Private Data</h3><p>Open contacts, donor details or subscribers privately.</p></div>
+</div>
+
+<!-- Gallery upload tab -->
+<section id="gallery-management" class="dashboard-section active">
+<div class="card">
+<h2>Gallery Management</h2>
+<form id="uploadForm">
+<div class="form-grid">
+<div class="form-group">
+<label for="category">Gallery Section</label>
+<select id="category" name="category" required>
+<option value="">Select Section</option>
+<option value="essential-support">Essential Support</option>
+<option value="education">Education & Child Development</option>
+<option value="health">Health & Well-being</option>
+<option value="women">Women Empowerment</option>
+<option value="skills">Skills & Opportunities</option>
+<option value="livelihoods">Livelihoods & Employment</option>
+<option value="social">Social Empowerment</option>
+</select>
+</div>
+<div class="form-group">
+<label for="title">Photo Title</label>
+<input type="text" id="title" name="title" maxlength="150" placeholder="Enter photo title">
+</div>
+<div class="form-group full">
+<label for="images">Select Images</label>
+<input type="file" id="images" name="images" accept=".jpg,.jpeg,.png,.webp" multiple required>
+<div class="note">Allowed formats: JPG, JPEG, PNG and WEBP.</div>
+</div>
+</div>
+<div class="actions"><button type="submit" class="primary-btn">Upload Images</button></div>
+</form>
+</div>
+</section>
+
+<!-- Current gallery viewing tab -->
+<section id="current-gallery" class="dashboard-section">
+<div class="card">
+<h2>Current Gallery</h2>
+<p class="note">Choose a section below to view only the images belonging to that section.</p>
+<div id="categoryGrid" class="category-grid"><div class="loading">Loading sections...</div></div>
+<div id="currentGalleryContent"><div class="empty">Choose a gallery section above.</div></div>
+</div>
+</section>
+
+<!-- Delete images tab -->
+<section id="delete-images" class="dashboard-section">
+<div class="card">
+<h2>Delete Images</h2>
+<p class="note">Select one or more images below and click "Delete Selected Images". Deleted images will be permanently removed from the gallery.</p>
+<div id="managementGallery"><div class="loading">Loading gallery...</div></div>
+<div class="actions">
+<button type="button" class="danger-btn" id="deleteSelectedBtn">Delete Selected Images</button>
+</div>
+</div>
+</section>
+
+<!-- Private data tab -->
+<section id="private-data" class="dashboard-section">
+<div class="card">
+<h2>Private Data</h2>
+<p class="note">These files are available only after successful administrator login.</p>
+<div id="privateFileGrid" class="private-file-grid"><div class="loading">Loading private files...</div></div>
+<div id="privateContents"></div>
+</div>
+</section>
+</main>
+
+<script>
+/* Elements */
+const message=document.getElementById("message");
+const uploadForm=document.getElementById("uploadForm");
+const managementGallery=document.getElementById("managementGallery");
+const categoryGrid=document.getElementById("categoryGrid");
+const currentGalleryContent=document.getElementById("currentGalleryContent");
+const privateFileGrid=document.getElementById("privateFileGrid");
+const privateContents=document.getElementById("privateContents");
+const deleteSelectedBtn=document.getElementById("deleteSelectedBtn");
+const logoutBtn=document.getElementById("logoutBtn");
+let galleryData=null;
+let privateDataFiles={};
+
+/* Show dashboard message */
+function showMessage(text,type){
+message.className="message show "+type;
+message.textContent=text;
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* Switch dashboard tabs */
+document.querySelectorAll(".nav-card").forEach(card=>{
+card.addEventListener("click",()=>{
+const target=card.dataset.section;
+document.querySelectorAll(".nav-card").forEach(item=>item.classList.remove("active"));
+document.querySelectorAll(".dashboard-section").forEach(section=>section.classList.remove("active"));
+card.classList.add("active");
+document.getElementById(target).classList.add("active");
+});
+});
+
+/* Load gallery data from Flask */
+async function loadGallery(){
+try{
+const response=await fetch("/admin/gallery/data");
+if(response.status===401){window.location.href="/admin";return}
+if(!response.ok)throw new Error("Gallery request failed.");
+galleryData=await response.json();
+renderManagementGallery();
+renderCategoryBoxes();
+}catch(error){
+console.error("Gallery loading error:",error);
+managementGallery.innerHTML='<div class="empty">Unable to load gallery.</div>';
+categoryGrid.innerHTML='<div class="empty">Unable to load gallery sections.</div>';
+}
+}
+
+/* Render images for deletion */
+function renderManagementGallery(){
+managementGallery.innerHTML="";
+if(!galleryData||!galleryData.sections||galleryData.sections.length===0){
+managementGallery.innerHTML='<div class="empty">No gallery sections available.</div>';
+return;
+}
+galleryData.sections.forEach(section=>{
+const sectionElement=document.createElement("div");
+sectionElement.className="gallery-section";
+const heading=document.createElement("div");
+heading.className="section-title";
+const headingText=document.createElement("h3");
+headingText.textContent=section.title;
+heading.appendChild(headingText);
+sectionElement.appendChild(heading);
+
+if(!section.photos||section.photos.length===0){
+const empty=document.createElement("div");
+empty.className="empty";
+empty.textContent="No images in this section.";
+sectionElement.appendChild(empty);
+managementGallery.appendChild(sectionElement);
+return;
+}
+
+const grid=document.createElement("div");
+grid.className="admin-grid";
+
+section.photos.forEach(photo=>{
+const card=document.createElement("div");
+card.className="admin-photo";
+const img=document.createElement("img");
+img.src=photo.file;
+img.alt=photo.title||section.title;
+img.loading="lazy";
+
+const info=document.createElement("div");
+info.className="photo-info";
+
+const name=document.createElement("div");
+name.className="photo-name";
+name.textContent=photo.filename||photo.file;
+
+const title=document.createElement("div");
+title.className="photo-title";
+title.textContent=photo.title||"";
+
+const label=document.createElement("label");
+label.className="delete-label";
+
+const checkbox=document.createElement("input");
+checkbox.type="checkbox";
+checkbox.className="delete-checkbox";
+checkbox.value=photo.filename||photo.file.replace("/gallery/","").replace("gallery/","");
+
+label.appendChild(checkbox);
+label.appendChild(document.createTextNode(" Select for deletion"));
+info.appendChild(name);
+info.appendChild(title);
+info.appendChild(label);
+card.appendChild(img);
+card.appendChild(info);
+grid.appendChild(card);
+});
+
+sectionElement.appendChild(grid);
+managementGallery.appendChild(sectionElement);
+});
+}
+
+/* Render gallery categories */
+function renderCategoryBoxes(){
+categoryGrid.innerHTML="";
+if(!galleryData||!galleryData.sections)return;
+galleryData.sections.forEach(section=>{
+const box=document.createElement("div");
+box.className="category-box";
+const heading=document.createElement("h3");
+heading.textContent=section.title;
+box.appendChild(heading);
+box.addEventListener("click",()=>{
+document.querySelectorAll(".category-box").forEach(item=>item.classList.remove("active"));
+box.classList.add("active");
+showCurrentGallery(section);
+});
+categoryGrid.appendChild(box);
+});
+}
+
+/* Show selected gallery category */
+function showCurrentGallery(section){
+currentGalleryContent.innerHTML="";
+const wrapper=document.createElement("div");
+wrapper.className="gallery-section";
+const heading=document.createElement("div");
+heading.className="section-title";
+const headingText=document.createElement("h3");
+headingText.textContent=section.title;
+heading.appendChild(headingText);
+wrapper.appendChild(heading);
+
+if(!section.photos||section.photos.length===0){
+const empty=document.createElement("div");
+empty.className="empty";
+empty.textContent="No images in this section.";
+wrapper.appendChild(empty);
+currentGalleryContent.appendChild(wrapper);
+return;
+}
+
+const grid=document.createElement("div");
+grid.className="admin-grid";
+section.photos.forEach(photo=>{
+const card=document.createElement("div");
+card.className="admin-photo";
+const img=document.createElement("img");
+img.src=photo.file;
+img.alt=photo.title||section.title;
+img.loading="lazy";
+const info=document.createElement("div");
+info.className="photo-info";
+const title=document.createElement("div");
+title.className="photo-title";
+title.textContent=photo.title||section.title;
+info.appendChild(title);
+card.appendChild(img);
+card.appendChild(info);
+grid.appendChild(card);
+});
+wrapper.appendChild(grid);
+currentGalleryContent.appendChild(wrapper);
+}
+
+/* Load private data */
+async function loadPrivateData(){
+try{
+const response=await fetch("/admin/private-data");
+if(response.status===401){window.location.href="/admin";return}
+if(!response.ok)throw new Error("Private data request failed.");
+const data=await response.json();
+if(!data.success){
+privateFileGrid.innerHTML='<div class="empty">Unable to load private data.</div>';
+return;
+}
+privateDataFiles=data.files||{};
+renderPrivateFileButtons();
+}catch(error){
+console.error("Private data loading error:",error);
+privateFileGrid.innerHTML='<div class="empty">Unable to load private data.</div>';
+}
+}
+
+/* Render private data file buttons */
+function renderPrivateFileButtons(){
+privateFileGrid.innerHTML="";
+privateContents.innerHTML="";
+const fileOrder=["contacts.txt","donorDetails.txt","subscribers.txt"];
+fileOrder.forEach(filename=>{
+const fileCard=document.createElement("div");
+fileCard.className="private-file";
+const title=document.createElement("h3");
+title.textContent=filename;
+const description=document.createElement("p");
+description.textContent="Click to view this file";
+fileCard.appendChild(title);
+fileCard.appendChild(description);
+fileCard.addEventListener("click",()=>{
+document.querySelectorAll(".private-file").forEach(item=>item.classList.remove("active"));
+fileCard.classList.add("active");
+showPrivateFile(filename);
+});
+privateFileGrid.appendChild(fileCard);
+});
+}
+
+/* Display selected private file */
+function showPrivateFile(filename){
+privateContents.innerHTML="";
+const box=document.createElement("div");
+box.className="private-content active";
+const header=document.createElement("div");
+header.className="data-header";
+header.textContent=filename;
+const content=document.createElement("div");
+content.className="data-content";
+content.textContent=privateDataFiles[filename]||"No data available.";
+box.appendChild(header);
+box.appendChild(content);
+privateContents.appendChild(box);
+}
+
+/* Upload gallery images */
+uploadForm.addEventListener("submit",async event=>{
+event.preventDefault();
+const formData=new FormData(uploadForm);
+try{
+const response=await fetch("/admin/gallery/upload",{method:"POST",body:formData});
+if(response.status===401){window.location.href="/admin";return}
+const data=await response.json();
+if(data.uploaded&&data.uploaded.length>0){
+showMessage(data.message,"success");
+uploadForm.reset();
+await loadGallery();
+}else{
+showMessage(data.message||"No images were uploaded.","error");
+}
+}catch(error){
+console.error("Upload error:",error);
+showMessage("Unable to upload images. Please try again.","error");
+}
+});
+
+/* Delete selected gallery images */
+deleteSelectedBtn.addEventListener("click",async()=>{
+const checkboxes=document.querySelectorAll(".delete-checkbox:checked");
+const filenames=Array.from(checkboxes).map(checkbox=>checkbox.value);
+
+if(filenames.length===0){
+showMessage("Please select at least one image to delete.","error");
+return;
+}
+
+const confirmed=window.confirm("Are you sure you want to permanently delete the selected image(s)?");
+if(!confirmed)return;
+
+try{
+const response=await fetch("/admin/gallery/delete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({filenames:filenames})});
+if(response.status===401){window.location.href="/admin";return}
+const data=await response.json();
+
+if(data.deleted>0){
+showMessage(data.message,"success");
+await loadGallery();
+}else{
+showMessage(data.message||"No images were deleted.","error");
+}
+}catch(error){
+console.error("Delete error:",error);
+showMessage("Unable to delete images. Please try again.","error");
+}
+});
+
+/* Logout */
+logoutBtn.addEventListener("click",()=>{window.location.href="/admin/logout"});
+
+/* Initial dashboard data */
+loadGallery();
+loadPrivateData();
+</script>
+</body>
+</html>

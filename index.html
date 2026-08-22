@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rural Organisation for Social Emancipation | ROSE</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#fbfaf5;
+color:#252b25;
+overflow-x:hidden
+}
+
+:root{
+--olive:#586b3a;
+--olive-dark:#34472b;
+--olive-light:#edf0e5;
+--cream:#fbfaf5;
+--gold:#b89545;
+--text:#29352b
+}
+
+/* ==================== HEADER ==================== */
+
+header{
+width:100%;
+height:105px;
+background:rgba(251,250,245,.98);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 4%;
+position:sticky;
+top:0;
+z-index:1000;
+border-bottom:1px solid rgba(88,107,58,.14);
+box-shadow:0 3px 18px rgba(52,71,43,.05)
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:15px
+}
+
+.logo-hover{
+position:relative;
+width:55px;
+height:55px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer
+}
+
+.logo-hover>img{
+width:55px;
+height:55px;
+object-fit:contain
+}
+
+.logo-preview{
+position:absolute;
+top:68px;
+left:50%;
+transform:translateX(-50%) scale(.85);
+width:120px;
+height:120px;
+background:#fff;
+padding:15px;
+border-radius:14px;
+box-shadow:0 15px 40px rgba(0,0,0,.18);
+opacity:0;
+visibility:hidden;
+transition:.25s ease;
+z-index:2000
+}
+
+.logo-preview img{
+width:70%;
+height:70%;
+object-fit:contain
+}
+
+.logo-hover:hover .logo-preview{
+opacity:1;
+visibility:visible;
+transform:translateX(-50%) scale(1)
+}
+
+.brand-text{
+line-height:1.08
+}
+
+.brand-title,.brand-subtitle{
+font-size:21px;
+font-weight:800;
+letter-spacing:-.4px;
+color:var(--olive-dark)
+}
+
+.brand-subtitle{
+margin-top:4px
+}
+
+/* ==================== NAVIGATION ==================== */
+
+nav{
+display:flex;
+align-items:center;
+gap:26px
+}
+
+nav a{
+text-decoration:none;
+color:#3d473d;
+font-size:15px;
+transition:.25s ease
+}
+
+nav a:hover{
+color:var(--olive)
+}
+
+nav a.active{
+background:var(--olive-light);
+padding:12px 15px;
+border-radius:7px;
+color:var(--olive-dark);
+font-weight:600
+}
+
+.donate-btn{
+background:var(--olive);
+color:#fff!important;
+padding:13px 21px;
+border-radius:7px;
+font-size:15px;
+font-weight:700;
+margin-left:4px
+}
+
+.donate-btn:hover{
+background:var(--olive-dark)
+}
+
+/* ==================== DISCOVER ROSE HEADING ==================== */
+
+.discover-title{
+background:var(--olive);
+color:#fff;
+padding:35px 6%;;
+text-align:center;
+}
+
+.discover-title h1{
+font-family:Georgia,"Times New Roman",serif;
+font-size:38px;
+font-weight:700;
+line-height:1.2;
+}
+
+/* ==================== DISCOVER ROSE CONTENT ==================== */
+
+.discover-content{
+padding:55px 7% 70px;
+background:#fbfaf5;
+text-align:center;
+}
+
+.discover-content p{
+max-width:1100px;
+font-size:18px;
+line-height:1.8;
+color:var(--text);
+margin:0 auto 25px;
+text-align:center;
+}
+
+.discover-content p:last-child{
+margin-bottom:0;
+font-family:Georgia,"Times New Roman",serif;
+font-size:20px;
+font-style:italic;
+color:var(--olive-dark);
+}
+
+/* ==================== FOOTER ==================== */
+
+footer{
+background:var(--olive-dark);
+color:#fff;
+padding:60px 4% 25px
+}
+
+.footer-container{
+max-width:1650px;
+margin:auto;
+display:grid;
+grid-template-columns:1.3fr 1fr 1fr 1.25fr;
+gap:60px
+}
+
+.footer-brand{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:25px
+}
+
+.footer-brand img{
+width:65px;
+height:65px;
+object-fit:contain;
+background:#fff;
+border-radius:10px;
+padding:5px
+}
+
+.footer-brand-title,.footer-brand-subtitle{
+font-size:18px;
+font-weight:800
+}
+
+.footer-brand-subtitle{
+margin-top:4px
+}
+
+.footer-description{
+color:#e9e8d5;
+font-size:16px;
+line-height:1.7;
+max-width:390px
+}
+
+.footer-column h3{
+font-size:19px;
+margin-bottom:24px;
+color:#fff
+}
+
+.footer-column ul{
+list-style:none
+}
+
+.footer-column li{
+margin-bottom:14px
+}
+
+.footer-column a{
+color:#e9e8d5;
+text-decoration:none;
+font-size:15px
+}
+
+.footer-column a:hover{
+color:#e1c77f
+}
+
+.contact-item{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+color:#e9e8d5;
+line-height:1.5;
+font-size:15px
+}
+
+.contact-icon{
+color:#d6ba70;
+font-size:18px;
+min-width:20px
+}
+
+.trust{
+border-top:1px solid rgba(214,186,112,.25);
+margin-top:25px;
+padding-top:18px;
+color:#e9e8d5;
+line-height:1.7;
+font-size:13px
+}
+
+.footer-bottom{
+max-width:1650px;
+margin:45px auto 0;
+padding-top:25px;
+border-top:1px solid rgba(214,186,112,.25);
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:#e9e8d5;
+font-size:13px
+}
+
+.footer-bottom-links{
+display:flex;
+gap:25px
+}
+
+.footer-bottom a{
+color:#e9e8d5;
+text-decoration:none
+}
+
+/* ==================== TABLET ==================== */
+
+@media(max-width:1000px){
+
+header{
+height:auto;
+min-height:85px;
+padding:15px 5%
+}
+
+nav{
+display:none
+}
+
+.brand-title,.brand-subtitle{
+font-size:18px
+}
+
+.logo-hover,.logo-hover>img{
+width:45px;
+height:45px
+}
+
+.discover-title{
+padding:30px 6%
+}
+
+.discover-title h1{
+font-size:34px
+}
+
+.discover-content{
+padding:45px 6% 60px
+}
+
+.discover-content p{
+font-size:17px
+}
+
+.footer-container{
+grid-template-columns:repeat(2,1fr);
+gap:40px
+}
+
+}
+
+/* ==================== MOBILE ==================== */
+
+@media(max-width:600px){
+
+header{
+padding:12px 5%
+}
+
+.brand-title,.brand-subtitle{
+font-size:14px
+}
+
+.donate-btn{
+display:none
+}
+
+.discover-title{
+padding:25px 6%
+}
+
+.discover-title h1{
+font-size:30px
+}
+
+.discover-content{
+padding:35px 6% 50px
+}
+
+.discover-content p{
+font-size:16px;
+line-height:1.7;
+margin-bottom:20px
+}
+
+.discover-content p:last-child{
+font-size:18px
+}
+
+.footer-container{
+grid-template-columns:1fr;
+gap:40px
+}
+
+.footer-bottom{
+flex-direction:column;
+gap:18px;
+text-align:center
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==================== HEADER ==================== -->
+
+<header>
+
+<div class="brand">
+
+<div class="logo-hover">
+
+<img src="rose_logo.png" alt="ROSE Logo">
+
+<div class="logo-preview">
+<img src="rose_logo.png" alt="ROSE Logo Preview">
+</div>
+
+</div>
+
+<div class="brand-text">
+
+<div class="brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="brand-title">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+<nav>
+
+<a href="index.html" class="active">Home</a>
+<a href="aboutUs.html">About Us</a>
+<a href="programs.html">Our Programs</a>
+<a href="gallery_html.html">Gallery</a>
+<a href="blog.html">Blog</a>
+<a href="newsletter.html">Newsletter</a>
+<a href="contact.html">Contact</a>
+<a href="donate.html" class="donate-btn">♡ &nbsp;Donate Now</a>
+
+</nav>
+
+</header>
+
+<!-- ==================== DISCOVER ROSE ==================== -->
+
+<section class="discover-title">
+
+<h1>Discover ROSE</h1>
+
+</section>
+
+<section class="discover-content">
+
+<p>
+<strong>Rural Organisation for Social Emancipation (ROSE)</strong> supports individuals wherever there is a genuine need. Our support extends across education, livelihoods, employment, skills, digital development, and essential needs, based on the circumstances of each individual.
+</p>
+
+<p>
+We believe every person deserves the opportunity to progress, earn independently, and build a better life.
+</p>
+
+<p>
+Through our work, we aim to create meaningful opportunities, strengthen communities, and support individuals in building independent and sustainable lives.
+</p>
+
+<p>
+Together, we can create possibilities for a better tomorrow.
+</p>
+
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+
+<footer id="footer">
+
+<div class="footer-container">
+
+<div>
+
+<div class="footer-brand">
+
+<img src="rose_logo.png" alt="ROSE Logo">
+
+<div>
+
+<div class="footer-brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="footer-brand-subtitle">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+<p class="footer-description">
+Empowering Every Individual to Build an Independent and Sustainable Life
+</p>
+
+</div>
+
+<div class="footer-column">
+
+<h3>Quick Links</h3>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+<li><a href="aboutUs.html">About Us</a></li>
+<li><a href="programs.html">Our Programs</a></li>
+<li><a href="gallery_html.html">Gallery</a></li>
+<li><a href="blog.html">Blog</a></li>
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+
+</div>
+
+<div class="footer-column">
+
+<h3>Our Programs</h3>
+
+<ul>
+
+<li><a href="programs.html#essential-support">Essential Support</a></li>
+
+<li>
+<a href="programs.html#education">
+Education &amp; Child Development
+</a>
+</li>
+
+<li>
+<a href="programs.html#health">
+Health &amp; Well-being
+</a>
+</li>
+
+<li>
+<a href="programs.html#women">
+Women Empowerment
+</a>
+</li>
+
+<li>
+<a href="programs.html#skills">
+Skills &amp; Opportunities
+</a>
+</li>
+
+<li>
+<a href="programs.html#livelihoods">
+Livelihoods &amp; Employment
+</a>
+</li>
+
+<li>
+<a href="programs.html#social">
+Social Empowerment
+</a>
+</li>
+
+</ul>
+
+</div>
+
+<div class="footer-column">
+
+<h3>Contact &amp; Trust</h3>
+
+<div class="contact-item">
+
+<span class="contact-icon">⌖</span>
+
+<span>
+67/11, Mariapuram, Ravindra Nagar Post,<br>
+Y.S.R. Kadapa, Andhra Pradesh - 516001
+</span>
+
+</div>
+
+<div class="contact-item">
+
+<span class="contact-icon">⌕</span>
+
+<span>
++91 79957 19034
+</span>
+
+</div>
+
+<div class="contact-item">
+
+<span class="contact-icon">✉</span>
+
+<span>
+roseorg22@gmail.com
+</span>
+
+</div>
+
+<div class="trust">
+
+Regd No. 632/2022 under Indian Trusts Act, 1882<br>
+
+80G Certified - Tax benefits on donations
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<div>
+© 2026 Rural Organisation For Social Emancipation (ROSE). All rights reserved.
+</div>
+
+<div class="footer-bottom-links">
+
+<a href="#">Privacy Policy</a>
+<a href="#">Terms of Use</a>
+
+</div>
+
+</div>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Programs | Rural Organisation for Social Emancipation | ROSE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:#fbfaf5;color:#252b25;overflow-x:hidden}
+:root{--olive:#586b3a;--olive-dark:#34472b;--olive-light:#edf0e5;--cream:#fbfaf5;--gold:#b89545;--gold-light:#f5eedc;--rose:#b56f73;--text:#29352b;--muted:#59665a}
+
+header{width:100%;height:105px;background:rgba(251,250,245,.98);display:flex;align-items:center;justify-content:space-between;padding:0 4%;position:sticky;top:0;z-index:1000;border-bottom:1px solid rgba(88,107,58,.14);box-shadow:0 3px 18px rgba(52,71,43,.05)}
+.brand{display:flex;align-items:center;gap:15px}
+.logo-hover{position:relative;width:55px;height:55px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.logo-hover>img{width:55px;height:55px;object-fit:contain}
+.logo-preview{position:absolute;top:68px;left:50%;transform:translateX(-50%) scale(.85);width:230px;height:230px;background:#fff;padding:15px;border-radius:14px;box-shadow:0 15px 40px rgba(0,0,0,.18);opacity:0;visibility:hidden;transition:.25s ease;z-index:2000}
+.logo-preview img{width:100%;height:100%;object-fit:contain}
+.logo-hover:hover .logo-preview{opacity:1;visibility:visible;transform:translateX(-50%) scale(1)}
+.brand-text{line-height:1.08}
+.brand-title,.brand-subtitle{font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--olive-dark)}
+.brand-subtitle{margin-top:4px}
+
+nav{display:flex;align-items:center;gap:26px}
+nav a{text-decoration:none;color:#3d473d;font-size:15px;transition:.25s ease}
+nav a:hover{color:var(--olive)}
+nav a.active{background:var(--olive-light);padding:12px 15px;border-radius:7px;color:var(--olive-dark);font-weight:600}
+.donate-btn{background:var(--olive);color:#fff!important;padding:13px 21px;border-radius:7px;font-size:15px;font-weight:700;margin-left:4px}
+.donate-btn:hover{background:var(--olive-dark)}
+
+.program-hero{background:var(--olive);display:flex;align-items:center;justify-content:center;text-align:center;padding:48px 30px}
+.program-hero-content{width:100%;max-width:950px}
+.program-hero h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(40px,5vw,58px);line-height:1.1;color:#fff}
+
+.program-conclusion{position:relative;max-width:1050px;margin:55px auto 45px;padding:35px 45px;text-align:center;background:linear-gradient(135deg,#f5eedc,#f0f3e8);border:1px solid rgba(184,149,69,.2);border-radius:13px;overflow:hidden}
+.program-conclusion::before{content:"";position:absolute;width:210px;height:210px;left:-65px;top:-60px;background:url("rose_logo.png") center/contain no-repeat;opacity:.045}
+.program-conclusion p{position:relative;font-family:Georgia,"Times New Roman",serif;font-size:23px;line-height:1.65;color:var(--olive-dark)}
+
+.program-wrapper{max-width:1200px;margin:0 auto;padding:15px 40px 90px;display:grid;grid-template-columns:245px 1fr;gap:45px;align-items:start}
+.program-menu{position:sticky;top:130px;background:#f1f3ea;border:1px solid rgba(88,107,58,.12);border-radius:12px;padding:12px}
+.program-menu-title{font-family:Georgia,"Times New Roman",serif;font-size:21px;color:var(--olive-dark);padding:12px 14px 15px;border-bottom:1px solid rgba(88,107,58,.15)}
+.program-menu a{display:block;text-decoration:none;color:#465344;font-size:14px;line-height:1.35;padding:12px 14px;border-radius:7px;margin-top:4px;transition:.2s ease}
+.program-menu a:hover{background:#fffdf8;color:var(--olive-dark);transform:translateX(2px)}
+.program-menu a::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin:0 9px 2px 0}
+
+.program-content{min-width:0}
+.program-card{position:relative;background:#fffdf8;border:1px solid rgba(88,107,58,.12);border-radius:13px;padding:38px 42px;margin-bottom:25px;overflow:hidden;box-shadow:0 5px 20px rgba(52,71,43,.045);scroll-margin-top:125px}
+.program-card::before{content:"";position:absolute;width:230px;height:230px;right:-55px;bottom:-70px;background:url("rose_logo.png") center/contain no-repeat;opacity:.035;pointer-events:none}
+.program-card::after{content:"";position:absolute;left:0;top:0;width:4px;height:100%;background:linear-gradient(to bottom,var(--olive),var(--gold))}
+.program-number{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.program-card h2{font-family:Georgia,"Times New Roman",serif;font-size:31px;color:var(--olive-dark);margin-bottom:16px;line-height:1.25}
+.program-card p{font-size:17px;line-height:1.85;color:var(--text);max-width:850px;margin-bottom:15px}
+.program-card p:last-child{margin-bottom:0}
+.program-card strong{color:var(--olive-dark)}
+
+footer{background:var(--olive-dark);color:#fff;padding:60px 4% 25px}
+.footer-container{max-width:1650px;margin:auto;display:grid;grid-template-columns:1.3fr 1fr 1fr 1.25fr;gap:60px}
+.footer-brand{display:flex;align-items:center;gap:15px;margin-bottom:25px}
+.footer-brand img{width:65px;height:65px;object-fit:contain;background:#fff;border-radius:10px;padding:5px}
+.footer-brand-title,.footer-brand-subtitle{font-size:18px;font-weight:800}
+.footer-brand-subtitle{margin-top:4px}
+.footer-description{color:#e9e8d5;font-size:16px;line-height:1.7;max-width:390px}
+.footer-column h3{font-size:19px;margin-bottom:24px}
+.footer-column ul{list-style:none}
+.footer-column li{margin-bottom:14px}
+.footer-column a{color:#e9e8d5;text-decoration:none;font-size:15px}
+.footer-column a:hover{color:#e1c77f}
+.contact-item{display:flex;gap:12px;margin-bottom:18px;color:#e9e8d5;line-height:1.5;font-size:15px}
+.contact-icon{color:#d6ba70;font-size:18px;min-width:20px}
+.trust{border-top:1px solid rgba(214,186,112,.25);margin-top:25px;padding-top:18px;color:#e9e8d5;line-height:1.7;font-size:13px}
+.footer-bottom{max-width:1650px;margin:45px auto 0;padding-top:25px;border-top:1px solid rgba(214,186,112,.25);display:flex;justify-content:space-between;align-items:center;color:#e9e8d5;font-size:13px}
+.footer-bottom-links{display:flex;gap:25px}
+.footer-bottom a{color:#e9e8d5;text-decoration:none}
+
+@media(max-width:1000px){
+header{height:auto;min-height:85px;padding:15px 5%}
+nav{display:none}
+.brand-title,.brand-subtitle{font-size:18px}
+.logo-hover,.logo-hover>img{width:45px;height:45px}
+.program-conclusion{margin:45px 30px 35px}
+.program-wrapper{grid-template-columns:1fr;padding:15px 30px 80px}
+.program-menu{position:relative;top:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:5px}
+.program-menu-title{grid-column:1/-1}
+.footer-container{grid-template-columns:repeat(2,1fr);gap:40px}
+}
+
+@media(max-width:600px){
+header{padding:12px 5%}
+.brand-title,.brand-subtitle{font-size:14px}
+.donate-btn{display:none}
+.program-hero{padding:35px 20px}
+.program-hero h1{font-size:40px}
+.program-conclusion{margin:35px 20px 25px;padding:28px 25px}
+.program-conclusion p{font-size:20px}
+.program-wrapper{padding:15px 20px 70px;gap:25px}
+.program-menu{grid-template-columns:1fr}
+.program-menu-title{grid-column:auto}
+.program-card{padding:30px 27px;margin-bottom:20px}
+.program-card h2{font-size:27px}
+.program-card p{font-size:16px;line-height:1.8}
+.footer-container{grid-template-columns:1fr;gap:40px}
+.footer-bottom{flex-direction:column;gap:18px;text-align:center}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="brand">
+<div class="logo-hover">
+<img src="rose_logo.png" alt="ROSE Logo">
+<div class="logo-preview"><img src="rose_logo.png" alt="ROSE Logo Preview"></div>
+</div>
+<div class="brand-text">
+<div class="brand-title">RURAL ORGANISATION</div>
+<div class="brand-subtitle">FOR SOCIAL EMANCIPATION</div>
+</div>
+</div>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="aboutUs.html">About Us</a>
+<a href="programs.html" class="active">Our Programs</a>
+<a href="gallery_html.html">Gallery</a>
+<a href="blog.html">Blog</a>
+<a href="newsletter.html">Newsletter</a>
+<a href="contact.html">Contact</a>
+<a href="donate.html" class="donate-btn">♡ &nbsp;Donate Now</a>
+</nav>
+</header>
+
+<section class="program-hero">
+<div class="program-hero-content">
+<h1>Our Programs</h1>
+</div>
+</section>
+
+<section class="program-conclusion">
+<p>ROSE works to support people when they need help and empower them with the knowledge, skills and opportunities they need to move towards a better and more independent life.</p>
+</section>
+
+<div class="program-wrapper">
+
+<aside class="program-menu">
+<div class="program-menu-title">Our Areas of Support</div>
+<a href="#essential-support">Essential Support</a>
+<a href="#education">Education & Child Development</a>
+<a href="#health">Health & Well-being</a>
+<a href="#women">Women Empowerment</a>
+<a href="#skills">Skills & Opportunities</a>
+<a href="#livelihoods">Livelihoods & Employment</a>
+<a href="#social">Social Empowerment</a>
+</aside>
+
+<main class="program-content">
+
+<section class="program-card" id="essential-support">
+<h2>Essential Support</h2>
+<p>We provide support to individuals and families who are going through difficult circumstances and need help with their basic needs. Our support may include <strong>food, clothing, household essentials, educational necessities and other immediate requirements</strong>.</p>
+<p>We aim to provide timely help while treating every person with care, dignity and respect.</p>
+</section>
+
+<section class="program-card" id="education">
+<h2>Education & Child Development</h2>
+<p>We believe every child should have the opportunity to learn, grow and build a better future. We support children who may face difficulties in continuing their education by helping with <strong>school-related needs, books, learning materials, educational expenses and other necessary support</strong>.</p>
+<p>We also encourage activities that contribute to a child's confidence, learning and overall development.</p>
+</section>
+
+<section class="program-card" id="health">
+<h2>Health & Well-being</h2>
+<p>Good health is an important part of a secure and dignified life. We support individuals and families who need help with <strong>basic healthcare, medical assistance, medicines, health check-ups and health camps</strong>.</p>
+<p>We also promote awareness about healthy practices and encourage people to seek timely medical care when needed.</p>
+</section>
+
+<section class="program-card" id="women">
+<h2>Women Empowerment</h2>
+<p>We believe women should have the confidence, knowledge and opportunities to make decisions about their own lives. ROSE supports women through <strong>awareness, guidance, learning opportunities and initiatives that encourage independence and participation</strong>.</p>
+<p>Our aim is to help women strengthen their confidence and create better opportunities for themselves and their families.</p>
+</section>
+
+<section class="program-card" id="skills">
+<h2>Skills & Opportunities</h2>
+<p>Learning a practical skill can open the door to new opportunities. We provide opportunities for people to learn useful skills such as <strong>tailoring, embroidery, handicrafts, computer skills, digital skills, communication and other vocational skills</strong>.</p>
+<p>We aim to make learning accessible and useful, so that people can use their skills in everyday life, further training or future work opportunities.</p>
+</section>
+
+<section class="program-card" id="livelihoods">
+<h2>Livelihoods & Employment</h2>
+<p>A stable source of income can make a significant difference to an individual and their family. We support people in exploring <strong>employment, self-employment and small income-generating opportunities</strong> based on their abilities and circumstances.</p>
+<p>Our focus is on helping people move towards greater financial stability and become more self-reliant.</p>
+</section>
+
+<section class="program-card" id="social">
+<h2>Social Empowerment</h2>
+<p>Social empowerment begins with awareness and the ability to make informed choices. We help people understand their <strong>rights, available government services, welfare schemes, support systems and opportunities</strong> that may be available to them.</p>
+<p>We encourage individuals and families to seek the support they are entitled to, make informed decisions and become more confident in handling their everyday lives.</p>
+</section>
+
+</main>
+</div>
+
+<footer>
+<div class="footer-container">
+
+<div>
+<div class="footer-brand">
+<img src="rose_logo.png" alt="ROSE Logo">
+<div>
+<div class="footer-brand-title">RURAL ORGANISATION</div>
+<div class="footer-brand-subtitle">FOR SOCIAL EMANCIPATION</div>
+</div>
+</div>
+<p class="footer-description">Empowering Every Individual to Build an Independent and Sustainable Life</p>
+</div>
+
+<div class="footer-column">
+<h3>Quick Links</h3>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="aboutUs.html">About Us</a></li>
+<li><a href="programs.html">Our Programs</a></li>
+<li><a href="gallery_html.html">Gallery</a></li>
+<li><a href="blog.html">Blog</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</div>
+
+<div class="footer-column">
+<h3>Our Programs</h3>
+<ul>
+<li><a href="#essential-support">Essential Support</a></li>
+<li><a href="#education">Education & Child Development</a></li>
+<li><a href="#health">Health & Well-being</a></li>
+<li><a href="#women">Women Empowerment</a></li>
+<li><a href="#skills">Skills & Opportunities</a></li>
+<li><a href="#livelihoods">Livelihoods & Employment</a></li>
+<li><a href="#social">Social Empowerment</a></li>
+</ul>
+</div>
+
+<div class="footer-column">
+<h3>Contact & Trust</h3>
+<div class="contact-item"><span class="contact-icon">⌖</span><span>67/11, Mariapuram, Ravindra Nagar Post,<br>Y.S.R. Kadapa, Andhra Pradesh - 516001</span></div>
+<div class="contact-item"><span class="contact-icon">⌕</span><span>+91 79957 19034</span></div>
+<div class="contact-item"><span class="contact-icon">✉</span><span>roseorg22@gmail.com</span></div>
+<div class="trust">Regd No. 632/2022 under Indian Trusts Act, 1882<br>80G Certified - Tax benefits on donations</div>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<div>© 2026 Rural Organisation For Social Emancipation (ROSE). All rights reserved.</div>
+<div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
+</div>
+</footer>
+
+</body>
+</html>

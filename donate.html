@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Donate | Rural Organisation for Social Emancipation | ROSE
+</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#fbfaf5;
+    color:#252b25;
+    overflow-x:hidden;
+}
+
+:root{
+    --olive:#586b3a;
+    --olive-dark:#34472b;
+    --olive-light:#edf0e5;
+    --cream:#fbfaf5;
+    --gold:#b89545;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+    width:100%;
+    height:90px;
+    background:rgba(251,250,245,.98);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 4%;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid rgba(88,107,58,.14);
+    box-shadow:0 3px 18px rgba(52,71,43,.05);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-hover{
+    position:relative;
+    width:55px;
+    height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.logo-hover>img{
+    width:55px;
+    height:55px;
+    object-fit:contain;
+}
+
+.logo-preview{
+    position:absolute;
+    top:68px;
+    left:50%;
+    transform:translateX(-50%) scale(.85);
+    width:230px;
+    height:230px;
+    background:#fff;
+    padding:15px;
+    border-radius:14px;
+    box-shadow:0 15px 40px rgba(0,0,0,.18);
+    opacity:0;
+    visibility:hidden;
+    transition:.25s ease;
+    z-index:2000;
+}
+
+.logo-preview img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+.logo-hover:hover .logo-preview{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(-50%) scale(1);
+}
+
+.brand-text{
+    line-height:1.08;
+}
+
+.brand-title{
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:-.4px;
+    color:var(--olive-dark);
+}
+
+.brand-title+.brand-title{
+    margin-top:4px;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav{
+    display:flex;
+    align-items:center;
+    gap:26px;
+}
+
+nav a{
+    text-decoration:none;
+    color:#3d473d;
+    font-size:15px;
+    transition:.25s ease;
+}
+
+nav a:hover{
+    color:var(--olive);
+}
+
+nav a.active{
+    background:var(--olive-light);
+    padding:12px 15px;
+    border-radius:7px;
+    color:var(--olive-dark);
+    font-weight:600;
+}
+
+.donate-btn{
+    background:var(--olive);
+    color:#fff!important;
+    padding:13px 21px;
+    border-radius:7px;
+    font-size:15px;
+    font-weight:700;
+    margin-left:4px;
+}
+
+.donate-btn:hover{
+    background:var(--olive-dark);
+}
+
+
+/* =========================================================
+   DONATE INTRO
+========================================================= */
+
+.donate-intro{
+    background:var(--olive);
+    color:#fff;
+    text-align:center;
+    padding:35px 25px;
+}
+
+.donate-intro h1{
+    font-size:34px;
+    margin-bottom:12px;
+}
+
+.donate-intro p{
+    max-width:900px;
+    margin:auto;
+    font-size:19px;
+    line-height:1.6;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main{
+    padding:40px 4% 65px;
+}
+
+.container{
+    width:min(1100px,100%);
+    margin:auto;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card{
+    background:#fffdf7;
+    border:1px solid rgba(88,107,58,.15);
+    border-radius:12px;
+    padding:32px;
+    margin-bottom:25px;
+    box-shadow:0 3px 12px rgba(52,71,43,.10);
+}
+
+.card h1{
+    color:var(--olive-dark);
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.card h2{
+    color:var(--olive-dark);
+    font-size:27px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    color:var(--olive-dark);
+    font-size:20px;
+    margin-bottom:12px;
+}
+
+.card p{
+    line-height:1.7;
+    color:#4c514b;
+}
+
+
+/* =========================================================
+   NOTICE
+========================================================= */
+
+.notice{
+    background:#f7f2e4;
+    border:1px solid rgba(184,149,69,.35);
+    border-radius:10px;
+    padding:18px;
+    margin:20px 0 0;
+    line-height:1.6;
+    color:#4c514b;
+}
+
+.notice strong{
+    color:var(--olive-dark);
+}
+
+
+/* =========================================================
+   PAYMENT BOX
+========================================================= */
+
+.payment-box{
+    background:var(--olive-light);
+    border:1px solid rgba(88,107,58,.18);
+    border-radius:12px;
+    padding:22px;
+    margin-top:20px;
+}
+
+.upi-id{
+    font-size:20px;
+    font-weight:bold;
+    color:var(--olive-dark);
+    word-break:break-word;
+    margin:12px 0;
+}
+
+
+/* =========================================================
+   BANK DETAILS
+========================================================= */
+
+.bank-details{
+    background:#faf8f0;
+    border:1px solid rgba(88,107,58,.15);
+    border-radius:10px;
+    padding:20px;
+    margin-top:20px;
+}
+
+.bank-row{
+    margin-bottom:15px;
+}
+
+.bank-row:last-child{
+    margin-bottom:0;
+}
+
+.bank-label{
+    color:#888;
+    font-size:13px;
+}
+
+.bank-value{
+    font-weight:bold;
+    margin-top:3px;
+    color:#30352f;
+}
+
+
+/* =========================================================
+   DONATION VERIFICATION BUTTON
+========================================================= */
+
+.verification-button{
+    width:100%;
+    margin-top:25px;
+    padding:16px 20px;
+    border:none;
+    border-radius:8px;
+    background:var(--olive);
+    color:#fff;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s ease;
+}
+
+.verification-button:hover{
+    background:var(--olive-dark);
+}
+
+
+/* =========================================================
+   VERIFICATION FORM
+========================================================= */
+
+.verification-form{
+    display:none;
+    margin-top:25px;
+    padding:25px;
+    background:#faf8f0;
+    border:1px solid rgba(88,107,58,.18);
+    border-radius:10px;
+}
+
+.verification-form.show{
+    display:block;
+}
+
+.verification-form h3{
+    color:var(--olive-dark);
+    font-size:22px;
+    margin-bottom:15px;
+}
+
+.verification-form p{
+    margin-bottom:12px;
+}
+
+.verification-form strong{
+    color:var(--olive-dark);
+}
+
+.close-verification{
+    width:100%;
+    margin-top:12px;
+    padding:13px;
+    border:1px solid rgba(88,107,58,.25);
+    border-radius:8px;
+    background:#fff;
+    color:var(--olive-dark);
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.close-verification:hover{
+    background:var(--olive-light);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+label{
+    display:block;
+    margin-top:18px;
+    margin-bottom:7px;
+    font-weight:bold;
+    color:#30352f;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:15px;
+    background:#fff;
+}
+
+input:focus{
+    outline:none;
+    border-color:var(--olive);
+    box-shadow:0 0 0 2px rgba(88,107,58,.08);
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.checkbox-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-top:22px;
+    background:var(--olive-light);
+    padding:15px;
+    border-radius:8px;
+}
+
+.checkbox-row input{
+    width:auto;
+    margin-top:3px;
+    accent-color:var(--olive);
+}
+
+.checkbox-row label{
+    margin:0;
+    font-weight:normal;
+    line-height:1.5;
+    color:#4c514b;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.submit-button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    background:var(--olive);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s ease;
+}
+
+.submit-button:hover{
+    background:var(--olive-dark);
+}
+
+.submit-button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+
+/* =========================================================
+   DONATION STATUS
+========================================================= */
+
+#donationStatus{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    border-radius:8px;
+    line-height:1.6;
+}
+
+
+/* =========================================================
+   TWO COLUMN INFORMATION SECTION
+========================================================= */
+
+.bottom-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    align-items:stretch;
+}
+
+.bottom-info .card{
+    margin-bottom:25px;
+    height:100%;
+}
+
+
+/* =========================================================
+   DONATION HELP
+========================================================= */
+
+.help{
+    text-align:center;
+}
+
+.help h2{
+    margin-bottom:12px;
+}
+
+.help a{
+    color:var(--olive-dark);
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.help a:hover{
+    color:var(--gold);
+}
+
+
+/* =========================================================
+   WHERE DONATION HELPS
+========================================================= */
+
+.money-list{
+    line-height:2;
+    padding-left:22px;
+    color:#4c514b;
+}
+
+.money-list li::marker{
+    color:var(--olive);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+    background:var(--olive-dark);
+    color:#fff;
+    padding:60px 4% 25px;
+}
+
+.footer-container{
+    max-width:1650px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr 1.25fr;
+    gap:60px;
+}
+
+.footer-brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.footer-brand img{
+    width:65px;
+    height:65px;
+    object-fit:contain;
+    background:#fff;
+    border-radius:10px;
+    padding:5px;
+}
+
+.footer-brand-title,
+.footer-brand-subtitle{
+    font-size:18px;
+    font-weight:800;
+}
+
+.footer-brand-subtitle{
+    margin-top:4px;
+}
+
+.footer-description{
+    color:#e9e8d5;
+    font-size:16px;
+    line-height:1.7;
+    max-width:390px;
+}
+
+.footer-column h3{
+    font-size:19px;
+    margin-bottom:24px;
+    color:#fff;
+}
+
+.footer-column ul{
+    list-style:none;
+}
+
+.footer-column li{
+    margin-bottom:14px;
+}
+
+.footer-column a{
+    color:#e9e8d5;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.footer-column a:hover{
+    color:#e1c77f;
+}
+
+.contact-item{
+    display:flex;
+    gap:12px;
+    margin-bottom:18px;
+    color:#e9e8d5;
+    line-height:1.5;
+    font-size:15px;
+}
+
+.contact-icon{
+    color:#d6ba70;
+    font-size:18px;
+    min-width:20px;
+}
+
+.trust{
+    border-top:1px solid rgba(214,186,112,.25);
+    margin-top:25px;
+    padding-top:18px;
+    color:#e9e8d5;
+    line-height:1.7;
+    font-size:13px;
+}
+
+.footer-bottom{
+    max-width:1650px;
+    margin:45px auto 0;
+    padding-top:25px;
+    border-top:1px solid rgba(214,186,112,.25);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#e9e8d5;
+    font-size:13px;
+}
+
+.footer-bottom-links{
+    display:flex;
+    gap:25px;
+}
+
+.footer-bottom a{
+    color:#e9e8d5;
+    text-decoration:none;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:1000px){
+
+    header{
+        height:auto;
+        min-height:85px;
+        padding:15px 5%;
+    }
+
+    nav{
+        display:none;
+    }
+
+    .brand-title{
+        font-size:18px;
+    }
+
+    .logo-hover,
+    .logo-hover>img{
+        width:45px;
+        height:45px;
+    }
+
+    .donate-intro{
+        padding:30px 25px;
+    }
+
+    .donate-intro h1{
+        font-size:30px;
+    }
+
+    .donate-intro p{
+        font-size:18px;
+    }
+
+    .footer-container{
+        grid-template-columns:repeat(2,1fr);
+        gap:40px;
+    }
+
+    .bottom-info{
+        grid-template-columns:1fr 1fr;
+        gap:20px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:650px){
+
+    header{
+        padding:12px 5%;
+    }
+
+    .brand-title{
+        font-size:14px;
+    }
+
+    .donate-intro{
+        padding:28px 20px;
+    }
+
+    .donate-intro h1{
+        font-size:27px;
+    }
+
+    .donate-intro p{
+        font-size:17px;
+        line-height:1.55;
+    }
+
+    main{
+        padding:25px 3% 50px;
+    }
+
+    .card{
+        padding:22px 18px;
+    }
+
+    .card h2{
+        font-size:24px;
+    }
+
+    .verification-form{
+        padding:20px 16px;
+    }
+
+    .bottom-info{
+        grid-template-columns:1fr;
+        gap:0;
+    }
+
+    .footer-container{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+        gap:18px;
+        text-align:center;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+<div class="brand">
+
+<div class="logo-hover">
+
+<img
+src="rose_logo.png"
+alt="ROSE Logo"
+>
+
+<div class="logo-preview">
+
+<img
+src="rose_logo.png"
+alt="ROSE Logo Preview"
+>
+
+</div>
+
+</div>
+
+
+<div class="brand-text">
+
+<div class="brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="brand-title">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+
+<nav>
+
+<a href="index.html">
+Home
+</a>
+
+<a href="aboutUs.html">
+About Us
+</a>
+
+<a href="programs.html">
+Our Programs
+</a>
+
+<a href="gallery_html.html">
+Gallery
+</a>
+
+<a href="blog.html">
+Blog
+</a>
+
+<a href="newsletter.html">
+Newsletter
+</a>
+
+<a href="contact.html">
+Contact
+</a>
+
+<a
+href="donate.html"
+class="donate-btn">
+♡ &nbsp;Donate Now
+</a>
+
+</nav>
+
+</header>
+
+
+<!-- =====================================================
+     DONATE INTRO
+===================================================== -->
+
+<section class="donate-intro">
+
+<h1>
+Donate Now
+</h1>
+
+<p>
+Your support helps us create opportunities for individuals to learn, earn, grow and build independent lives.
+</p>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN DONATION CONTENT
+===================================================== -->
+
+<main>
+
+<div class="container">
+
+
+<!-- =====================================================
+     PAYMENT INFORMATION
+===================================================== -->
+
+<div class="card">
+
+<h2>
+Support ROSE
+</h2>
+
+<p>
+Every contribution, big or small, can make a difference. If you would like to support our work, you can use the bank details below.
+</p>
+
+
+<div class="bank-details">
+
+<h3>
+Bank Transfer
+</h3>
+
+<div class="bank-row">
+
+<div class="bank-label">
+Account Name
+</div>
+
+<div class="bank-value">
+Rural Organisation For Social Emancipation
+</div>
+
+</div>
+
+
+<div class="bank-row">
+
+<div class="bank-label">
+Bank
+</div>
+
+<div class="bank-value">
+State Bank of India
+</div>
+
+</div>
+
+
+<div class="bank-row">
+
+<div class="bank-label">
+Account Number
+</div>
+
+<div class="bank-value">
+41533719025
+</div>
+
+</div>
+
+
+<div class="bank-row">
+
+<div class="bank-label">
+IFSC
+</div>
+
+<div class="bank-value">
+SBIN0015248
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     VERIFICATION BUTTON
+===================================================== -->
+
+<button
+type="button"
+class="verification-button"
+id="openVerificationButton">
+
+Already Donated? Click here to submit your details
+
+</button>
+
+
+<!-- =====================================================
+     VERIFICATION FORM
+===================================================== -->
+
+<div
+class="verification-form"
+id="verificationForm">
+
+<h3>
+Donation Verification
+</h3>
+
+<p>
+If you have already completed your donation using the bank account details above, please fill in the details below.
+<strong>
+These details are collected only to help ROSE identify and verify your transaction against our bank records.
+</strong>
+</p>
+
+<p>
+Please note: Fill in this form only after you have completed the bank transfer. The information you provide helps us match your payment with the transaction received in our bank account.
+</p>
+
+
+<!-- DONATION AMOUNT -->
+
+<label for="customAmount">
+Donation Amount
+</label>
+
+<input
+type="number"
+id="customAmount"
+name="amount"
+min="1"
+step="0.01"
+placeholder="Enter the amount donated"
+required
+>
+
+
+<!-- FULL NAME -->
+
+<label for="fullName">
+Full Name
+</label>
+
+<input
+type="text"
+id="fullName"
+name="name"
+maxlength="100"
+placeholder="Enter your full name"
+required
+>
+
+
+<!-- EMAIL -->
+
+<label for="email">
+Email Address
+</label>
+
+<input
+type="email"
+id="email"
+name="email"
+placeholder="Enter your email address"
+required
+>
+
+
+<!-- PHONE -->
+
+<label for="phone">
+Phone Number
+</label>
+
+<input
+type="tel"
+id="phone"
+name="phone"
+placeholder="Enter your phone number"
+required
+>
+
+
+<!-- PAN -->
+
+<label for="pan">
+
+PAN Number
+
+<span style="font-weight:normal;color:#888;">
+(optional)
+</span>
+
+</label>
+
+<input
+type="text"
+id="pan"
+name="pan"
+maxlength="10"
+placeholder="Enter PAN if required"
+>
+
+
+<!-- =====================================================
+     BANK TRANSACTION DETAILS
+===================================================== -->
+
+<label for="transactionId">
+Transaction / UTR Number
+</label>
+
+<input
+type="text"
+id="transactionId"
+name="transaction_id"
+maxlength="100"
+placeholder="Enter transaction or UTR number"
+required
+>
+
+
+<label for="transactionDate">
+Transaction Date
+</label>
+
+<input
+type="date"
+id="transactionDate"
+name="transaction_date"
+required
+>
+
+
+<label for="bankName">
+Bank Name
+</label>
+
+<input
+type="text"
+id="bankName"
+name="bank_name"
+maxlength="100"
+placeholder="Enter the bank used for the transfer"
+required
+>
+
+
+<label for="accountHolderName">
+Account Holder Name
+</label>
+
+<input
+type="text"
+id="accountHolderName"
+name="account_holder_name"
+maxlength="100"
+placeholder="Enter the name of the account used for payment"
+required
+>
+
+
+<!-- LAST 4 DIGITS -->
+
+<label for="lastFourDigits">
+Last 4 Digits of Donor's Bank Account
+</label>
+
+<input
+type="text"
+id="lastFourDigits"
+name="last_four_digits"
+maxlength="4"
+inputmode="numeric"
+pattern="[0-9]{4}"
+placeholder="Enter the last 4 digits of your account"
+required
+>
+
+
+<!-- =====================================================
+     CONFIRMATION
+===================================================== -->
+
+<div class="checkbox-row">
+
+<input
+type="checkbox"
+id="paymentCompleted"
+>
+
+<label for="paymentCompleted">
+
+I confirm that I have already completed the
+donation transaction using UPI or bank transfer.
+
+</label>
+
+</div>
+
+
+<!-- =====================================================
+     SUBMIT
+===================================================== -->
+
+<button
+type="button"
+id="donateButton"
+class="submit-button">
+
+✓ Submit Donation for Verification
+
+</button>
+
+
+<div id="donationStatus">
+</div>
+
+
+<!-- =====================================================
+     CLOSE
+===================================================== -->
+
+<button
+type="button"
+class="close-verification"
+id="closeVerificationButton">
+
+Close Verification Form
+
+</button>
+
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     WHERE DONATION HELPS + QUESTIONS
+===================================================== -->
+
+<div class="bottom-info">
+
+
+<!-- WHERE DONATION HELPS -->
+
+<div class="card">
+
+<h2>
+Where Your Donation Helps
+</h2>
+
+<ul class="money-list">
+
+<li>
+Essential Support
+</li>
+
+<li>
+Education &amp; Child Development
+</li>
+
+<li>
+Health &amp; Well-being
+</li>
+
+<li>
+Women Empowerment
+</li>
+
+<li>
+Skills &amp; Opportunities
+</li>
+
+<li>
+Livelihoods &amp; Employment
+</li>
+
+<li>
+Social Empowerment
+</li>
+
+</ul>
+
+</div>
+
+
+<!-- QUESTIONS -->
+
+<div class="card help">
+
+<h2>
+Have questions about donating?
+</h2>
+
+<p>
+Our team is happy to help.
+</p>
+
+<p>
+Reach out to us at
+</p>
+
+<p>
+
+<a href="mailto:roseorg22@gmail.com">
+✉ roseorg22@gmail.com
+</a>
+
+</p>
+
+<p>
+
+<a href="tel:+917995719034">
+☎ +91 79957 19034
+</a>
+
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+<div class="footer-container">
+
+
+<!-- FOOTER BRAND -->
+
+<div>
+
+<div class="footer-brand">
+
+<img
+src="rose_logo.png"
+alt="ROSE Logo"
+>
+
+<div>
+
+<div class="footer-brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="footer-brand-subtitle">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+<p class="footer-description">
+
+Empowering Every Individual to Build an Independent
+and Sustainable Life
+
+</p>
+
+</div>
+
+
+<!-- QUICK LINKS -->
+
+<div class="footer-column">
+
+<h3>
+Quick Links
+</h3>
+
+<ul>
+
+<li>
+<a href="index.html">
+Home
+</a>
+</li>
+
+<li>
+<a href="aboutUs.html">
+About Us
+</a>
+</li>
+
+<li>
+<a href="programs.html">
+Our Programs
+</a>
+</li>
+
+<li>
+<a href="gallery_html.html">
+Gallery
+</a>
+</li>
+
+<li>
+<a href="blog.html">
+Blog
+</a>
+</li>
+
+<li>
+<a href="contact.html">
+Contact
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<!-- PROGRAMS -->
+
+<div class="footer-column">
+
+<h3>
+Our Programs
+</h3>
+
+<ul>
+
+<li>
+<a href="programs.html#essential-support">
+Essential Support
+</a>
+</li>
+
+<li>
+<a href="programs.html#education">
+Education &amp; Child Development
+</a>
+</li>
+
+<li>
+<a href="programs.html#health">
+Health &amp; Well-being
+</a>
+</li>
+
+<li>
+<a href="programs.html#women">
+Women Empowerment
+</a>
+</li>
+
+<li>
+<a href="programs.html#skills">
+Skills &amp; Opportunities
+</a>
+</li>
+
+<li>
+<a href="programs.html#livelihoods">
+Livelihoods &amp; Employment
+</a>
+</li>
+
+<li>
+<a href="programs.html#social">
+Social Empowerment
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<!-- CONTACT -->
+
+<div class="footer-column">
+
+<h3>
+Contact &amp; Trust
+</h3>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+⌖
+</span>
+
+<span>
+
+67/11, Mariapuram, Ravindra Nagar Post,
+<br>
+Y.S.R. Kadapa, Andhra Pradesh - 516001
+
+</span>
+
+</div>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+⌕
+</span>
+
+<span>
++91 79957 19034
+</span>
+
+</div>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+✉
+</span>
+
+<span>
+roseorg22@gmail.com
+</span>
+
+</div>
+
+
+<div class="trust">
+
+Regd No. 632/2022 under Indian Trusts Act, 1882
+
+<br>
+
+80G Certified - Tax benefits on donations
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- FOOTER BOTTOM -->
+
+<div class="footer-bottom">
+
+<div>
+
+© 2026 Rural Organisation For Social Emancipation
+(ROSE). All rights reserved.
+
+</div>
+
+<div class="footer-bottom-links">
+
+<a href="#">
+Privacy Policy
+</a>
+
+<a href="#">
+Terms of Use
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =========================================================
+   VERIFICATION FORM OPEN / CLOSE
+========================================================= */
+
+const openVerificationButton =
+    document.getElementById(
+        "openVerificationButton"
+    );
+
+const closeVerificationButton =
+    document.getElementById(
+        "closeVerificationButton"
+    );
+
+const verificationForm =
+    document.getElementById(
+        "verificationForm"
+    );
+
+
+openVerificationButton.addEventListener(
+    "click",
+    function(){
+
+        verificationForm.classList.add(
+            "show"
+        );
+
+        verificationForm.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    }
+);
+
+
+closeVerificationButton.addEventListener(
+    "click",
+    function(){
+
+        verificationForm.classList.remove(
+            "show"
+        );
+
+        openVerificationButton.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+    }
+);
+
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+
+const amountInput =
+    document.getElementById(
+        "customAmount"
+    );
+
+const fullName =
+    document.getElementById(
+        "fullName"
+    );
+
+const email =
+    document.getElementById(
+        "email"
+    );
+
+const phone =
+    document.getElementById(
+        "phone"
+    );
+
+const pan =
+    document.getElementById(
+        "pan"
+    );
+
+const transactionId =
+    document.getElementById(
+        "transactionId"
+    );
+
+const transactionDate =
+    document.getElementById(
+        "transactionDate"
+    );
+
+const bankName =
+    document.getElementById(
+        "bankName"
+    );
+
+const accountHolderName =
+    document.getElementById(
+        "accountHolderName"
+    );
+
+const lastFourDigits =
+    document.getElementById(
+        "lastFourDigits"
+    );
+
+const paymentCompleted =
+    document.getElementById(
+        "paymentCompleted"
+    );
+
+const donateButton =
+    document.getElementById(
+        "donateButton"
+    );
+
+const donationStatus =
+    document.getElementById(
+        "donationStatus"
+    );
+
+
+/* =========================================================
+   SHOW STATUS
+========================================================= */
+
+function showStatus(
+    message,
+    success
+){
+
+    donationStatus.textContent =
+        message;
+
+    donationStatus.style.display =
+        "block";
+
+    donationStatus.style.color =
+        success
+            ? "#2f6b3a"
+            : "#a33a2b";
+
+    donationStatus.style.background =
+        success
+            ? "#f3f7ef"
+            : "#fff2f0";
+
+    donationStatus.style.border =
+        success
+            ? "1px solid #dfe6d8"
+            : "1px solid #ead0cb";
+}
+
+
+/* =========================================================
+   SUBMIT DONATION
+========================================================= */
+
+donateButton.addEventListener(
+    "click",
+    async function(){
+
+        const name =
+            fullName.value.trim();
+
+        const donorEmail =
+            email.value.trim();
+
+        const donorPhone =
+            phone.value.trim();
+
+        const donorPan =
+            pan.value
+            .trim()
+            .toUpperCase();
+
+        const transaction =
+            transactionId.value.trim();
+
+        const date =
+            transactionDate.value;
+
+        const bank =
+            bankName.value.trim();
+
+        const accountHolder =
+            accountHolderName.value.trim();
+
+        const lastFour =
+            lastFourDigits.value.trim();
+
+        const amount =
+            Number(
+                amountInput.value
+            );
+
+
+        /* ==========================================
+           PAYMENT CONFIRMATION
+        ========================================== */
+
+        if(
+            !paymentCompleted.checked
+        ){
+
+            alert(
+                "Please complete your donation first, " +
+                "then tick the confirmation box."
+            );
+
+            paymentCompleted.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           NAME
+        ========================================== */
+
+        if(!name){
+
+            alert(
+                "Please enter your full name."
+            );
+
+            fullName.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           EMAIL
+        ========================================== */
+
+        if(!donorEmail){
+
+            alert(
+                "Please enter your email address."
+            );
+
+            email.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           PHONE
+        ========================================== */
+
+        if(!donorPhone){
+
+            alert(
+                "Please enter your phone number."
+            );
+
+            phone.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           AMOUNT
+        ========================================== */
+
+        if(
+            !amount ||
+            amount <= 0
+        ){
+
+            alert(
+                "Please enter the amount you donated."
+            );
+
+            amountInput.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           TRANSACTION / UTR
+        ========================================== */
+
+        if(!transaction){
+
+            alert(
+                "Please enter your transaction or UTR number."
+            );
+
+            transactionId.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           TRANSACTION DATE
+        ========================================== */
+
+        if(!date){
+
+            alert(
+                "Please enter the transaction date."
+            );
+
+            transactionDate.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           BANK NAME
+        ========================================== */
+
+        if(!bank){
+
+            alert(
+                "Please enter the bank name."
+            );
+
+            bankName.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           ACCOUNT HOLDER
+        ========================================== */
+
+        if(!accountHolder){
+
+            alert(
+                "Please enter the account holder name."
+            );
+
+            accountHolderName.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           LAST 4 DIGITS
+        ========================================== */
+
+        if(
+            !/^[0-9]{4}$/.test(
+                lastFour
+            )
+        ){
+
+            alert(
+                "Please enter the last 4 digits of your bank account."
+            );
+
+            lastFourDigits.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           PAN
+        ========================================== */
+
+        if(
+            donorPan &&
+            !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(
+                donorPan
+            )
+        ){
+
+            alert(
+                "Please enter a valid PAN number."
+            );
+
+            pan.focus();
+
+            return;
+        }
+
+
+        /* ==========================================
+           SUBMIT
+        ========================================== */
+
+        donateButton.disabled =
+            true;
+
+        donateButton.textContent =
+            "Submitting...";
+
+
+        try{
+
+            const response =
+                await fetch(
+                    "http://127.0.0.1:5000/donate",
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                name:name,
+
+                                email:donorEmail,
+
+                                phone:donorPhone,
+
+                                pan:donorPan,
+
+                                amount:amount,
+
+                                transaction_id:
+                                    transaction,
+
+                                transaction_date:
+                                    date,
+
+                                bank_name:
+                                    bank,
+
+                                account_holder_name:
+                                    accountHolder,
+
+                                last_four_digits:
+                                    lastFour,
+
+                                donation_type:
+                                    "Post-Payment Verification",
+
+                                payment_method:
+                                    "UPI / Bank Transfer"
+
+                            })
+                    }
+                );
+
+
+                        const responseText = 
+                await response.text();
+
+            let result;
+
+            try{
+
+                result = responseText
+                    ? JSON.parse(responseText)
+                    : {};
+
+            }
+            catch(error){
+
+                throw new Error(
+                    "The server returned an invalid response. Please try again."
+                );
+
+            }
+
+
+            if(
+                !response.ok ||
+                !result.success
+            ){
+
+                throw new Error(
+                    result.message ||
+                    "Unable to submit your details."
+                );
+
+            }
+
+
+            showStatus(
+
+                "Thank you. Your donation details " +
+                "have been submitted for verification. " +
+                "A confirmation email has been sent to you.",
+
+                true
+
+            );
+
+
+            paymentCompleted.checked =
+                false;
+
+            donateButton.textContent =
+                "✓ Submitted for Verification";
+
+
+        }
+        catch(error){
+
+            showStatus(
+
+                error.message ||
+                "Something went wrong. Please try again.",
+
+                false
+
+            );
+
+
+            donateButton.disabled =
+                false;
+
+            donateButton.textContent =
+                "✓ Submit Donation for Verification";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

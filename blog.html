@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | Rural Organisation for Social Emancipation | ROSE</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box
+}
+
+html{
+scroll-behavior:smooth
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#fbfaf5;
+color:#252b25;
+overflow-x:hidden
+}
+
+:root{
+--olive:#586b3a;
+--olive-dark:#34472b;
+--olive-light:#edf0e5;
+--cream:#fbfaf5;
+--gold:#b89545;
+}
+
+/* ==================== HEADER ==================== */
+
+header{
+width:100%;
+height:90px;
+background:rgba(251,250,245,.98);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 4%;
+position:sticky;
+top:0;
+z-index:1000;
+border-bottom:1px solid rgba(88,107,58,.14);
+box-shadow:0 3px 18px rgba(52,71,43,.05)
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:15px
+}
+
+.logo-hover{
+position:relative;
+width:55px;
+height:55px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer
+}
+
+.logo-hover>img{
+width:55px;
+height:55px;
+object-fit:contain
+}
+
+.logo-preview{
+position:absolute;
+top:68px;
+left:50%;
+transform:translateX(-50%) scale(.85);
+width:230px;
+height:230px;
+background:#fff;
+padding:15px;
+border-radius:14px;
+box-shadow:0 15px 40px rgba(0,0,0,.18);
+opacity:0;
+visibility:hidden;
+transition:.25s ease;
+z-index:2000
+}
+
+.logo-preview img{
+width:100%;
+height:100%;
+object-fit:contain
+}
+
+.logo-hover:hover .logo-preview{
+opacity:1;
+visibility:visible;
+transform:translateX(-50%) scale(1)
+}
+
+.brand-text{
+line-height:1.08
+}
+
+.brand-title{
+font-size:21px;
+font-weight:800;
+letter-spacing:-.4px;
+color:var(--olive-dark)
+}
+
+.brand-title+.brand-title{
+margin-top:4px
+}
+
+/* ==================== NAVIGATION ==================== */
+
+nav{
+display:flex;
+align-items:center;
+gap:26px
+}
+
+nav a{
+text-decoration:none;
+color:#3d473d;
+font-size:15px;
+transition:.25s ease
+}
+
+nav a:hover{
+color:var(--olive)
+}
+
+nav a.active{
+background:var(--olive-light);
+padding:12px 15px;
+border-radius:7px;
+color:var(--olive-dark);
+font-weight:600
+}
+
+.donate-btn{
+background:var(--olive);
+color:#fff!important;
+padding:13px 21px;
+border-radius:7px;
+font-size:15px;
+font-weight:700;
+margin-left:4px
+}
+
+.donate-btn:hover{
+background:var(--olive-dark)
+}
+
+/* ==================== BLOG INTRO ==================== */
+
+.blog-intro{
+background:var(--olive);
+color:#fff;
+text-align:center;
+padding:35px 25px
+}
+
+.blog-intro p{
+max-width:900px;
+margin:auto;
+font-size:20px;
+line-height:1.6;
+font-weight:500
+}
+
+/* ==================== ARTICLES ==================== */
+
+.insights{
+width:100%;
+padding:35px 4% 60px
+}
+
+.article-carousel{
+width:min(1450px,100%);
+margin:auto;
+display:flex;
+align-items:center;
+gap:15px;
+position:relative
+}
+
+.article-viewport{
+flex:1;
+width:100%;
+overflow:hidden;
+position:relative
+}
+
+.article-grid{
+display:flex;
+flex-wrap:nowrap;
+gap:20px;
+width:100%;
+transition:transform .45s ease;
+will-change:transform
+}
+
+.article-card{
+flex:0 0 calc((100% - 40px)/3);
+width:calc((100% - 40px)/3);
+padding:0;
+overflow:hidden;
+border-radius:8px;
+background:#fff;
+border:1px solid rgba(88,107,58,.15);
+box-shadow:0 3px 12px rgba(52,71,43,.10);
+min-height:380px;
+display:flex;
+flex-direction:column;
+transition:transform .25s ease,box-shadow .25s ease
+}
+
+.article-card:hover{
+transform:translateY(-4px);
+box-shadow:0 12px 25px rgba(52,71,43,.14)
+}
+
+.article-image{
+width:100%;
+height:166px;
+overflow:hidden;
+background:#e7e2d6
+}
+
+.article-image img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+transition:transform .35s ease
+}
+
+.article-card:hover .article-image img{
+transform:scale(1.05)
+}
+
+.article-card h2{
+font-family:Arial,Helvetica,sans-serif;
+font-size:18px;
+line-height:1.28;
+letter-spacing:.1px;
+color:#30352f;
+margin:16px 17px 10px;
+min-height:47px
+}
+
+.article-card h2::after{
+content:"";
+display:block;
+width:42px;
+height:1px;
+background:var(--gold);
+margin-top:13px
+}
+
+.article-card p{
+font-size:15px;
+line-height:1.55;
+color:#4c514b;
+margin:0 17px 18px;
+display:-webkit-box;
+-webkit-box-orient:vertical;
+-webkit-line-clamp:3;
+overflow:hidden
+}
+
+.read-more{
+margin:auto 17px 18px;
+color:var(--olive-dark);
+font-size:14px;
+font-weight:600;
+text-decoration:none;
+cursor:pointer
+}
+
+.read-more:hover{
+color:var(--gold)
+}
+
+/* ==================== CAROUSEL BUTTONS ==================== */
+
+.carousel-arrow{
+flex:0 0 45px;
+width:45px;
+height:45px;
+border:1px solid rgba(88,107,58,.25);
+border-radius:50%;
+background:#fffdf7;
+color:var(--olive-dark);
+font-size:24px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:.25s ease;
+z-index:5
+}
+
+.carousel-arrow:hover:not(:disabled){
+background:var(--olive-light);
+transform:scale(1.05)
+}
+
+.carousel-arrow:disabled{
+opacity:.3;
+cursor:not-allowed
+}
+
+/* ==================== ARTICLE MODAL ==================== */
+
+.article-modal{
+position:fixed;
+inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+padding:25px;
+background:rgba(34,53,35,.75);
+z-index:9999
+}
+
+.article-modal.show{
+display:flex
+}
+
+.article-content{
+position:relative;
+width:min(850px,100%);
+max-height:90vh;
+overflow-y:auto;
+padding:50px;
+background:#fffdf7;
+border-radius:12px;
+box-shadow:0 20px 60px rgba(0,0,0,.3);
+scroll-behavior:smooth
+}
+
+/* Custom scrollbar for article */
+
+.article-content::-webkit-scrollbar{
+width:8px
+}
+
+.article-content::-webkit-scrollbar-track{
+background:#eee;
+border-radius:10px
+}
+
+.article-content::-webkit-scrollbar-thumb{
+background:var(--olive);
+border-radius:10px
+}
+
+.article-content::-webkit-scrollbar-thumb:hover{
+background:var(--olive-dark)
+}
+
+.close-button{
+position:absolute;
+top:12px;
+right:18px;
+border:0;
+background:none;
+color:var(--olive-dark);
+font-size:30px;
+cursor:pointer;
+line-height:1
+}
+
+.close-button:hover{
+color:var(--gold)
+}
+
+.article-content h2{
+margin:0 0 22px;
+padding-right:30px;
+color:var(--olive-dark);
+font-size:32px;
+line-height:1.3
+}
+
+.article-content p{
+margin:0 0 16px;
+color:#4c514b;
+font-size:17px;
+line-height:1.8
+}
+
+.article-ending{
+margin-top:25px!important;
+padding-top:20px;
+border-top:1px solid rgba(88,107,58,.2);
+font-style:italic
+}
+
+/* ==================== FOOTER ==================== */
+
+footer{
+background:var(--olive-dark);
+color:#fff;
+padding:60px 4% 25px
+}
+
+.footer-container{
+max-width:1650px;
+margin:auto;
+display:grid;
+grid-template-columns:1.3fr 1fr 1fr 1.25fr;
+gap:60px
+}
+
+.footer-brand{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:25px
+}
+
+.footer-brand img{
+width:65px;
+height:65px;
+object-fit:contain;
+background:#fff;
+border-radius:10px;
+padding:5px
+}
+
+.footer-brand-title,
+.footer-brand-subtitle{
+font-size:18px;
+font-weight:800
+}
+
+.footer-brand-subtitle{
+margin-top:4px
+}
+
+.footer-description{
+color:#e9e8d5;
+font-size:16px;
+line-height:1.7;
+max-width:390px
+}
+
+.footer-column h3{
+font-size:19px;
+margin-bottom:24px;
+color:#fff
+}
+
+.footer-column ul{
+list-style:none
+}
+
+.footer-column li{
+margin-bottom:14px
+}
+
+.footer-column a{
+color:#e9e8d5;
+text-decoration:none;
+font-size:15px
+}
+
+.footer-column a:hover{
+color:#e1c77f
+}
+
+.contact-item{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+color:#e9e8d5;
+line-height:1.5;
+font-size:15px
+}
+
+.contact-icon{
+color:#d6ba70;
+font-size:18px;
+min-width:20px
+}
+
+.trust{
+border-top:1px solid rgba(214,186,112,.25);
+margin-top:25px;
+padding-top:18px;
+color:#e9e8d5;
+line-height:1.7;
+font-size:13px
+}
+
+.footer-bottom{
+max-width:1650px;
+margin:45px auto 0;
+padding-top:25px;
+border-top:1px solid rgba(214,186,112,.25);
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:#e9e8d5;
+font-size:13px
+}
+
+.footer-bottom-links{
+display:flex;
+gap:25px
+}
+
+.footer-bottom a{
+color:#e9e8d5;
+text-decoration:none
+}
+
+/* ==================== TABLET ==================== */
+
+@media(max-width:1000px){
+
+header{
+height:auto;
+min-height:85px;
+padding:15px 5%
+}
+
+nav{
+display:none
+}
+
+.brand-title{
+font-size:18px
+}
+
+.logo-hover,
+.logo-hover>img{
+width:45px;
+height:45px
+}
+
+.blog-intro{
+padding:30px 25px
+}
+
+.blog-intro p{
+font-size:19px
+}
+
+.article-card{
+flex:0 0 calc((100% - 20px)/2);
+width:calc((100% - 20px)/2)
+}
+
+.footer-container{
+grid-template-columns:repeat(2,1fr);
+gap:40px
+}
+
+}
+
+/* ==================== MOBILE ==================== */
+
+@media(max-width:650px){
+
+header{
+padding:12px 5%
+}
+
+.brand-title{
+font-size:14px
+}
+
+.blog-intro{
+padding:28px 20px
+}
+
+.blog-intro p{
+font-size:17px;
+line-height:1.55
+}
+
+.insights{
+padding:25px 3% 50px
+}
+
+.article-carousel{
+gap:8px
+}
+
+.article-card{
+flex:0 0 100%;
+width:100%
+}
+
+.carousel-arrow{
+flex:0 0 38px;
+width:38px;
+height:38px;
+font-size:20px
+}
+
+.article-content{
+padding:45px 25px 35px;
+max-height:90vh
+}
+
+.article-content h2{
+font-size:27px
+}
+
+.article-content p{
+font-size:16px;
+line-height:1.7
+}
+
+.footer-container{
+grid-template-columns:1fr;
+gap:40px
+}
+
+.footer-bottom{
+flex-direction:column;
+gap:18px;
+text-align:center
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==================== HEADER ==================== -->
+
+<header>
+
+<div class="brand">
+
+<div class="logo-hover">
+
+<img src="rose_logo.png" alt="ROSE Logo">
+
+<div class="logo-preview">
+<img src="rose_logo.png" alt="ROSE Logo Preview">
+</div>
+
+</div>
+
+<div class="brand-text">
+<div class="brand-title">RURAL ORGANISATION</div>
+<div class="brand-title">FOR SOCIAL EMANCIPATION</div>
+</div>
+
+</div>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="aboutUs.html">About Us</a>
+<a href="programs.html">Our Programs</a>
+<a href="gallery_html.html">Gallery</a>
+<a href="blog.html" class="active">Blog</a>
+<a href="newsletter.html">Newsletter</a>
+<a href="contact.html">Contact</a>
+<a href="donate.html" class="donate-btn">♡ &nbsp;Donate Now</a>
+
+</nav>
+
+</header>
+
+
+<!-- ==================== BLOG INTRO ==================== -->
+
+<section class="blog-intro">
+
+<p>
+Insights and perspectives on opportunity, education, skills and social empowerment.
+</p>
+
+</section>
+
+
+<!-- ==================== ARTICLES ==================== -->
+
+<section class="insights">
+
+<div class="article-carousel">
+
+<button
+class="carousel-arrow carousel-prev"
+type="button"
+aria-label="Previous articles">
+←
+</button>
+
+
+<div class="article-viewport">
+
+<div class="article-grid">
+
+
+<!-- ==================== ARTICLE 1 ==================== -->
+
+<article class="article-card">
+
+<div class="article-image">
+
+<img
+src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=900&q=80"
+alt="Community discussion">
+
+</div>
+
+<h2>What Does Social Emancipation Really Mean?</h2>
+
+<p>
+Sometimes, freedom begins with something small—the freedom to learn, to earn, to make a decision, or simply to believe that tomorrow can be better than today.
+</p>
+
+<a
+href="#"
+class="read-more"
+onclick="openArticle(1);return false;">
+Read More →
+</a>
+
+</article>
+
+
+<!-- ==================== ARTICLE 2 ==================== -->
+
+<article class="article-card">
+
+<div class="article-image">
+
+<img
+src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=900&q=80"
+alt="Child learning and opportunity">
+
+</div>
+
+<h2>From Support to Opportunity</h2>
+
+<p>
+There are moments when a little support can mean a lot. But support can also be the beginning of something more—a skill, an opportunity, encouragement or a chance to learn.
+</p>
+
+<a
+href="#"
+class="read-more"
+onclick="openArticle(2);return false;">
+Read More →
+</a>
+
+</article>
+
+
+<!-- ==================== ARTICLE 3 ==================== -->
+
+<article class="article-card">
+
+<div class="article-image">
+
+<img
+src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80"
+alt="Women meeting together">
+
+</div>
+
+<h2>Dignity at the Heart of Everything</h2>
+
+<p>
+Before we see someone's need, we should see the person—someone with dreams, abilities, feelings and hopes. Meaningful support should always begin with respect.
+</p>
+
+<a
+href="#"
+class="read-more"
+onclick="openArticle(3);return false;">
+Read More →
+</a>
+
+</article>
+
+
+<!-- ==================== ARTICLE 4 ==================== -->
+
+<article class="article-card">
+
+<div class="article-image">
+
+<img
+src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=900&q=80"
+alt="Skill development and tailoring">
+
+</div>
+
+<h2>Skills Can Open a Door</h2>
+
+<p>
+A skill may look simple, but behind it can be a much bigger possibility—confidence, opportunity, livelihood and the belief that “I can do this.”
+</p>
+
+<a
+href="#"
+class="read-more"
+onclick="openArticle(4);return false;">
+Read More →
+</a>
+
+</article>
+
+
+<!-- ==================== ARTICLE 5 ==================== -->
+
+<article class="article-card">
+
+<div class="article-image">
+
+<img
+src="https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&w=900&q=80"
+alt="Women celebrating empowerment">
+
+</div>
+
+<h2>Empowerment Begins with a Chance</h2>
+
+<p>
+What does it take for someone to believe in themselves? Sometimes, it begins with a chance—to learn, to try, to work, to be heard or to discover what they can do.
+</p>
+
+<a
+href="#"
+class="read-more"
+onclick="openArticle(5);return false;">
+Read More →
+</a>
+
+</article>
+
+
+<!-- ==================== ARTICLE 6 ==================== -->
+
+<article class="article-card">
+
+<div class="article-image">
+
+<img
+src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=900&q=80"
+alt="Learning and education">
+
+</div>
+
+<h2>Learning Creates New Possibilities</h2>
+
+<p>
+Education can open minds, build confidence and create new opportunities for tomorrow.
+</p>
+
+<a
+href="#"
+class="read-more"
+onclick="openArticle(6);return false;">
+Read More →
+</a>
+
+</article>
+
+
+<!-- ==================== ARTICLE 7 ==================== -->
+
+<article class="article-card">
+
+<div class="article-image">
+
+<img
+src="https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&w=900&q=80"
+alt="Community support">
+
+</div>
+
+<h2>Growing Stronger Together</h2>
+
+<p>
+When people learn, support and encourage one another, stronger communities can grow.
+</p>
+
+<a
+href="#"
+class="read-more"
+onclick="openArticle(7);return false;">
+Read More →
+</a>
+
+</article>
+
+
+<!-- ==================== ARTICLE 8 ==================== -->
+
+<article class="article-card">
+
+<div class="article-image">
+
+<img
+src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80"
+alt="Working together">
+
+</div>
+
+<h2>Every Step Can Matter</h2>
+
+<p>
+Small opportunities, skills and encouragement can become meaningful steps toward a better future.
+</p>
+
+<a
+href="#"
+class="read-more"
+onclick="openArticle(8);return false;">
+Read More →
+</a>
+
+</article>
+
+
+</div>
+</div>
+
+
+<button
+class="carousel-arrow carousel-next"
+type="button"
+aria-label="Next articles">
+→
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ==================== ARTICLE MODAL ==================== -->
+
+<div
+class="article-modal"
+id="articleModal"
+aria-hidden="true">
+
+<div
+class="article-content"
+role="dialog"
+aria-modal="true"
+aria-labelledby="articleTitle">
+
+<button
+class="close-button"
+onclick="closeArticle()"
+aria-label="Close article">
+×
+</button>
+
+<h2 id="articleTitle"></h2>
+
+<div id="articleText"></div>
+
+</div>
+
+</div>
+
+
+<!-- ==================== FOOTER ==================== -->
+
+<footer>
+
+<div class="footer-container">
+
+
+<!-- FOOTER BRAND -->
+
+<div>
+
+<div class="footer-brand">
+
+<img
+src="rose_logo.png"
+alt="ROSE Logo">
+
+<div>
+
+<div class="footer-brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="footer-brand-subtitle">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+<p class="footer-description">
+Empowering Every Individual to Build an Independent and Sustainable Life
+</p>
+
+</div>
+
+
+<!-- QUICK LINKS -->
+
+<div class="footer-column">
+
+<h3>Quick Links</h3>
+
+<ul>
+
+<li>
+<a href="index.html">Home</a>
+</li>
+
+<li>
+<a href="aboutUs.html">About Us</a>
+</li>
+
+<li>
+<a href="programs.html">Our Programs</a>
+</li>
+
+<li>
+<a href="gallery_html.html">Gallery</a>
+</li>
+
+<li>
+<a href="blog.html">Blog</a>
+</li>
+
+<li>
+<a href="contact.html">Contact</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<!-- PROGRAMS -->
+
+<div class="footer-column">
+
+<h3>Our Programs</h3>
+
+<ul>
+
+<li>
+<a href="programs.html#essential-support">
+Essential Support
+</a>
+</li>
+
+<li>
+<a href="programs.html#education">
+Education & Child Development
+</a>
+</li>
+
+<li>
+<a href="programs.html#health">
+Health & Well-being
+</a>
+</li>
+
+<li>
+<a href="programs.html#women">
+Women Empowerment
+</a>
+</li>
+
+<li>
+<a href="programs.html#skills">
+Skills & Opportunities
+</a>
+</li>
+
+<li>
+<a href="programs.html#livelihoods">
+Livelihoods & Employment
+</a>
+</li>
+
+<li>
+<a href="programs.html#social">
+Social Empowerment
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<!-- CONTACT -->
+
+<div class="footer-column">
+
+<h3>Contact & Trust</h3>
+
+<div class="contact-item">
+
+<span class="contact-icon">⌖</span>
+
+<span>
+67/11, Mariapuram, Ravindra Nagar Post,<br>
+Y.S.R. Kadapa, Andhra Pradesh - 516001
+</span>
+
+</div>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">⌕</span>
+
+<span>
++91 79957 19034
+</span>
+
+</div>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">✉</span>
+
+<span>
+roseorg22@gmail.com
+</span>
+
+</div>
+
+
+<div class="trust">
+
+Regd No. 632/2022 under Indian Trusts Act, 1882<br>
+80G Certified - Tax benefits on donations
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER BOTTOM -->
+
+<div class="footer-bottom">
+
+<div>
+© 2026 Rural Organisation For Social Emancipation (ROSE). All rights reserved.
+</div>
+
+<div class="footer-bottom-links">
+
+<a href="#">
+Privacy Policy
+</a>
+
+<a href="#">
+Terms of Use
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   ARTICLE DATA
+   ========================================================= */
+
+const articles = {
+
+1:{
+title:"What Does Social Emancipation Really Mean?",
+paragraphs:[
+`Sometimes, we hear the word freedom and think of something very big.`,
+`But sometimes, freedom begins with something small—the freedom to learn, to earn, to make a decision, or simply to believe that tomorrow can be better than today.`,
+`At ROSE, we believe every person has abilities, hopes and dreams. Circumstances may sometimes make those possibilities difficult to see, but they do not take them away.`,
+`Social emancipation, to us, is about helping create possibilities.`,
+`Sometimes that may begin with support when someone needs it most. Sometimes it may begin with learning a skill. Sometimes it may be an opportunity, a little encouragement, or simply being heard.`,
+`There is no single definition of a better life, because every person has a different journey.`,
+`What matters is having the opportunity to move forward.`,
+`That is what social emancipation means to us.`,
+`Not deciding someone's future for them. But helping make a better future possible.`
+]
+},
+
+2:{
+title:"From Support to Opportunity",
+paragraphs:[
+`There are moments when a little support can mean a lot.`,
+`When someone is going through a difficult time, what may seem small to one person can bring real relief to another.`,
+`But we believe support can also be the beginning of something more.`,
+`A helping hand can provide comfort today.`,
+`An opportunity can create hope for tomorrow.`,
+`A skill can give confidence.`,
+`Knowledge can open a new way of thinking.`,
+`And confidence can help a person take the next step on their own.`,
+`Every person may need something different. There is no single answer to every situation.`,
+`Sometimes the right thing is simply to be there when someone needs help.`,
+`Sometimes the next step is to help someone discover what they can do.`,
+`And sometimes, it is about creating an opportunity that they can take forward themselves.`,
+`For us, support is not only about what can be given.`,
+`It is also about what can become possible afterwards.`
+]
+},
+
+3:{
+title:"Dignity at the Heart of Everything",
+paragraphs:[
+`Before we see someone's need, we should see the person.`,
+`A person who has dreams. A person who has abilities. A person who has feelings, hopes and a life of their own.`,
+`Circumstances may change. Financial difficulties may come. Someone may need support. Someone may need another opportunity.`,
+`But none of these things reduce a person's worth.`,
+`We believe help should always come with respect.`,
+`It should never make someone feel smaller.`,
+`Sometimes, the most meaningful part of helping is not what we give.`,
+`It is the way we make someone feel while giving it.`,
+`To be heard. To be respected. To be treated with kindness. To feel that their life matters.`,
+`These things may not appear in numbers or photographs, but they matter deeply.`,
+`At ROSE, we believe that dignity should never be something a person has to earn.`,
+`It belongs to everyone.`
+]
+},
+
+4:{
+title:"Skills Can Open a Door",
+paragraphs:[
+`A skill may look simple.`,
+`A needle and thread. A piece of fabric. A computer. A new thing someone has learned for the first time.`,
+`But sometimes, behind that small skill is a much bigger possibility.`,
+`A person begins to believe: “I can do this.”`,
+`That confidence can lead to another step.`,
+`Perhaps learning something more. Perhaps creating something. Perhaps finding an opportunity. Perhaps earning. Perhaps simply discovering an ability that was always there but never had the chance to grow.`,
+`That is why we believe skills matter.`,
+`Not because every skill will immediately change someone's life.`,
+`But because every opportunity to learn can create another possibility.`,
+`Tailoring, embroidery, crafts, digital skills and other practical abilities can become useful in different ways for different people.`,
+`The important thing is not only the skill itself.`,
+`It is the confidence that can grow along with it.`,
+`Sometimes, a new beginning starts with learning one small thing.`
+]
+},
+
+5:{
+title:"Empowerment Begins with a Chance",
+paragraphs:[
+`What does it take for someone to believe in themselves?`,
+`Sometimes, it begins with a chance.`,
+`A chance to learn. A chance to try. A chance to work. A chance to be heard. A chance to make a decision. A chance to discover something they are capable of doing.`,
+`We often think empowerment means giving someone strength.`,
+`But perhaps, sometimes, the strength was already there.`,
+`What was missing was an opportunity to bring it out.`,
+`That is why we believe support should create possibilities wherever it can.`,
+`We cannot choose another person's journey.`,
+`We cannot promise that every opportunity will lead to the same result.`,
+`But we can help make that first step possible.`,
+`And sometimes, that first step is enough to change the way a person sees tomorrow.`,
+`One opportunity can create another.`,
+`And sometimes, all a person needs is someone to believe that the opportunity is worth giving.`
+]
+},
+
+6:{
+title:"Learning Creates New Possibilities",
+paragraphs:[
+`Learning can begin at any stage of life.`,
+`Knowledge can build confidence and open new ways of thinking.`,
+`Every opportunity to learn can become a step toward something new.`
+]
+},
+
+7:{
+title:"Growing Stronger Together",
+paragraphs:[
+`Communities grow stronger when people support one another.`,
+`Encouragement, shared knowledge and cooperation can create meaningful change.`,
+`Together, small efforts can lead to bigger possibilities.`
+]
+},
+
+8:{
+title:"Every Step Can Matter",
+paragraphs:[
+`Progress does not always begin with a big change.`,
+`A new skill, a little encouragement or one opportunity can become an important first step.`,
+`Every step forward can help create a better tomorrow.`
+]
+}
+
+};
+
+
+/* =========================================================
+   OPEN ARTICLE
+   ========================================================= */
+
+function openArticle(number){
+
+const article=articles[number];
+
+if(!article){
+return;
+}
+
+const modal=document.getElementById("articleModal");
+const title=document.getElementById("articleTitle");
+const articleText=document.getElementById("articleText");
+
+title.textContent=article.title;
+
+articleText.innerHTML="";
+
+/*
+   Add EVERY paragraph to the modal.
+   Nothing is truncated here.
+*/
+
+article.paragraphs.forEach(function(paragraph,index){
+
+const p=document.createElement("p");
+
+p.textContent=paragraph;
+
+if(index===article.paragraphs.length-1){
+p.classList.add("article-ending");
+}
+
+articleText.appendChild(p);
+
+});
+
+/*
+   Start the article at the top every time
+   a new article is opened.
+*/
+
+const content=document.querySelector(".article-content");
+
+content.scrollTop=0;
+
+modal.classList.add("show");
+
+modal.setAttribute("aria-hidden","false");
+
+document.body.style.overflow="hidden";
+
+}
+
+
+/* =========================================================
+   CLOSE ARTICLE
+   ========================================================= */
+
+function closeArticle(){
+
+const modal=document.getElementById("articleModal");
+
+modal.classList.remove("show");
+
+modal.setAttribute("aria-hidden","true");
+
+document.body.style.overflow="auto";
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+   ========================================================= */
+
+document.getElementById("articleModal").addEventListener(
+"click",
+function(event){
+
+if(event.target===this){
+closeArticle();
+}
+
+}
+);
+
+
+/* =========================================================
+   CLOSE MODAL WITH ESCAPE
+   ========================================================= */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+if(event.key==="Escape"){
+
+const modal=document.getElementById("articleModal");
+
+if(modal.classList.contains("show")){
+closeArticle();
+}
+
+}
+
+}
+);
+
+
+/* =========================================================
+   ARTICLE CAROUSEL
+   ========================================================= */
+
+(function(){
+
+const track=document.querySelector(".article-grid");
+const viewport=document.querySelector(".article-viewport");
+const prev=document.querySelector(".carousel-prev");
+const next=document.querySelector(".carousel-next");
+
+if(!track || !viewport || !prev || !next){
+return;
+}
+
+let index=0;
+
+
+/* ---------------------------------------------------------
+   NUMBER OF CARDS VISIBLE
+   --------------------------------------------------------- */
+
+function visibleCount(){
+
+if(window.innerWidth<=650){
+return 1;
+}
+
+if(window.innerWidth<=1000){
+return 2;
+}
+
+return 3;
+
+}
+
+
+/* ---------------------------------------------------------
+   GET MAXIMUM CAROUSEL POSITION
+   --------------------------------------------------------- */
+
+function getMaxIndex(){
+
+const cards=track.children.length;
+
+const visible=visibleCount();
+
+return Math.max(0,cards-visible);
+
+}
+
+
+/* ---------------------------------------------------------
+   MOVE CAROUSEL
+   --------------------------------------------------------- */
+
+function updateCarousel(){
+
+const cards=track.children;
+
+if(!cards.length){
+return;
+}
+
+
+/*
+   Make sure the current index is valid.
+*/
+
+const maxIndex=getMaxIndex();
+
+if(index>maxIndex){
+index=maxIndex;
+}
+
+if(index<0){
+index=0;
+}
+
+
+/*
+   Calculate the exact width of one card.
+*/
+
+const cardWidth=cards[0].getBoundingClientRect().width;
+
+
+/*
+   Get the actual gap between cards.
+*/
+
+const styles=window.getComputedStyle(track);
+
+const gap=parseFloat(styles.columnGap || styles.gap) || 0;
+
+
+/*
+   Calculate the exact distance to move.
+*/
+
+const moveDistance=cardWidth+gap;
+
+
+/*
+   Move the complete article track.
+*/
+
+track.style.transform=
+"translate3d(-"+(index*moveDistance)+"px,0,0)";
+
+
+/*
+   Update arrow states.
+*/
+
+prev.disabled=(index===0);
+
+next.disabled=(index===maxIndex);
+
+
+/*
+   Accessibility state.
+*/
+
+prev.setAttribute(
+"aria-disabled",
+index===0 ? "true" : "false"
+);
+
+next.setAttribute(
+"aria-disabled",
+index===maxIndex ? "true" : "false"
+);
+
+}
+
+
+/* ---------------------------------------------------------
+   PREVIOUS BUTTON
+   --------------------------------------------------------- */
+
+prev.addEventListener(
+"click",
+function(){
+
+if(index>0){
+
+index--;
+
+updateCarousel();
+
+}
+
+}
+);
+
+
+/* ---------------------------------------------------------
+   NEXT BUTTON
+   --------------------------------------------------------- */
+
+next.addEventListener(
+"click",
+function(){
+
+const maxIndex=getMaxIndex();
+
+if(index<maxIndex){
+
+index++;
+
+updateCarousel();
+
+}
+
+}
+);
+
+
+/* ---------------------------------------------------------
+   WINDOW RESIZE
+   --------------------------------------------------------- */
+
+window.addEventListener(
+"resize",
+function(){
+
+updateCarousel();
+
+}
+);
+
+
+/* ---------------------------------------------------------
+   INITIAL LOAD
+   --------------------------------------------------------- */
+
+window.addEventListener(
+"load",
+function(){
+
+setTimeout(
+function(){
+updateCarousel();
+},
+100
+);
+
+});
+
+
+/*
+   Run once immediately as well.
+*/
+
+updateCarousel();
+
+})();
+
+</script>
+
+</body>
+</html>

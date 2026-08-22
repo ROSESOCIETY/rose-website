@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Contact Us | Rural Organisation for Social Emancipation</title>
+
+<style>
+
+/* ==================== GLOBAL ==================== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box
+}
+
+html{
+scroll-behavior:smooth
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#fbfaf5;
+color:#252b25;
+overflow-x:hidden
+}
+
+:root{
+--olive:#586b3a;
+--olive-dark:#34472b;
+--olive-light:#edf0e5;
+--gold:#b89545;
+--text:#29352b
+}
+
+
+/* ==================== HEADER ==================== */
+
+header{
+width:100%;
+height:105px;
+background:rgba(251,250,245,.98);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 4%;
+position:sticky;
+top:0;
+z-index:1000;
+border-bottom:1px solid rgba(88,107,58,.14);
+box-shadow:0 3px 18px rgba(52,71,43,.05)
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:15px
+}
+
+.logo-hover{
+position:relative;
+width:55px;
+height:55px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer
+}
+
+.logo-hover>img{
+width:55px;
+height:55px;
+object-fit:contain
+}
+
+.logo-preview{
+position:absolute;
+top:68px;
+left:50%;
+transform:translateX(-50%) scale(.85);
+width:120px;
+height:120px;
+background:#fff;
+padding:15px;
+border-radius:14px;
+box-shadow:0 15px 40px rgba(0,0,0,.18);
+opacity:0;
+visibility:hidden;
+transition:.25s ease;
+z-index:2000
+}
+
+.logo-preview img{
+width:70%;
+height:70%;
+object-fit:contain
+}
+
+.logo-hover:hover .logo-preview{
+opacity:1;
+visibility:visible;
+transform:translateX(-50%) scale(1)
+}
+
+.brand-text{
+line-height:1.08
+}
+
+.brand-title,
+.brand-subtitle{
+font-size:21px;
+font-weight:800;
+letter-spacing:-.4px;
+color:var(--olive-dark)
+}
+
+.brand-subtitle{
+margin-top:4px
+}
+
+
+/* ==================== NAVIGATION ==================== */
+
+nav{
+display:flex;
+align-items:center;
+gap:26px
+}
+
+nav a{
+text-decoration:none;
+color:#3d473d;
+font-size:15px;
+transition:.25s ease
+}
+
+nav a:hover{
+color:var(--olive)
+}
+
+nav a.active{
+background:var(--olive-light);
+padding:12px 15px;
+border-radius:7px;
+color:var(--olive-dark);
+font-weight:600
+}
+
+.donate-btn{
+background:var(--olive);
+color:#fff!important;
+padding:13px 21px;
+border-radius:7px;
+font-size:15px;
+font-weight:700;
+margin-left:4px
+}
+
+.donate-btn:hover{
+background:var(--olive-dark)
+}
+
+
+/* ==================== CONTACT INTRO ==================== */
+
+.contact-intro{
+background:var(--olive);
+color:#fff;
+text-align:center;
+padding:42px 20px 40px
+}
+
+.contact-intro h1{
+font-family:Georgia,"Times New Roman",serif;
+font-size:clamp(30px,3.5vw,44px);
+font-weight:700;
+margin-bottom:14px;
+letter-spacing:-.5px
+}
+
+.contact-intro p{
+font-size:17px;
+line-height:1.7;
+max-width:850px;
+margin:0 auto;
+color:#f4f5ed
+}
+
+
+/* ==================== CONTACT SECTION ==================== */
+
+.contact-section{
+min-height:calc(100vh - 105px);
+padding:65px 20px 85px;
+background:linear-gradient(135deg,#fbfaf5 0%,#f7f4e9 100%)
+}
+
+.contact-container{
+width:min(1100px,100%);
+margin:0 auto;
+display:grid;
+grid-template-columns:1fr 1.25fr;
+gap:35px;
+align-items:start
+}
+
+
+/* ==================== CONTACT INFORMATION ==================== */
+
+.contact-info{
+background:#fffefa;
+border:1px solid #e7e1d5;
+border-radius:14px;
+padding:35px 30px;
+box-shadow:0 8px 28px rgba(52,71,43,.06)
+}
+
+.contact-info h2{
+font-family:Georgia,"Times New Roman",serif;
+font-size:27px;
+color:var(--olive-dark);
+margin-bottom:15px
+}
+
+.contact-info>p{
+font-size:15px;
+line-height:1.7;
+color:#4b554c;
+margin-bottom:28px
+}
+
+.info-item{
+display:flex;
+gap:14px;
+margin-bottom:22px;
+align-items:flex-start
+}
+
+.info-icon{
+width:38px;
+height:38px;
+border-radius:8px;
+background:var(--olive-light);
+color:var(--olive-dark);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:19px;
+flex-shrink:0
+}
+
+.info-text strong{
+display:block;
+font-size:14px;
+color:var(--olive-dark);
+margin-bottom:4px
+}
+
+.info-text span{
+font-size:14px;
+line-height:1.6;
+color:#4b554c
+}
+
+
+/* ==================== CONTACT FORM ==================== */
+
+.contact-card{
+background:#fffefa;
+border:1px solid #e7e1d5;
+border-radius:14px;
+padding:35px 32px;
+box-shadow:0 8px 28px rgba(52,71,43,.06)
+}
+
+.contact-card h2{
+font-family:Georgia,"Times New Roman",serif;
+font-size:27px;
+color:var(--olive-dark);
+margin-bottom:25px
+}
+
+.form-group{
+text-align:left;
+margin-bottom:17px
+}
+
+.form-group label{
+display:block;
+font-size:14px;
+color:#29352b;
+margin-bottom:8px
+}
+
+.contact-input{
+width:100%;
+min-height:48px;
+border:1px solid #e5dfd2;
+border-radius:6px;
+background:#fff;
+padding:12px 14px;
+font-family:Arial,Helvetica,sans-serif;
+font-size:14px;
+color:#252b25;
+outline:none;
+transition:.2s ease
+}
+
+input.contact-input{
+height:48px
+}
+
+textarea.contact-input{
+min-height:130px;
+resize:vertical;
+line-height:1.5
+}
+
+.contact-input:focus{
+border-color:#b89545;
+box-shadow:0 0 0 3px rgba(184,149,69,.12)
+}
+
+.character-note{
+text-align:right;
+font-size:11px;
+color:#777;
+margin-top:5px
+}
+
+.send-message-btn{
+width:100%;
+height:48px;
+border:0;
+border-radius:6px;
+background:#c18a00;
+color:#fff;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+transition:.2s ease
+}
+
+.send-message-btn:hover{
+background:#a97800
+}
+
+.send-message-btn:disabled{
+opacity:.65;
+cursor:not-allowed
+}
+
+
+/* ==================== FORM MESSAGE ==================== */
+
+.form-message{
+display:none;
+margin-top:14px;
+padding:13px 15px;
+border-radius:6px;
+font-size:14px;
+line-height:1.5;
+font-weight:600
+}
+
+.form-message.error{
+display:block;
+background:#fff0f0;
+color:#9b2c2c;
+border:1px solid #f0caca
+}
+
+.form-message.success{
+display:block;
+background:#eef7ed;
+color:#38663a;
+border:1px solid #cfe2cd
+}
+
+
+/* ==================== FOOTER ==================== */
+
+footer{
+background:var(--olive-dark);
+color:#fff;
+padding:60px 4% 25px
+}
+
+.footer-container{
+max-width:1650px;
+margin:auto;
+display:grid;
+grid-template-columns:1.3fr 1fr 1fr 1.25fr;
+gap:60px
+}
+
+.footer-brand{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:25px
+}
+
+.footer-brand img{
+width:65px;
+height:65px;
+object-fit:contain;
+background:#fff;
+border-radius:10px;
+padding:5px
+}
+
+.footer-brand-title,
+.footer-brand-subtitle{
+font-size:18px;
+font-weight:800
+}
+
+.footer-brand-subtitle{
+margin-top:4px
+}
+
+.footer-description{
+color:#e9e8d5;
+font-size:16px;
+line-height:1.7;
+max-width:390px
+}
+
+.footer-column h3{
+font-size:19px;
+margin-bottom:24px;
+color:#fff
+}
+
+.footer-column ul{
+list-style:none
+}
+
+.footer-column li{
+margin-bottom:14px
+}
+
+.footer-column a{
+color:#e9e8d5;
+text-decoration:none;
+font-size:15px
+}
+
+.footer-column a:hover{
+color:#e1c77f
+}
+
+.footer-contact-item{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+color:#e9e8d5;
+line-height:1.5;
+font-size:15px
+}
+
+.footer-contact-icon{
+color:#d6ba70;
+font-size:18px;
+min-width:20px
+}
+
+.trust{
+border-top:1px solid rgba(214,186,112,.25);
+margin-top:25px;
+padding-top:18px;
+color:#e9e8d5;
+line-height:1.7;
+font-size:13px
+}
+
+.footer-bottom{
+max-width:1650px;
+margin:45px auto 0;
+padding-top:25px;
+border-top:1px solid rgba(214,186,112,.25);
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:#e9e8d5;
+font-size:13px
+}
+
+.footer-bottom-links{
+display:flex;
+gap:25px
+}
+
+.footer-bottom a{
+color:#e9e8d5;
+text-decoration:none
+}
+
+
+/* ==================== TABLET ==================== */
+
+@media(max-width:1000px){
+
+header{
+height:auto;
+min-height:85px;
+padding:15px 5%
+}
+
+nav{
+display:none
+}
+
+.brand-title,
+.brand-subtitle{
+font-size:18px
+}
+
+.logo-hover,
+.logo-hover>img{
+width:45px;
+height:45px
+}
+
+.contact-container{
+grid-template-columns:1fr;
+max-width:700px
+}
+
+.footer-container{
+grid-template-columns:repeat(2,1fr);
+gap:40px
+}
+
+}
+
+
+/* ==================== MOBILE ==================== */
+
+@media(max-width:600px){
+
+header{
+padding:12px 5%
+}
+
+.brand-title,
+.brand-subtitle{
+font-size:14px
+}
+
+.donate-btn{
+display:none
+}
+
+.contact-intro{
+padding:35px 18px
+}
+
+.contact-intro h1{
+font-size:30px
+}
+
+.contact-intro p{
+font-size:15px
+}
+
+.contact-section{
+padding:45px 15px 60px
+}
+
+.contact-card,
+.contact-info{
+padding:28px 20px
+}
+
+.contact-card h2,
+.contact-info h2{
+font-size:23px
+}
+
+.footer-container{
+grid-template-columns:1fr;
+gap:40px
+}
+
+.footer-bottom{
+flex-direction:column;
+gap:18px;
+text-align:center
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- ==================== HEADER ==================== -->
+
+<header>
+
+<div class="brand">
+
+<div class="logo-hover">
+
+<img src="rose_logo.png" alt="ROSE Logo">
+
+<div class="logo-preview">
+
+<img src="rose_logo.png" alt="ROSE Logo Preview">
+
+</div>
+
+</div>
+
+
+<div class="brand-text">
+
+<div class="brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="brand-title">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ==================== MAIN NAVIGATION ==================== -->
+
+<nav>
+
+<a href="index.html">
+Home
+</a>
+
+<a href="aboutUs.html">
+About Us
+</a>
+
+<a href="programs.html">
+Our Programs
+</a>
+
+<a href="gallery_html.html">
+Gallery
+</a>
+
+<a href="blog.html">
+Blog
+</a>
+
+<a href="newsletter.html">
+Newsletter
+</a>
+
+<a href="contact.html" class="active">
+Contact
+</a>
+
+<a href="donate.html" class="donate-btn">
+♡ &nbsp;Donate Now
+</a>
+
+</nav>
+
+</header>
+
+
+<!-- ==================== CONTACT INTRO ==================== -->
+
+<section class="contact-intro">
+
+<h1>
+Contact Us
+</h1>
+
+<p>
+We would love to hear from you. Reach out for inquiries,
+partnerships, or to get involved.
+</p>
+
+</section>
+
+
+<!-- ==================== CONTACT SECTION ==================== -->
+
+<main class="contact-section">
+
+<div class="contact-container">
+
+
+<!-- ==================== CONTACT INFORMATION ==================== -->
+
+<div class="contact-info">
+
+<h2>
+Get in Touch
+</h2>
+
+<p>
+Whether you have a question, would like to partner with us,
+or want to get involved with ROSE, we would be happy to hear from you.
+</p>
+
+
+<div class="info-item">
+
+<div class="info-icon">
+⌖
+</div>
+
+<div class="info-text">
+
+<strong>
+Address
+</strong>
+
+<span>
+67/11, Mariapuram, Ravindra Nagar Post,<br>
+Y.S.R. Kadapa, Andhra Pradesh - 516001
+</span>
+
+</div>
+
+</div>
+
+
+<div class="info-item">
+
+<div class="info-icon">
+⌕
+</div>
+
+<div class="info-text">
+
+<strong>
+Phone
+</strong>
+
+<span>
++91 79957 19034
+</span>
+
+</div>
+
+</div>
+
+
+<div class="info-item">
+
+<div class="info-icon">
+✉
+</div>
+
+<div class="info-text">
+
+<strong>
+Email
+</strong>
+
+<span>
+roseorg22@gmail.com
+</span>
+
+</div>
+
+</div>
+
+
+<div class="info-item">
+
+<div class="info-icon">
+◷
+</div>
+
+<div class="info-text">
+
+<strong>
+Working Hours
+</strong>
+
+<span>
+Monday - Saturday<br>
+9:00 AM - 6:00 PM
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ==================== CONTACT FORM ==================== -->
+
+<div class="contact-card">
+
+<h2>
+Send Us a Message
+</h2>
+
+
+<form id="contactForm">
+
+
+<div class="form-group">
+
+<label for="contactName">
+Full Name *
+</label>
+
+<input
+class="contact-input"
+type="text"
+id="contactName"
+name="name"
+maxlength="100"
+placeholder="Enter your full name"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="contactEmail">
+Email *
+</label>
+
+<input
+class="contact-input"
+type="email"
+id="contactEmail"
+name="email"
+placeholder="Enter your email address"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="contactSubject">
+Subject
+</label>
+
+<select
+class="contact-input"
+id="contactSubject"
+name="subject">
+
+<option value="General Inquiry">
+General Inquiry
+</option>
+
+<option value="Volunteering">
+Volunteering
+</option>
+
+<option value="Partnership">
+Partnership
+</option>
+
+<option value="Programs">
+Programs
+</option>
+
+<option value="Donation">
+Donation
+</option>
+
+<option value="Other">
+Other
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="contactMessage">
+Message *
+</label>
+
+<textarea
+class="contact-input"
+id="contactMessage"
+name="message"
+maxlength="500"
+placeholder="How can we help you? (max 500 characters)"
+required></textarea>
+
+<div class="character-note">
+Maximum 500 characters
+</div>
+
+</div>
+
+
+<button
+class="send-message-btn"
+id="sendMessageBtn"
+type="submit">
+
+➤ &nbsp; Send Message
+
+</button>
+
+
+<div
+id="contactFormMessage"
+class="form-message">
+</div>
+
+
+</form>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- ==================== FOOTER ==================== -->
+
+<footer>
+
+<div class="footer-container">
+
+
+<!-- ==================== ORGANISATION DETAILS ==================== -->
+
+<div>
+
+<div class="footer-brand">
+
+<img
+src="rose_logo.png"
+alt="ROSE Logo">
+
+<div>
+
+<div class="footer-brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="footer-brand-subtitle">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+
+<p class="footer-description">
+Empowering Every Individual to Build an Independent and Sustainable Life
+</p>
+
+</div>
+
+
+<!-- ==================== QUICK LINKS ==================== -->
+
+<div class="footer-column">
+
+<h3>
+Quick Links
+</h3>
+
+<ul>
+
+<li>
+<a href="index.html">
+Home
+</a>
+</li>
+
+<li>
+<a href="aboutUs.html">
+About Us
+</a>
+</li>
+
+<li>
+<a href="programs.html">
+Our Programs
+</a>
+</li>
+
+<li>
+<a href="gallery_html.html">
+Gallery
+</a>
+</li>
+
+<li>
+<a href="blog.html">
+Blog
+</a>
+</li>
+
+<li>
+<a href="contact.html">
+Contact
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<!-- ==================== PROGRAMS ==================== -->
+
+<div class="footer-column">
+
+<h3>
+Our Programs
+</h3>
+
+<ul>
+
+<li>
+<a href="programs.html#essential-support">
+Essential Support
+</a>
+</li>
+
+<li>
+<a href="programs.html#education">
+Education &amp; Child Development
+</a>
+</li>
+
+<li>
+<a href="programs.html#health">
+Health &amp; Well-being
+</a>
+</li>
+
+<li>
+<a href="programs.html#women">
+Women Empowerment
+</a>
+</li>
+
+<li>
+<a href="programs.html#skills">
+Skills &amp; Opportunities
+</a>
+</li>
+
+<li>
+<a href="programs.html#livelihoods">
+Livelihoods &amp; Employment
+</a>
+</li>
+
+<li>
+<a href="programs.html#social">
+Social Empowerment
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<!-- ==================== CONTACT AND TRUST ==================== -->
+
+<div class="footer-column">
+
+<h3>
+Contact &amp; Trust
+</h3>
+
+
+<div class="footer-contact-item">
+
+<span class="footer-contact-icon">
+⌖
+</span>
+
+<span>
+67/11, Mariapuram, Ravindra Nagar Post,<br>
+Y.S.R. Kadapa, Andhra Pradesh - 516001
+</span>
+
+</div>
+
+
+<div class="footer-contact-item">
+
+<span class="footer-contact-icon">
+⌕
+</span>
+
+<span>
++91 79957 19034
+</span>
+
+</div>
+
+
+<div class="footer-contact-item">
+
+<span class="footer-contact-icon">
+✉
+</span>
+
+<span>
+roseorg22@gmail.com
+</span>
+
+</div>
+
+
+<div class="trust">
+
+Regd No. 632/2022 under Indian Trusts Act, 1882<br>
+80G Certified - Tax benefits on donations
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ==================== COPYRIGHT ==================== -->
+
+<div class="footer-bottom">
+
+<div>
+© 2026 Rural Organisation For Social Emancipation (ROSE). All rights reserved.
+</div>
+
+
+<div class="footer-bottom-links">
+
+<a href="#">
+Privacy Policy
+</a>
+
+<a href="#">
+Terms of Use
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- ==================== CONTACT FORM JAVASCRIPT ==================== -->
+
+<script>
+
+const contactForm=document.getElementById("contactForm");
+
+const contactName=document.getElementById("contactName");
+
+const contactEmail=document.getElementById("contactEmail");
+
+const contactSubject=document.getElementById("contactSubject");
+
+const contactMessage=document.getElementById("contactMessage");
+
+const sendMessageBtn=document.getElementById("sendMessageBtn");
+
+const contactFormMessage=document.getElementById("contactFormMessage");
+
+
+/* ==================== FORM SUBMISSION ==================== */
+
+contactForm.addEventListener("submit",async function(event){
+
+event.preventDefault();
+
+
+/* ==================== GET VALUES ==================== */
+
+const nameValue=contactName.value.trim();
+
+const emailValue=contactEmail.value.trim();
+
+const subjectValue=contactSubject.value.trim();
+
+const messageValue=contactMessage.value.trim();
+
+
+/* ==================== VALIDATE NAME ==================== */
+
+if(!nameValue){
+
+contactFormMessage.textContent="Please enter your name.";
+
+contactFormMessage.className="form-message error";
+
+contactFormMessage.style.display="block";
+
+contactName.focus();
+
+return;
+
+}
+
+
+/* ==================== VALIDATE EMAIL ==================== */
+
+if(!emailValue||!contactEmail.checkValidity()){
+
+contactFormMessage.textContent="Please enter a valid email address.";
+
+contactFormMessage.className="form-message error";
+
+contactFormMessage.style.display="block";
+
+contactEmail.focus();
+
+return;
+
+}
+
+
+/* ==================== VALIDATE MESSAGE ==================== */
+
+if(!messageValue){
+
+contactFormMessage.textContent="Please enter your message.";
+
+contactFormMessage.className="form-message error";
+
+contactFormMessage.style.display="block";
+
+contactMessage.focus();
+
+return;
+
+}
+
+
+/* ==================== VALIDATE MESSAGE LENGTH ==================== */
+
+if(messageValue.length>500){
+
+contactFormMessage.textContent="Message must not exceed 500 characters.";
+
+contactFormMessage.className="form-message error";
+
+contactFormMessage.style.display="block";
+
+return;
+
+}
+
+
+/* ==================== DISABLE BUTTON ==================== */
+
+sendMessageBtn.disabled=true;
+
+sendMessageBtn.textContent="Sending...";
+
+
+/* ==================== SHOW PROCESSING MESSAGE ==================== */
+
+contactFormMessage.textContent="Sending your message...";
+
+contactFormMessage.className="form-message";
+
+contactFormMessage.style.display="block";
+
+
+/* ==================== SEND TO FLASK ==================== */
+
+try{
+
+const response=await fetch(
+"http://127.0.0.1:5000/contact",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name:nameValue,
+email:emailValue,
+subject:subjectValue,
+message:messageValue
+})
+}
+);
+
+
+/* ==================== CHECK SERVER RESPONSE ==================== */
+
+const responseText=await response.text();
+
+console.log("Server status:",response.status);
+
+console.log("Server response:",responseText);
+
+
+let data;
+
+try{
+
+data=JSON.parse(responseText);
+
+}catch(jsonError){
+
+console.error(
+"Server did not return valid JSON:",
+responseText
+);
+
+throw new Error(
+"Server returned an invalid response."
+);
+
+}
+
+
+/* ==================== SUCCESS ==================== */
+
+if(response.ok&&data.success===true){
+
+contactFormMessage.textContent=
+"Your message has been sent successfully.";
+
+contactFormMessage.className=
+"form-message success";
+
+contactFormMessage.style.display="block";
+
+
+/* Clear the form after successful submission. */
+
+contactForm.reset();
+
+
+/* Keep success message visible. */
+
+contactFormMessage.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+
+/* ==================== ERROR FROM FLASK ==================== */
+
+}else{
+
+contactFormMessage.textContent=
+data.message||
+"Your message could not be sent.";
+
+contactFormMessage.className=
+"form-message error";
+
+contactFormMessage.style.display="block";
+
+}
+
+}
+
+
+/* ==================== CONNECTION ERROR ==================== */
+
+catch(error){
+
+console.error(
+"Contact form error:",
+error
+);
+
+contactFormMessage.textContent=
+"Unable to connect to the server. Please try again.";
+
+contactFormMessage.className=
+"form-message error";
+
+contactFormMessage.style.display="block";
+
+}
+
+
+/* ==================== RESTORE BUTTON ==================== */
+
+finally{
+
+sendMessageBtn.disabled=false;
+
+sendMessageBtn.textContent="➤  Send Message";
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

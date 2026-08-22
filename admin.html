@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Admin Login | ROSE</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#fbfaf5;
+    color:#29352b;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+:root{
+    --olive:#586b3a;
+    --olive-dark:#34472b;
+    --olive-light:#edf0e5;
+    --gold:#b89545;
+}
+
+.admin-container{
+    width:100%;
+    max-width:450px;
+    padding:25px;
+}
+
+.admin-card{
+    background:#fff;
+    border-radius:16px;
+    padding:40px;
+    box-shadow:0 15px 45px rgba(52,71,43,.14);
+    border:1px solid rgba(88,107,58,.12);
+}
+
+.logo{
+    width:75px;
+    height:75px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto 20px;
+}
+
+h1{
+    text-align:center;
+    font-family:Georgia,"Times New Roman",serif;
+    color:var(--olive-dark);
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#777;
+    font-size:14px;
+    margin-bottom:30px;
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    color:var(--olive-dark);
+    font-size:14px;
+    font-weight:700;
+}
+
+input{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid #d7d9d1;
+    border-radius:7px;
+    font-size:15px;
+    outline:none;
+    background:#fff;
+}
+
+input:focus{
+    border-color:var(--olive);
+    box-shadow:0 0 0 3px rgba(88,107,58,.10);
+}
+
+.login-btn{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:7px;
+    background:var(--olive);
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s ease;
+}
+
+.login-btn:hover{
+    background:var(--olive-dark);
+}
+
+.message{
+    display:none;
+    margin-bottom:20px;
+    padding:12px 14px;
+    border-radius:7px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.message.error{
+    display:block;
+    background:#fbeaea;
+    color:#9b3030;
+    border:1px solid #efcaca;
+}
+
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:25px;
+    color:var(--olive);
+    text-decoration:none;
+    font-size:14px;
+}
+
+.back-link:hover{
+    color:var(--olive-dark);
+}
+
+.security-note{
+    margin-top:25px;
+    padding-top:20px;
+    border-top:1px solid #e5e5e5;
+    text-align:center;
+    color:#888;
+    font-size:12px;
+    line-height:1.6;
+}
+
+@media(max-width:600px){
+
+    .admin-container{
+        padding:18px;
+    }
+
+    .admin-card{
+        padding:30px 22px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin-container">
+
+<div class="admin-card">
+
+<img
+    src="rose_logo.png"
+    alt="ROSE Logo"
+    class="logo"
+>
+
+<h1>Admin Login</h1>
+
+<p class="subtitle">
+Gallery Management
+</p>
+
+<div
+    id="loginMessage"
+    class="message"
+></div>
+
+<form
+    id="adminLoginForm"
+>
+
+<div class="form-group">
+
+<label for="username">
+Admin Username
+</label>
+
+<input
+    type="text"
+    id="username"
+    name="username"
+    autocomplete="username"
+    required
+>
+
+</div>
+
+<div class="form-group">
+
+<label for="password">
+Admin Password
+</label>
+
+<input
+    type="password"
+    id="password"
+    name="password"
+    autocomplete="current-password"
+    required
+>
+
+</div>
+
+<button
+    type="submit"
+    class="login-btn"
+>
+Login
+</button>
+
+</form>
+
+<a
+    href="/gallery_html.html"
+    class="back-link"
+>
+← Back to Gallery
+</a>
+
+<div class="security-note">
+This area is restricted to authorised ROSE administrators.
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const adminLoginForm =
+    document.getElementById(
+        "adminLoginForm"
+    );
+
+const loginMessage =
+    document.getElementById(
+        "loginMessage"
+    );
+
+adminLoginForm.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+        loginMessage.className =
+            "message";
+
+        loginMessage.textContent =
+            "";
+
+        const username =
+            document.getElementById(
+                "username"
+            ).value.trim();
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+        try{
+
+            const response =
+                await fetch(
+                    "/admin/login",
+                    {
+                        method:"POST",
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body:JSON.stringify({
+                            username:username,
+                            password:password
+                        })
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if(
+                response.ok &&
+                data.success
+            ){
+
+                window.location.href =
+                    "/admin/dashboard";
+
+                return;
+            }
+
+            loginMessage.className =
+                "message error";
+
+            loginMessage.textContent =
+                data.message ||
+                "Invalid username or password.";
+
+        }
+        catch(error){
+
+            console.error(
+                "Admin login error:",
+                error
+            );
+
+            loginMessage.className =
+                "message error";
+
+            loginMessage.textContent =
+                "Unable to connect to the server. Please try again.";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

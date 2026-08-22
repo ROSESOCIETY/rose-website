@@ -1,0 +1,75 @@
+{
+  "sections": [
+    {
+      "id": "essential-support",
+      "title": "Essential Support",
+      "photos": [
+        {
+          "filename": "photo2.jpg",
+          "file": "/gallery/photo2.jpg",
+          "title": "Essential Support"
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "title": "Education & Child Development",
+      "photos": [
+        {
+          "file": "gallery/photo2.jpg",
+          "title": "Education & Child Development"
+        }
+      ]
+    },
+    {
+      "id": "health",
+      "title": "Health & Well-being",
+      "photos": [
+        {
+          "file": "gallery/photo3.jpg",
+          "title": "Health & Well-being"
+        }
+      ]
+    },
+    {
+      "id": "women",
+      "title": "Women Empowerment",
+      "photos": [
+        {
+          "file": "gallery/photo4.jpg",
+          "title": "Women Empowerment"
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "title": "Skills & Opportunities",
+      "photos": [
+        {
+          "file": "gallery/photo5.jpg",
+          "title": "Skills & Opportunities"
+        }
+      ]
+    },
+    {
+      "id": "livelihoods",
+      "title": "Livelihoods & Employment",
+      "photos": [
+        {
+          "file": "gallery/photo6.jpg",
+          "title": "Livelihoods & Employment"
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "title": "Social Empowerment",
+      "photos": [
+        {
+          "file": "gallery/photo7.jpg",
+          "title": "Social Empowerment"
+        }
+      ]
+    }
+  ]
+}

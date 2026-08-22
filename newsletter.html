@@ -1,0 +1,1175 @@
+<!--
+ROSE Newsletter Webpage
+
+This file is the newsletter subscription page of the ROSE website.
+
+It:
+1. Displays the newsletter subscription form.
+2. Allows visitors to enter their email address.
+3. Performs browser-side email validation.
+4. Sends the email address to the Python Flask backend.
+5. Displays "Subscribed successfully!" after a successful subscription.
+6. Keeps the success message visible permanently.
+7. Displays an appropriate error message when the subscription fails.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Newsletter | Rural Organisation for Social Emancipation</title>
+
+<style>
+
+/* ==================== GLOBAL ==================== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#fbfaf5;
+color:#252b25;
+overflow-x:hidden;
+}
+
+:root{
+--olive:#586b3a;
+--olive-dark:#34472b;
+--olive-light:#edf0e5;
+--gold:#b89545;
+--text:#29352b;
+}
+
+
+/* ==================== HEADER ==================== */
+
+header{
+width:100%;
+height:105px;
+background:rgba(251,250,245,.98);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 4%;
+position:sticky;
+top:0;
+z-index:1000;
+border-bottom:1px solid rgba(88,107,58,.14);
+box-shadow:0 3px 18px rgba(52,71,43,.05);
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.logo-hover{
+position:relative;
+width:55px;
+height:55px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.logo-hover>img{
+width:55px;
+height:55px;
+object-fit:contain;
+}
+
+.logo-preview{
+position:absolute;
+top:68px;
+left:50%;
+transform:translateX(-50%) scale(.85);
+width:120px;
+height:120px;
+background:#fff;
+padding:15px;
+border-radius:14px;
+box-shadow:0 15px 40px rgba(0,0,0,.18);
+opacity:0;
+visibility:hidden;
+transition:.25s ease;
+z-index:2000;
+}
+
+.logo-preview img{
+width:70%;
+height:70%;
+object-fit:contain;
+}
+
+.logo-hover:hover .logo-preview{
+opacity:1;
+visibility:visible;
+transform:translateX(-50%) scale(1);
+}
+
+.brand-text{
+line-height:1.08;
+}
+
+.brand-title,
+.brand-subtitle{
+font-size:21px;
+font-weight:800;
+letter-spacing:-.4px;
+color:var(--olive-dark);
+}
+
+.brand-subtitle{
+margin-top:4px;
+}
+
+
+/* ==================== NAVIGATION ==================== */
+
+nav{
+display:flex;
+align-items:center;
+gap:26px;
+}
+
+nav a{
+text-decoration:none;
+color:#3d473d;
+font-size:15px;
+transition:.25s ease;
+}
+
+nav a:hover{
+color:var(--olive);
+}
+
+nav a.active{
+background:var(--olive-light);
+padding:12px 15px;
+border-radius:7px;
+color:var(--olive-dark);
+font-weight:600;
+}
+
+.donate-btn{
+background:var(--olive);
+color:#fff!important;
+padding:13px 21px;
+border-radius:7px;
+font-size:15px;
+font-weight:700;
+margin-left:4px;
+}
+
+.donate-btn:hover{
+background:var(--olive-dark);
+}
+
+
+/* ==================== NEWSLETTER INTRO ==================== */
+
+.newsletter-intro{
+width:100%;
+background:var(--olive);
+color:#fff;
+text-align:center;
+padding:38px 20px;
+}
+
+.newsletter-intro h1{
+font-family:Georgia,"Times New Roman",serif;
+font-size:42px;
+line-height:1.2;
+font-weight:700;
+margin-bottom:10px;
+}
+
+.newsletter-intro p{
+font-size:18px;
+line-height:1.6;
+color:#f1f2e9;
+font-style:italic;
+margin:0 auto;
+max-width:800px;
+}
+
+
+/* ==================== NEWSLETTER ==================== */
+
+.newsletter-section{
+display:flex;
+align-items:center;
+justify-content:center;
+padding:45px 20px 70px;
+background:#fbfaf5;
+}
+
+.newsletter-card{
+width:min(575px,100%);
+background:#fffefa;
+border:1px solid #e7e1d5;
+border-radius:14px;
+padding:38px 32px 32px;
+box-shadow:0 8px 28px rgba(52,71,43,.06);
+text-align:center;
+}
+
+.newsletter-icon{
+width:42px;
+height:42px;
+margin:0 auto 14px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#c18a00;
+font-size:31px;
+}
+
+.newsletter-card h2{
+font-size:25px;
+color:#111;
+margin-bottom:12px;
+font-weight:700;
+}
+
+.newsletter-card .intro{
+color:#39433b;
+font-size:16px;
+line-height:1.55;
+max-width:500px;
+margin:0 auto 34px;
+}
+
+.form-group{
+text-align:left;
+margin-bottom:16px;
+}
+
+.form-group label{
+display:block;
+font-size:14px;
+color:#29352b;
+margin-bottom:9px;
+}
+
+.email-input{
+width:100%;
+height:48px;
+border:1px solid #e5dfd2;
+border-radius:6px;
+background:#fff;
+padding:0 15px;
+font-size:14px;
+color:#252b25;
+outline:none;
+}
+
+.email-input:focus{
+border-color:#b89545;
+box-shadow:0 0 0 3px rgba(184,149,69,.12);
+}
+
+.subscribe-btn{
+width:100%;
+height:48px;
+border:0;
+border-radius:6px;
+background:#c18a00;
+color:#fff;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+transition:.2s ease;
+}
+
+.subscribe-btn:hover{
+background:#a97800;
+}
+
+.subscribe-btn:disabled{
+opacity:.65;
+cursor:not-allowed;
+}
+
+
+/* ==================== FORM MESSAGE ==================== */
+
+.form-message{
+display:none;
+margin-top:14px;
+padding:13px 15px;
+border-radius:6px;
+font-size:15px;
+line-height:1.5;
+font-weight:600;
+}
+
+.form-message.error{
+display:block;
+background:#fff0f0;
+color:#9b2c2c;
+border:1px solid #f0caca;
+}
+
+.form-message.success{
+display:block;
+background:#eef7ed;
+color:#38663a;
+border:1px solid #cfe2cd;
+}
+
+
+/* ==================== SUCCESS MESSAGE ==================== */
+
+.success-message{
+display:none;
+margin-top:18px;
+padding:15px 18px;
+border-radius:8px;
+background:#e8f5e6;
+border:1px solid #b9d9b5;
+color:#2f6632;
+font-size:17px;
+font-weight:700;
+text-align:center;
+line-height:1.5;
+}
+
+.success-message.show{
+display:block;
+}
+
+
+/* ==================== NOTE ==================== */
+
+.note{
+margin-top:15px;
+color:#777;
+font-size:12px;
+}
+
+
+/* ==================== FOOTER ==================== */
+
+footer{
+background:var(--olive-dark);
+color:#fff;
+padding:60px 4% 25px;
+}
+
+.footer-container{
+max-width:1650px;
+margin:auto;
+display:grid;
+grid-template-columns:1.3fr 1fr 1fr 1.25fr;
+gap:60px;
+}
+
+.footer-brand{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:25px;
+}
+
+.footer-brand img{
+width:65px;
+height:65px;
+object-fit:contain;
+background:#fff;
+border-radius:10px;
+padding:5px;
+}
+
+.footer-brand-title,
+.footer-brand-subtitle{
+font-size:18px;
+font-weight:800;
+}
+
+.footer-brand-subtitle{
+margin-top:4px;
+}
+
+.footer-description{
+color:#e9e8d5;
+font-size:16px;
+line-height:1.7;
+max-width:390px;
+}
+
+.footer-column h3{
+font-size:19px;
+margin-bottom:24px;
+color:#fff;
+}
+
+.footer-column ul{
+list-style:none;
+}
+
+.footer-column li{
+margin-bottom:14px;
+}
+
+.footer-column a{
+color:#e9e8d5;
+text-decoration:none;
+font-size:15px;
+}
+
+.footer-column a:hover{
+color:#e1c77f;
+}
+
+.contact-item{
+display:flex;
+gap:12px;
+margin-bottom:18px;
+color:#e9e8d5;
+line-height:1.5;
+font-size:15px;
+}
+
+.contact-icon{
+color:#d6ba70;
+font-size:18px;
+min-width:20px;
+}
+
+.trust{
+border-top:1px solid rgba(214,186,112,.25);
+margin-top:25px;
+padding-top:18px;
+color:#e9e8d5;
+line-height:1.7;
+font-size:13px;
+}
+
+.footer-bottom{
+max-width:1650px;
+margin:45px auto 0;
+padding-top:25px;
+border-top:1px solid rgba(214,186,112,.25);
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:#e9e8d5;
+font-size:13px;
+}
+
+.footer-bottom-links{
+display:flex;
+gap:25px;
+}
+
+.footer-bottom a{
+color:#e9e8d5;
+text-decoration:none;
+}
+
+
+/* ==================== RESPONSIVE ==================== */
+
+@media(max-width:1000px){
+
+header{
+height:auto;
+min-height:85px;
+padding:15px 5%;
+}
+
+nav{
+display:none;
+}
+
+.brand-title,
+.brand-subtitle{
+font-size:18px;
+}
+
+.logo-hover,
+.logo-hover>img{
+width:45px;
+height:45px;
+}
+
+.newsletter-intro{
+padding:32px 20px;
+}
+
+.newsletter-intro h1{
+font-size:36px;
+}
+
+.newsletter-intro p{
+font-size:17px;
+}
+
+.footer-container{
+grid-template-columns:repeat(2,1fr);
+gap:40px;
+}
+
+}
+
+
+@media(max-width:600px){
+
+header{
+padding:12px 5%;
+}
+
+.brand-title,
+.brand-subtitle{
+font-size:14px;
+}
+
+.newsletter-intro{
+padding:28px 18px;
+}
+
+.newsletter-intro h1{
+font-size:31px;
+}
+
+.newsletter-intro p{
+font-size:16px;
+line-height:1.5;
+}
+
+.newsletter-section{
+padding:35px 15px 55px;
+}
+
+.newsletter-card{
+padding:30px 20px 25px;
+}
+
+.newsletter-card h2{
+font-size:22px;
+}
+
+.newsletter-card .intro{
+font-size:15px;
+}
+
+.footer-container{
+grid-template-columns:1fr;
+gap:40px;
+}
+
+.footer-bottom{
+flex-direction:column;
+gap:18px;
+text-align:center;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================== HEADER ==================== -->
+
+<header>
+
+<div class="brand">
+
+<div class="logo-hover">
+
+<img src="rose_logo.png" alt="ROSE Logo">
+
+<div class="logo-preview">
+
+<img src="rose_logo.png" alt="ROSE Logo Preview">
+
+</div>
+
+</div>
+
+
+<div class="brand-text">
+
+<div class="brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="brand-title">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+
+<nav>
+
+<a href="index.html">Home</a>
+
+<a href="aboutUs.html">About Us</a>
+
+<a href="programs.html">Our Programs</a>
+
+<a href="gallery_html.html">Gallery</a>
+
+<a href="blog.html">Blog</a>
+
+<a href="newsletter.html" class="active">Newsletter</a>
+
+<a href="contact.html">Contact</a>
+
+<a href="donate.html" class="donate-btn">
+♡ &nbsp;Donate Now
+</a>
+
+</nav>
+
+</header>
+
+
+<!-- ==================== NEWSLETTER INTRO ==================== -->
+
+<section class="newsletter-intro">
+
+<h1>
+Newsletter
+</h1>
+
+<p>
+Stay updated with ROSE through stories, events, and opportunities to make a difference
+</p>
+
+</section>
+
+
+<!-- ==================== NEWSLETTER FORM ==================== -->
+
+<main class="newsletter-section">
+
+<div class="newsletter-card">
+
+<div class="newsletter-icon">
+✉
+</div>
+
+<h2>
+Newsletter Subscription
+</h2>
+
+<p class="intro">
+Get the latest updates on our programs, success stories, and upcoming events delivered straight to your inbox.
+</p>
+
+
+<form id="newsletterForm">
+
+<div class="form-group">
+
+<label for="email">
+Email Address
+</label>
+
+<input
+class="email-input"
+type="email"
+id="email"
+name="email"
+placeholder="Enter your email"
+required
+>
+
+</div>
+
+
+<button
+class="subscribe-btn"
+id="subscribeBtn"
+type="submit">
+
+Subscribe
+
+</button>
+
+
+<div
+id="formMessage"
+class="form-message">
+</div>
+
+
+<!-- ==================== PERMANENT SUCCESS MESSAGE ==================== -->
+
+<div
+id="successMessage"
+class="success-message">
+
+✓ Subscribed successfully!
+
+</div>
+
+
+<div class="note">
+You can unsubscribe at any time.
+</div>
+
+</form>
+
+</div>
+
+</main>
+
+
+<!-- ==================== FOOTER ==================== -->
+
+<footer>
+
+<div class="footer-container">
+
+
+<div>
+
+<div class="footer-brand">
+
+<img src="rose_logo.png" alt="ROSE Logo">
+
+<div>
+
+<div class="footer-brand-title">
+RURAL ORGANISATION
+</div>
+
+<div class="footer-brand-subtitle">
+FOR SOCIAL EMANCIPATION
+</div>
+
+</div>
+
+</div>
+
+
+<p class="footer-description">
+Empowering Every Individual to Build an Independent and Sustainable Life
+</p>
+
+</div>
+
+
+<div class="footer-column">
+
+<h3>
+Quick Links
+</h3>
+
+<ul>
+
+<li>
+<a href="index.html">Home</a>
+</li>
+
+<li>
+<a href="aboutUs.html">About Us</a>
+</li>
+
+<li>
+<a href="programs.html">Our Programs</a>
+</li>
+
+<li>
+<a href="gallery_html.html">Gallery</a>
+</li>
+
+<li>
+<a href="blog.html">Blog</a>
+</li>
+
+<li>
+<a href="contact.html">Contact</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="footer-column">
+
+<h3>
+Our Programs
+</h3>
+
+<ul>
+
+<li>
+<a href="programs.html#essential-support">
+Essential Support
+</a>
+</li>
+
+<li>
+<a href="programs.html#education">
+Education &amp; Child Development
+</a>
+</li>
+
+<li>
+<a href="programs.html#health">
+Health &amp; Well-being
+</a>
+</li>
+
+<li>
+<a href="programs.html#women">
+Women Empowerment
+</a>
+</li>
+
+<li>
+<a href="programs.html#skills">
+Skills &amp; Opportunities
+</a>
+</li>
+
+<li>
+<a href="programs.html#livelihoods">
+Livelihoods &amp; Employment
+</a>
+</li>
+
+<li>
+<a href="programs.html#social">
+Social Empowerment
+</a>
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="footer-column">
+
+<h3>
+Contact &amp; Trust
+</h3>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+⌖
+</span>
+
+<span>
+67/11, Mariapuram, Ravindra Nagar Post,<br>
+Y.S.R. Kadapa, Andhra Pradesh - 516001
+</span>
+
+</div>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+⌕
+</span>
+
+<span>
++91 79957 19034
+</span>
+
+</div>
+
+
+<div class="contact-item">
+
+<span class="contact-icon">
+✉
+</span>
+
+<span>
+roseorg22@gmail.com
+</span>
+
+</div>
+
+
+<div class="trust">
+
+Regd No. 632/2022 under Indian Trusts Act, 1882<br>
+80G Certified - Tax benefits on donations
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+<div>
+© 2026 Rural Organisation For Social Emancipation (ROSE). All rights reserved.
+</div>
+
+
+<div class="footer-bottom-links">
+
+<a href="#">
+Privacy Policy
+</a>
+
+<a href="#">
+Terms of Use
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- ==================== SUBSCRIPTION JAVASCRIPT ==================== -->
+
+<script>
+
+const form = document.getElementById("newsletterForm");
+
+const emailInput = document.getElementById("email");
+
+const button = document.getElementById("subscribeBtn");
+
+const message = document.getElementById("formMessage");
+
+const successMessage = document.getElementById("successMessage");
+
+
+form.addEventListener("submit", async function(event){
+
+    event.preventDefault();
+
+
+    /* ==================== RESET OLD MESSAGES ==================== */
+
+    message.style.display = "none";
+
+    message.textContent = "";
+
+    successMessage.classList.remove("show");
+
+
+    /* ==================== GET EMAIL ==================== */
+
+    const emailValue = emailInput.value.trim();
+
+
+    /* ==================== VALIDATE EMAIL ==================== */
+
+    if(!emailValue || !emailInput.checkValidity()){
+
+        message.textContent = "Please enter a valid email address.";
+
+        message.className = "form-message error";
+
+        message.style.display = "block";
+
+        emailInput.focus();
+
+        return;
+
+    }
+
+
+    /* ==================== DISABLE BUTTON ==================== */
+
+    button.disabled = true;
+
+    button.textContent = "Subscribing...";
+
+
+    /* ==================== PROCESSING MESSAGE ==================== */
+
+    message.textContent = "Processing your subscription...";
+
+    message.className = "form-message";
+
+    message.style.display = "block";
+
+
+    try{
+
+        console.log("Sending subscription request...");
+
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/subscribe",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify({
+                    email:emailValue
+                })
+            }
+        );
+
+
+        console.log("Server status:",response.status);
+
+
+        const responseText = await response.text();
+
+
+        console.log(
+            "Server response:",
+            responseText
+        );
+
+
+        let data;
+
+
+        try{
+
+            data = JSON.parse(responseText);
+
+        }catch(jsonError){
+
+            console.error(
+                "Server did not return JSON:",
+                responseText
+            );
+
+            throw new Error(
+                "Server returned an invalid response."
+            );
+
+        }
+
+
+        /* ==================================================
+           SUCCESS
+           ================================================== */
+
+        if(response.ok && data.success === true){
+
+            console.log(
+                "Subscription successful."
+            );
+
+
+            /*
+            Hide the temporary processing message.
+            */
+
+            message.style.display = "none";
+
+
+            /*
+            Show the permanent success message.
+            */
+
+            successMessage.textContent =
+                "✓ Subscribed successfully!";
+
+
+            successMessage.classList.add("show");
+
+
+            /*
+            Clear the email field.
+            */
+
+            emailInput.value = "";
+
+
+            /*
+            IMPORTANT:
+
+            We DO NOT use setTimeout() here.
+
+            Therefore the success message will NOT
+            disappear automatically.
+            */
+
+
+        }
+
+
+        /* ==================================================
+           ERROR FROM SERVER
+           ================================================== */
+
+        else{
+
+            message.textContent =
+                data.message ||
+                "Subscription could not be completed.";
+
+            message.className =
+                "form-message error";
+
+            message.style.display =
+                "block";
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Newsletter subscription error:",
+            error
+        );
+
+
+        message.textContent =
+            "Unable to connect to the server. Please try again.";
+
+        message.className =
+            "form-message error";
+
+        message.style.display =
+            "block";
+
+    }
+
+
+    /* ==================== ENABLE BUTTON ==================== */
+
+    button.disabled = false;
+
+    button.textContent = "Subscribe";
+
+});
+
+</script>
+
+
+</body>
+
+</html>
