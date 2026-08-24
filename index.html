@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -150,12 +151,25 @@ margin-left:4px
 background:var(--olive-dark)
 }
 
+/* ==================== MOBILE MENU BUTTON ==================== */
+
+.menu-toggle{
+display:none;
+background:none;
+border:none;
+font-size:30px;
+color:var(--olive-dark);
+cursor:pointer;
+padding:5px;
+line-height:1
+}
+
 /* ==================== DISCOVER ROSE HEADING ==================== */
 
 .discover-title{
 background:var(--olive);
 color:#fff;
-padding:35px 6%;;
+padding:35px 6%;
 text-align:center;
 }
 
@@ -319,8 +333,44 @@ min-height:85px;
 padding:15px 5%
 }
 
+.menu-toggle{
+display:block
+}
+
 nav{
-display:none
+display:none;
+position:absolute;
+top:100%;
+left:0;
+width:100%;
+background:rgba(251,250,245,.99);
+flex-direction:column;
+align-items:stretch;
+gap:0;
+padding:10px 5%;
+border-bottom:1px solid rgba(88,107,58,.14);
+box-shadow:0 8px 20px rgba(52,71,43,.08)
+}
+
+nav.mobile-open{
+display:flex
+}
+
+nav a{
+padding:13px 10px;
+font-size:16px;
+border-bottom:1px solid rgba(88,107,58,.08)
+}
+
+nav a.active{
+padding:13px 10px;
+border-radius:7px
+}
+
+.donate-btn{
+margin:8px 0 4px;
+text-align:center;
+border-bottom:none
 }
 
 .brand-title,.brand-subtitle{
@@ -367,8 +417,22 @@ padding:12px 5%
 font-size:14px
 }
 
+.menu-toggle{
+font-size:28px
+}
+
+nav{
+padding:10px 5%
+}
+
+nav a{
+font-size:15px;
+padding:12px 10px
+}
+
 .donate-btn{
-display:none
+display:block;
+margin:8px 0 4px
 }
 
 .discover-title{
@@ -440,7 +504,11 @@ FOR SOCIAL EMANCIPATION
 
 </div>
 
-<nav>
+<button class="menu-toggle" onclick="toggleMenu()" aria-label="Open navigation menu">
+☰
+</button>
+
+<nav id="mainNav">
 
 <a href="index.html" class="active">Home</a>
 <a href="aboutUs.html">About Us</a>
@@ -644,5 +712,16 @@ Regd No. 632/2022 under Indian Trusts Act, 1882<br>
 
 </footer>
 
+<script>
+function toggleMenu(){
+
+const nav = document.getElementById("mainNav");
+
+nav.classList.toggle("mobile-open");
+
+}
+</script>
+
 </body>
 </html>
+```

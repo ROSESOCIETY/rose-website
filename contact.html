@@ -506,11 +506,27 @@ text-decoration:none
 header{
 height:auto;
 min-height:85px;
-padding:15px 5%
+padding:15px 5%;
 }
 
 nav{
-display:none
+display:flex;
+width:100%;
+overflow-x:auto;
+overflow-y:hidden;
+white-space:nowrap;
+gap:20px;
+padding:8px 0;
+scrollbar-width:none;
+-webkit-overflow-scrolling:touch;
+}
+
+nav::-webkit-scrollbar{
+display:none;
+}
+
+nav a{
+flex-shrink:0;
 }
 
 .brand-title,
@@ -542,7 +558,14 @@ gap:40px
 @media(max-width:600px){
 
 header{
-padding:12px 5%
+padding:12px 5%;
+flex-direction:column;
+align-items:stretch;
+gap:8px;
+}
+
+.brand{
+justify-content:flex-start;
 }
 
 .brand-title,
@@ -550,8 +573,35 @@ padding:12px 5%
 font-size:14px
 }
 
+nav{
+display:flex;
+width:100%;
+overflow-x:auto;
+overflow-y:hidden;
+white-space:nowrap;
+gap:18px;
+padding:7px 2px 8px;
+scrollbar-width:none;
+-webkit-overflow-scrolling:touch;
+}
+
+nav::-webkit-scrollbar{
+display:none;
+}
+
+nav a{
+font-size:14px;
+flex-shrink:0;
+}
+
+nav a.active{
+padding:9px 12px;
+}
+
 .donate-btn{
-display:none
+display:block;
+padding:9px 14px;
+margin-left:0;
 }
 
 .contact-intro{
@@ -666,7 +716,7 @@ Contact
 </a>
 
 <a href="donate.html" class="donate-btn">
-♡ &nbsp;Donate Now
+♡ &nbsp; Donate Now
 </a>
 
 </nav>
@@ -1391,8 +1441,7 @@ error
 contactFormMessage.textContent=
 "Unable to connect to the server. Please try again.";
 
-contactFormMessage.className=
-"form-message error";
+contactFormMessage.className="form-message error";
 
 contactFormMessage.style.display="block";
 

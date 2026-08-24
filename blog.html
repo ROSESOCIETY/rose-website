@@ -155,6 +155,68 @@ margin-left:4px
 background:var(--olive-dark)
 }
 
+/* ==================== MOBILE MENU BUTTON ==================== */
+
+.mobile-menu-btn{
+display:none;
+border:0;
+background:transparent;
+color:var(--olive-dark);
+font-size:30px;
+line-height:1;
+cursor:pointer;
+padding:5px;
+}
+
+/* ==================== MOBILE MENU ==================== */
+
+.mobile-nav{
+display:none;
+position:absolute;
+top:100%;
+left:0;
+right:0;
+background:rgba(251,250,245,.99);
+border-top:1px solid rgba(88,107,58,.12);
+box-shadow:0 8px 20px rgba(52,71,43,.10);
+padding:12px 5%;
+z-index:1500;
+}
+
+.mobile-nav.show{
+display:block;
+}
+
+.mobile-nav a{
+display:block;
+text-decoration:none;
+color:#3d473d;
+font-size:16px;
+font-weight:500;
+padding:13px 14px;
+border-radius:7px;
+margin-bottom:3px;
+}
+
+.mobile-nav a:hover,
+.mobile-nav a.active{
+background:var(--olive-light);
+color:var(--olive-dark);
+}
+
+.mobile-nav .mobile-donate{
+background:var(--olive);
+color:#fff;
+font-weight:700;
+margin-top:7px;
+text-align:center;
+}
+
+.mobile-nav .mobile-donate:hover{
+background:var(--olive-dark);
+color:#fff;
+}
+
 /* ==================== BLOG INTRO ==================== */
 
 .blog-intro{
@@ -344,8 +406,6 @@ box-shadow:0 20px 60px rgba(0,0,0,.3);
 scroll-behavior:smooth
 }
 
-/* Custom scrollbar for article */
-
 .article-content::-webkit-scrollbar{
 width:8px
 }
@@ -528,11 +588,16 @@ text-decoration:none
 header{
 height:auto;
 min-height:85px;
-padding:15px 5%
+padding:15px 5%;
+position:sticky;
 }
 
 nav{
 display:none
+}
+
+.mobile-menu-btn{
+display:block
 }
 
 .brand-title{
@@ -575,6 +640,15 @@ padding:12px 5%
 
 .brand-title{
 font-size:14px
+}
+
+.mobile-menu-btn{
+font-size:29px;
+padding:4px
+}
+
+.mobile-nav{
+padding:10px 5%;
 }
 
 .blog-intro{
@@ -673,6 +747,28 @@ text-align:center
 
 </nav>
 
+<button
+class="mobile-menu-btn"
+id="mobileMenuBtn"
+type="button"
+aria-label="Open navigation menu"
+aria-expanded="false">
+☰
+</button>
+
+<div class="mobile-nav" id="mobileNav">
+
+<a href="index.html">Home</a>
+<a href="aboutUs.html">About Us</a>
+<a href="programs.html">Our Programs</a>
+<a href="gallery_html.html">Gallery</a>
+<a href="blog.html" class="active">Blog</a>
+<a href="newsletter.html">Newsletter</a>
+<a href="contact.html">Contact</a>
+<a href="donate.html" class="mobile-donate">♡ &nbsp; Donate Now</a>
+
+</div>
+
 </header>
 
 
@@ -700,13 +796,9 @@ aria-label="Previous articles">
 ←
 </button>
 
-
 <div class="article-viewport">
 
 <div class="article-grid">
-
-
-<!-- ==================== ARTICLE 1 ==================== -->
 
 <article class="article-card">
 
@@ -734,8 +826,6 @@ Read More →
 </article>
 
 
-<!-- ==================== ARTICLE 2 ==================== -->
-
 <article class="article-card">
 
 <div class="article-image">
@@ -761,8 +851,6 @@ Read More →
 
 </article>
 
-
-<!-- ==================== ARTICLE 3 ==================== -->
 
 <article class="article-card">
 
@@ -790,8 +878,6 @@ Read More →
 </article>
 
 
-<!-- ==================== ARTICLE 4 ==================== -->
-
 <article class="article-card">
 
 <div class="article-image">
@@ -817,8 +903,6 @@ Read More →
 
 </article>
 
-
-<!-- ==================== ARTICLE 5 ==================== -->
 
 <article class="article-card">
 
@@ -846,8 +930,6 @@ Read More →
 </article>
 
 
-<!-- ==================== ARTICLE 6 ==================== -->
-
 <article class="article-card">
 
 <div class="article-image">
@@ -873,8 +955,6 @@ Read More →
 
 </article>
 
-
-<!-- ==================== ARTICLE 7 ==================== -->
 
 <article class="article-card">
 
@@ -902,8 +982,6 @@ Read More →
 </article>
 
 
-<!-- ==================== ARTICLE 8 ==================== -->
-
 <article class="article-card">
 
 <div class="article-image">
@@ -929,10 +1007,8 @@ Read More →
 
 </article>
 
-
 </div>
 </div>
-
 
 <button
 class="carousel-arrow carousel-next"
@@ -981,9 +1057,6 @@ aria-label="Close article">
 
 <div class="footer-container">
 
-
-<!-- FOOTER BRAND -->
-
 <div>
 
 <div class="footer-brand">
@@ -1013,44 +1086,23 @@ Empowering Every Individual to Build an Independent and Sustainable Life
 </div>
 
 
-<!-- QUICK LINKS -->
-
 <div class="footer-column">
 
 <h3>Quick Links</h3>
 
 <ul>
 
-<li>
-<a href="index.html">Home</a>
-</li>
-
-<li>
-<a href="aboutUs.html">About Us</a>
-</li>
-
-<li>
-<a href="programs.html">Our Programs</a>
-</li>
-
-<li>
-<a href="gallery_html.html">Gallery</a>
-</li>
-
-<li>
-<a href="blog.html">Blog</a>
-</li>
-
-<li>
-<a href="contact.html">Contact</a>
-</li>
+<li><a href="index.html">Home</a></li>
+<li><a href="aboutUs.html">About Us</a></li>
+<li><a href="programs.html">Our Programs</a></li>
+<li><a href="gallery_html.html">Gallery</a></li>
+<li><a href="blog.html">Blog</a></li>
+<li><a href="contact.html">Contact</a></li>
 
 </ul>
 
 </div>
 
-
-<!-- PROGRAMS -->
 
 <div class="footer-column">
 
@@ -1105,8 +1157,6 @@ Social Empowerment
 </div>
 
 
-<!-- CONTACT -->
-
 <div class="footer-column">
 
 <h3>Contact & Trust</h3>
@@ -1122,7 +1172,6 @@ Y.S.R. Kadapa, Andhra Pradesh - 516001
 
 </div>
 
-
 <div class="contact-item">
 
 <span class="contact-icon">⌕</span>
@@ -1133,7 +1182,6 @@ Y.S.R. Kadapa, Andhra Pradesh - 516001
 
 </div>
 
-
 <div class="contact-item">
 
 <span class="contact-icon">✉</span>
@@ -1143,7 +1191,6 @@ roseorg22@gmail.com
 </span>
 
 </div>
-
 
 <div class="trust">
 
@@ -1157,8 +1204,6 @@ Regd No. 632/2022 under Indian Trusts Act, 1882<br>
 </div>
 
 
-<!-- FOOTER BOTTOM -->
-
 <div class="footer-bottom">
 
 <div>
@@ -1167,13 +1212,9 @@ Regd No. 632/2022 under Indian Trusts Act, 1882<br>
 
 <div class="footer-bottom-links">
 
-<a href="#">
-Privacy Policy
-</a>
+<a href="#">Privacy Policy</a>
 
-<a href="#">
-Terms of Use
-</a>
+<a href="#">Terms of Use</a>
 
 </div>
 
@@ -1183,6 +1224,42 @@ Terms of Use
 
 
 <script>
+
+/* ==================== MOBILE MENU ==================== */
+
+const mobileMenuBtn=document.getElementById("mobileMenuBtn");
+const mobileNav=document.getElementById("mobileNav");
+
+mobileMenuBtn.addEventListener("click",function(){
+
+const isOpen=mobileNav.classList.toggle("show");
+
+mobileMenuBtn.setAttribute(
+"aria-expanded",
+isOpen ? "true" : "false"
+);
+
+mobileMenuBtn.innerHTML=isOpen ? "✕" : "☰";
+
+});
+
+
+/* Close mobile menu after selecting a page */
+
+mobileNav.querySelectorAll("a").forEach(function(link){
+
+link.addEventListener("click",function(){
+
+mobileNav.classList.remove("show");
+
+mobileMenuBtn.setAttribute("aria-expanded","false");
+
+mobileMenuBtn.innerHTML="☰";
+
+});
+
+});
+
 
 /* =========================================================
    ARTICLE DATA
@@ -1331,11 +1408,6 @@ title.textContent=article.title;
 
 articleText.innerHTML="";
 
-/*
-   Add EVERY paragraph to the modal.
-   Nothing is truncated here.
-*/
-
 article.paragraphs.forEach(function(paragraph,index){
 
 const p=document.createElement("p");
@@ -1349,11 +1421,6 @@ p.classList.add("article-ending");
 articleText.appendChild(p);
 
 });
-
-/*
-   Start the article at the top every time
-   a new article is opened.
-*/
 
 const content=document.querySelector(".article-content");
 
@@ -1440,11 +1507,6 @@ return;
 
 let index=0;
 
-
-/* ---------------------------------------------------------
-   NUMBER OF CARDS VISIBLE
-   --------------------------------------------------------- */
-
 function visibleCount(){
 
 if(window.innerWidth<=650){
@@ -1459,11 +1521,6 @@ return 3;
 
 }
 
-
-/* ---------------------------------------------------------
-   GET MAXIMUM CAROUSEL POSITION
-   --------------------------------------------------------- */
-
 function getMaxIndex(){
 
 const cards=track.children.length;
@@ -1474,11 +1531,6 @@ return Math.max(0,cards-visible);
 
 }
 
-
-/* ---------------------------------------------------------
-   MOVE CAROUSEL
-   --------------------------------------------------------- */
-
 function updateCarousel(){
 
 const cards=track.children;
@@ -1486,11 +1538,6 @@ const cards=track.children;
 if(!cards.length){
 return;
 }
-
-
-/*
-   Make sure the current index is valid.
-*/
 
 const maxIndex=getMaxIndex();
 
@@ -1502,50 +1549,20 @@ if(index<0){
 index=0;
 }
 
-
-/*
-   Calculate the exact width of one card.
-*/
-
 const cardWidth=cards[0].getBoundingClientRect().width;
-
-
-/*
-   Get the actual gap between cards.
-*/
 
 const styles=window.getComputedStyle(track);
 
 const gap=parseFloat(styles.columnGap || styles.gap) || 0;
 
-
-/*
-   Calculate the exact distance to move.
-*/
-
 const moveDistance=cardWidth+gap;
-
-
-/*
-   Move the complete article track.
-*/
 
 track.style.transform=
 "translate3d(-"+(index*moveDistance)+"px,0,0)";
 
-
-/*
-   Update arrow states.
-*/
-
 prev.disabled=(index===0);
 
 next.disabled=(index===maxIndex);
-
-
-/*
-   Accessibility state.
-*/
 
 prev.setAttribute(
 "aria-disabled",
@@ -1558,11 +1575,6 @@ index===maxIndex ? "true" : "false"
 );
 
 }
-
-
-/* ---------------------------------------------------------
-   PREVIOUS BUTTON
-   --------------------------------------------------------- */
 
 prev.addEventListener(
 "click",
@@ -1578,11 +1590,6 @@ updateCarousel();
 
 }
 );
-
-
-/* ---------------------------------------------------------
-   NEXT BUTTON
-   --------------------------------------------------------- */
 
 next.addEventListener(
 "click",
@@ -1601,11 +1608,6 @@ updateCarousel();
 }
 );
 
-
-/* ---------------------------------------------------------
-   WINDOW RESIZE
-   --------------------------------------------------------- */
-
 window.addEventListener(
 "resize",
 function(){
@@ -1614,11 +1616,6 @@ updateCarousel();
 
 }
 );
-
-
-/* ---------------------------------------------------------
-   INITIAL LOAD
-   --------------------------------------------------------- */
 
 window.addEventListener(
 "load",
@@ -1632,11 +1629,6 @@ updateCarousel();
 );
 
 });
-
-
-/*
-   Run once immediately as well.
-*/
 
 updateCarousel();
 

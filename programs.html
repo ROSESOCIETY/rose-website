@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,12 +22,27 @@ header{width:100%;height:105px;background:rgba(251,250,245,.98);display:flex;ali
 .brand-title,.brand-subtitle{font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--olive-dark)}
 .brand-subtitle{margin-top:4px}
 
+/* ==================== NAVIGATION ==================== */
+
 nav{display:flex;align-items:center;gap:26px}
 nav a{text-decoration:none;color:#3d473d;font-size:15px;transition:.25s ease}
 nav a:hover{color:var(--olive)}
 nav a.active{background:var(--olive-light);padding:12px 15px;border-radius:7px;color:var(--olive-dark);font-weight:600}
 .donate-btn{background:var(--olive);color:#fff!important;padding:13px 21px;border-radius:7px;font-size:15px;font-weight:700;margin-left:4px}
 .donate-btn:hover{background:var(--olive-dark)}
+
+/* ==================== MOBILE MENU BUTTON ==================== */
+
+.menu-toggle{
+display:none;
+background:none;
+border:none;
+font-size:30px;
+color:var(--olive-dark);
+cursor:pointer;
+padding:5px;
+line-height:1
+}
 
 .program-hero{background:var(--olive);display:flex;align-items:center;justify-content:center;text-align:center;padding:48px 30px}
 .program-hero-content{width:100%;max-width:950px}
@@ -72,9 +88,56 @@ footer{background:var(--olive-dark);color:#fff;padding:60px 4% 25px}
 .footer-bottom-links{display:flex;gap:25px}
 .footer-bottom a{color:#e9e8d5;text-decoration:none}
 
+/* ==================== TABLET ==================== */
+
 @media(max-width:1000px){
-header{height:auto;min-height:85px;padding:15px 5%}
-nav{display:none}
+
+header{
+height:auto;
+min-height:85px;
+padding:15px 5%
+}
+
+.menu-toggle{
+display:block
+}
+
+nav{
+display:none;
+position:absolute;
+top:100%;
+left:0;
+width:100%;
+background:rgba(251,250,245,.99);
+flex-direction:column;
+align-items:stretch;
+gap:0;
+padding:10px 5%;
+border-bottom:1px solid rgba(88,107,58,.14);
+box-shadow:0 8px 20px rgba(52,71,43,.08)
+}
+
+nav.mobile-open{
+display:flex
+}
+
+nav a{
+padding:13px 10px;
+font-size:16px;
+border-bottom:1px solid rgba(88,107,58,.08)
+}
+
+nav a.active{
+padding:13px 10px;
+border-radius:7px
+}
+
+.donate-btn{
+margin:8px 0 4px;
+text-align:center;
+border-bottom:none
+}
+
 .brand-title,.brand-subtitle{font-size:18px}
 .logo-hover,.logo-hover>img{width:45px;height:45px}
 .program-conclusion{margin:45px 30px 35px}
@@ -84,10 +147,36 @@ nav{display:none}
 .footer-container{grid-template-columns:repeat(2,1fr);gap:40px}
 }
 
+/* ==================== MOBILE ==================== */
+
 @media(max-width:600px){
-header{padding:12px 5%}
-.brand-title,.brand-subtitle{font-size:14px}
-.donate-btn{display:none}
+
+header{
+padding:12px 5%
+}
+
+.brand-title,.brand-subtitle{
+font-size:14px
+}
+
+.menu-toggle{
+font-size:28px
+}
+
+nav{
+padding:10px 5%
+}
+
+nav a{
+font-size:15px;
+padding:12px 10px
+}
+
+.donate-btn{
+display:block;
+margin:8px 0 4px
+}
+
 .program-hero{padding:35px 20px}
 .program-hero h1{font-size:40px}
 .program-conclusion{margin:35px 20px 25px;padding:28px 25px}
@@ -118,7 +207,11 @@ header{padding:12px 5%}
 </div>
 </div>
 
-<nav>
+<button class="menu-toggle" onclick="toggleMenu()" aria-label="Open navigation menu">
+☰
+</button>
+
+<nav id="mainNav">
 <a href="index.html">Home</a>
 <a href="aboutUs.html">About Us</a>
 <a href="programs.html" class="active">Our Programs</a>
@@ -255,5 +348,13 @@ header{padding:12px 5%}
 </div>
 </footer>
 
+<script>
+function toggleMenu(){
+const nav = document.getElementById("mainNav");
+nav.classList.toggle("mobile-open");
+}
+</script>
+
 </body>
 </html>
+```

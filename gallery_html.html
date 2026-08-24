@@ -21,12 +21,25 @@ header{width:100%;height:105px;background:rgba(251,250,245,.98);display:flex;ali
 .brand-title,.brand-subtitle{font-size:21px;font-weight:800;letter-spacing:-.4px;color:var(--olive-dark)}
 .brand-subtitle{margin-top:4px}
 
+/* ==================== NAVIGATION ==================== */
+
 nav{display:flex;align-items:center;gap:26px}
 nav a{text-decoration:none;color:#3d473d;font-size:15px;transition:.25s ease}
 nav a:hover{color:var(--olive)}
 nav a.active{background:var(--olive-light);padding:12px 15px;border-radius:7px;color:var(--olive-dark);font-weight:600}
 .donate-btn{background:var(--olive);color:#fff!important;padding:13px 21px;border-radius:7px;font-size:15px;font-weight:700;margin-left:4px}
 .donate-btn:hover{background:var(--olive-dark)}
+
+.menu-toggle{
+display:none;
+background:none;
+border:none;
+font-size:30px;
+color:var(--olive-dark);
+cursor:pointer;
+padding:5px;
+line-height:1;
+}
 
 .gallery-hero{
 background:var(--olive);
@@ -98,18 +111,92 @@ footer{background:var(--olive-dark);color:#fff;padding:60px 4% 25px}
 .footer-bottom-links{display:flex;gap:25px}
 .footer-bottom a{color:#e9e8d5;text-decoration:none}
 
+/* ==================== TABLET ==================== */
+
 @media(max-width:1000px){
-header{height:auto;min-height:85px;padding:15px 5%}
-nav{display:none}
+
+header{
+height:auto;
+min-height:85px;
+padding:15px 5%;
+}
+
+.menu-toggle{
+display:block;
+}
+
+nav{
+display:none;
+position:absolute;
+top:100%;
+left:0;
+width:100%;
+background:rgba(251,250,245,.99);
+flex-direction:column;
+align-items:stretch;
+gap:0;
+padding:10px 5%;
+border-bottom:1px solid rgba(88,107,58,.14);
+box-shadow:0 8px 20px rgba(52,71,43,.08);
+}
+
+nav.mobile-open{
+display:flex;
+}
+
+nav a{
+padding:13px 10px;
+font-size:16px;
+border-bottom:1px solid rgba(88,107,58,.08);
+}
+
+nav a.active{
+padding:13px 10px;
+border-radius:7px;
+}
+
+.donate-btn{
+margin:8px 0 4px;
+text-align:center;
+border-bottom:none;
+}
+
 .brand-title,.brand-subtitle{font-size:18px}
 .logo-hover,.logo-hover>img{width:45px;height:45px}
 .photo-grid{grid-template-columns:repeat(2,1fr)}
 .footer-container{grid-template-columns:repeat(2,1fr);gap:40px}
 }
 
+/* ==================== MOBILE ==================== */
+
 @media(max-width:600px){
-header{padding:12px 5%}
-.brand-title,.brand-subtitle{font-size:14px}
+
+header{
+padding:12px 5%;
+}
+
+.brand-title,.brand-subtitle{
+font-size:14px;
+}
+
+.menu-toggle{
+font-size:28px;
+}
+
+nav{
+padding:10px 5%;
+}
+
+nav a{
+font-size:15px;
+padding:12px 10px;
+}
+
+.donate-btn{
+display:block;
+margin:8px 0 4px;
+}
+
 .gallery-hero{padding:35px 20px}
 .gallery-hero h1{font-size:40px}
 .gallery-container{padding:40px 6% 70px}
@@ -130,18 +217,29 @@ font-size:12px;
 <body>
 
 <header>
+
 <div class="brand">
+
 <div class="logo-hover">
 <img src="rose_logo.png" alt="ROSE Logo">
-<div class="logo-preview"><img src="rose_logo.png" alt="ROSE Logo Preview"></div>
+<div class="logo-preview">
+<img src="rose_logo.png" alt="ROSE Logo Preview">
 </div>
+</div>
+
 <div class="brand-text">
 <div class="brand-title">RURAL ORGANISATION</div>
 <div class="brand-subtitle">FOR SOCIAL EMANCIPATION</div>
 </div>
+
 </div>
 
-<nav>
+<button class="menu-toggle" onclick="toggleMenu()" aria-label="Open navigation menu">
+☰
+</button>
+
+<nav id="mainNav">
+
 <a href="index.html">Home</a>
 <a href="aboutUs.html">About Us</a>
 <a href="programs.html">Our Programs</a>
@@ -150,54 +248,83 @@ font-size:12px;
 <a href="newsletter.html">Newsletter</a>
 <a href="contact.html">Contact</a>
 <a href="donate.html" class="donate-btn">♡ &nbsp;Donate Now</a>
+
 </nav>
+
 </header>
 
 <section class="gallery-hero">
+
 <h1>Our Gallery</h1>
 
 <a href="/admin" class="admin-btn">Admin</a>
+
 </section>
 
 <main class="gallery-container" id="galleryContainer"></main>
 
 <div class="image-viewer" id="imageViewer">
+
 <div class="viewer-content">
+
 <button class="viewer-close" id="viewerClose">&times;</button>
+
 <img id="viewerImage" src="" alt="">
+
 <div class="viewer-title" id="viewerTitle"></div>
+
 </div>
+
 </div>
 
 <footer>
+
 <div class="footer-container">
 
 <div>
+
 <div class="footer-brand">
+
 <img src="rose_logo.png" alt="ROSE Logo">
+
 <div>
+
 <div class="footer-brand-title">RURAL ORGANISATION</div>
 <div class="footer-brand-subtitle">FOR SOCIAL EMANCIPATION</div>
+
 </div>
+
 </div>
-<p class="footer-description">Empowering Every Individual to Build an Independent and Sustainable Life</p>
+
+<p class="footer-description">
+Empowering Every Individual to Build an Independent and Sustainable Life
+</p>
+
 </div>
 
 <div class="footer-column">
+
 <h3>Quick Links</h3>
+
 <ul>
+
 <li><a href="index.html">Home</a></li>
 <li><a href="aboutUs.html">About Us</a></li>
 <li><a href="programs.html">Our Programs</a></li>
 <li><a href="gallery_html.html">Gallery</a></li>
 <li><a href="blog.html">Blog</a></li>
 <li><a href="contact.html">Contact</a></li>
+
 </ul>
+
 </div>
 
 <div class="footer-column">
+
 <h3>Our Programs</h3>
+
 <ul>
+
 <li><a href="programs.html#essential-support">Essential Support</a></li>
 <li><a href="programs.html#education">Education & Child Development</a></li>
 <li><a href="programs.html#health">Health & Well-being</a></li>
@@ -205,24 +332,65 @@ font-size:12px;
 <li><a href="programs.html#skills">Skills & Opportunities</a></li>
 <li><a href="programs.html#livelihoods">Livelihoods & Employment</a></li>
 <li><a href="programs.html#social">Social Empowerment</a></li>
+
 </ul>
+
 </div>
 
 <div class="footer-column">
+
 <h3>Contact & Trust</h3>
-<div class="contact-item"><span class="contact-icon">⌖</span><span>67/11, Mariapuram, Ravindra Nagar Post,<br>Y.S.R. Kadapa, Andhra Pradesh - 516001</span></div>
-<div class="contact-item"><span class="contact-icon">⌕</span><span>+91 79957 19034</span></div>
-<div class="contact-item"><span class="contact-icon">✉</span><span>roseorg22@gmail.com</span></div>
-<div class="trust">Regd No. 632/2022 under Indian Trusts Act, 1882<br>80G Certified - Tax benefits on donations</div>
+
+<div class="contact-item">
+<span class="contact-icon">⌖</span>
+<span>
+67/11, Mariapuram, Ravindra Nagar Post,<br>
+Y.S.R. Kadapa, Andhra Pradesh - 516001
+</span>
+</div>
+
+<div class="contact-item">
+<span class="contact-icon">⌕</span>
+<span>+91 79957 19034</span>
+</div>
+
+<div class="contact-item">
+<span class="contact-icon">✉</span>
+<span>roseorg22@gmail.com</span>
+</div>
+
+<div class="trust">
+Regd No. 632/2022 under Indian Trusts Act, 1882<br>
+80G Certified - Tax benefits on donations
+</div>
+
 </div>
 
 </div>
 
 <div class="footer-bottom">
-<div>© 2026 Rural Organisation For Social Emancipation (ROSE). All rights reserved.</div>
-<div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
+
+<div>
+© 2026 Rural Organisation For Social Emancipation (ROSE). All rights reserved.
 </div>
+
+<div class="footer-bottom-links">
+
+<a href="#">Privacy Policy</a>
+<a href="#">Terms of Use</a>
+
+</div>
+
+</div>
+
 </footer>
+
+<script>
+function toggleMenu(){
+const nav=document.getElementById("mainNav");
+nav.classList.toggle("mobile-open");
+}
+</script>
 
 <script src="gallery_js.js"></script>
 

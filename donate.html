@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -679,10 +680,31 @@ footer{
         height:auto;
         min-height:85px;
         padding:15px 5%;
+        flex-wrap:wrap;
+        gap:15px;
     }
 
+    /* Navigation remains visible on tablet */
     nav{
-        display:none;
+        display:flex;
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:10px 16px;
+        padding:5px 0;
+    }
+
+    nav a{
+        font-size:14px;
+        white-space:nowrap;
+    }
+
+    nav a.active{
+        padding:9px 12px;
+    }
+
+    .donate-btn{
+        padding:10px 16px;
     }
 
     .brand-title{
@@ -727,7 +749,42 @@ footer{
 @media(max-width:650px){
 
     header{
-        padding:12px 5%;
+        padding:12px 4%;
+        align-items:center;
+    }
+
+    /* Navigation remains visible and can be swiped horizontally */
+    nav{
+        display:flex;
+        width:100%;
+        justify-content:flex-start;
+        flex-wrap:nowrap;
+        overflow-x:auto;
+        overflow-y:hidden;
+        gap:12px;
+        padding:8px 2px 10px;
+        -webkit-overflow-scrolling:touch;
+        scrollbar-width:none;
+    }
+
+    nav::-webkit-scrollbar{
+        display:none;
+    }
+
+    nav a{
+        flex:0 0 auto;
+        font-size:13px;
+        white-space:nowrap;
+    }
+
+    nav a.active{
+        padding:8px 11px;
+    }
+
+    .donate-btn{
+        display:block;
+        padding:9px 14px;
+        margin-left:0;
     }
 
     .brand-title{
@@ -2030,10 +2087,12 @@ donateButton.addEventListener(
                 );
 
 
-                        const responseText = 
+            const responseText =
                 await response.text();
 
+
             let result;
+
 
             try{
 

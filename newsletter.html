@@ -494,7 +494,23 @@ padding:15px 5%;
 }
 
 nav{
+display:flex;
+align-items:center;
+gap:18px;
+overflow-x:auto;
+overflow-y:hidden;
+white-space:nowrap;
+max-width:100%;
+padding:5px 0;
+scrollbar-width:none;
+}
+
+nav::-webkit-scrollbar{
 display:none;
+}
+
+nav a{
+flex:0 0 auto;
 }
 
 .brand-title,
@@ -532,11 +548,49 @@ gap:40px;
 
 header{
 padding:12px 5%;
+display:flex;
+flex-direction:column;
+align-items:stretch;
+gap:10px;
 }
 
-.brand-title,
+.brand{
+width:100%;
+}
+
+brand-title,
 .brand-subtitle{
 font-size:14px;
+}
+
+nav{
+display:flex;
+align-items:center;
+gap:16px;
+width:100%;
+max-width:100%;
+overflow-x:auto;
+overflow-y:hidden;
+white-space:nowrap;
+padding:5px 0;
+scrollbar-width:none;
+}
+
+nav::-webkit-scrollbar{
+display:none;
+}
+
+nav a{
+flex:0 0 auto;
+font-size:14px;
+}
+
+nav a.active{
+padding:10px 12px;
+}
+
+.donate-btn{
+padding:11px 16px;
 }
 
 .newsletter-intro{
