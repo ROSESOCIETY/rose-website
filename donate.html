@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -15,11 +14,197 @@ content="width=device-width, initial-scale=1.0"
 Donate | Rural Organisation for Social Emancipation | ROSE
 </title>
 
-<style>
+<!-- =========================================================
+     SEO: PRIMARY META INFORMATION
+     Provides search engines with a page-specific description
+     of ROSE's donation page.
+========================================================= -->
 
-/* =========================================================
-   GLOBAL
-========================================================= */
+<meta
+name="description"
+content="Support Rural Organisation for Social Emancipation (ROSE) and help create opportunities for individuals to learn, earn, grow and build independent lives."
+>
+
+<meta
+name="keywords"
+content="ROSE, Rural Organisation for Social Emancipation, donate to ROSE, NGO donation, charitable organisation, social empowerment, education, women empowerment, livelihoods, Andhra Pradesh"
+>
+
+<meta name="author" content="Rural Organisation for Social Emancipation (ROSE)">
+
+
+<!-- =========================================================
+     SEO: OFFICIAL WEBSITE DOMAIN
+     ROSE's official website:
+     https://www.rosengo.in/
+========================================================= -->
+
+
+<!-- =========================================================
+     SEO: CANONICAL
+     Tells search engines the official URL of this donation page.
+========================================================= -->
+
+<link
+rel="canonical"
+href="https://www.rosengo.in/donate.html"
+>
+
+
+<!-- =========================================================
+     SEO: ROBOTS
+     Allows search engines to index and follow this public
+     donation page.
+========================================================= -->
+
+<meta
+name="robots"
+content="index, follow"
+>
+
+<meta
+name="googlebot"
+content="index, follow"
+>
+
+
+<!-- =========================================================
+     SEO: OPEN GRAPH / SOCIAL SHARING
+     Controls the title, description, URL and image shown
+     when this donation page is shared on social platforms.
+========================================================= -->
+
+<meta property="og:type" content="website">
+
+<meta
+property="og:title"
+content="Donate | Rural Organisation for Social Emancipation | ROSE"
+>
+
+<meta
+property="og:description"
+content="Support ROSE and help create opportunities for individuals to learn, earn, grow and build independent lives."
+>
+
+<meta
+property="og:url"
+content="https://www.rosengo.in/donate.html"
+>
+
+<meta
+property="og:site_name"
+content="Rural Organisation for Social Emancipation (ROSE)"
+>
+
+<meta
+property="og:image"
+content="https://www.rosengo.in/rose_logo.png"
+>
+
+<meta
+property="og:image:alt"
+content="ROSE - Rural Organisation for Social Emancipation Logo"
+>
+
+
+<!-- =========================================================
+     SEO: X / TWITTER CARD
+     Provides an appropriate preview when this donation page
+     is shared on X or other platforms using Twitter Cards.
+========================================================= -->
+
+<meta
+name="twitter:card"
+content="summary"
+>
+
+<meta
+name="twitter:title"
+content="Donate | Rural Organisation for Social Emancipation | ROSE"
+>
+
+<meta
+name="twitter:description"
+content="Support ROSE and help create opportunities for individuals to learn, earn, grow and build independent lives."
+>
+
+<meta
+name="twitter:image"
+content="https://www.rosengo.in/rose_logo.png"
+>
+
+<meta
+name="twitter:image:alt"
+content="ROSE - Rural Organisation for Social Emancipation Logo"
+>
+
+
+<!-- =========================================================
+     SEO: ORGANIZATION STRUCTURED DATA
+     Identifies ROSE as the organisation responsible for this
+     website and provides search engines with official details.
+========================================================= -->
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://www.rosengo.in/#organization",
+    "name": "Rural Organisation for Social Emancipation",
+    "alternateName": "ROSE",
+    "url": "https://www.rosengo.in/",
+    "logo": "https://www.rosengo.in/rose_logo.png",
+    "description": "Rural Organisation for Social Emancipation (ROSE) works to create opportunities for individuals to learn, earn, grow and build independent lives.",
+    "telephone": "+91 79957 19034",
+    "email": "roseorg22@gmail.com",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "67/11, Mariapuram, Ravindra Nagar Post",
+        "addressLocality": "Y.S.R. Kadapa",
+        "addressRegion": "Andhra Pradesh",
+        "postalCode": "516001",
+        "addressCountry": "IN"
+    },
+    "sameAs": [
+        "PASTE_FACEBOOK_URL_HERE",
+        "PASTE_INSTAGRAM_URL_HERE",
+        "PASTE_X_TWITTER_URL_HERE"
+    ]
+}
+</script>
+
+
+<!-- =========================================================
+     SEO: WEBPAGE STRUCTURED DATA
+     Describes this specific donation page and connects it
+     with the ROSE organisation.
+========================================================= -->
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://www.rosengo.in/donate.html#webpage",
+    "url": "https://www.rosengo.in/donate.html",
+    "name": "Donate | Rural Organisation for Social Emancipation | ROSE",
+    "description": "Support Rural Organisation for Social Emancipation (ROSE) and help create opportunities for individuals to learn, earn, grow and build independent lives.",
+    "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.rosengo.in/#website",
+        "url": "https://www.rosengo.in/",
+        "name": "Rural Organisation for Social Emancipation (ROSE)"
+    },
+    "about": {
+        "@id": "https://www.rosengo.in/#organization"
+    },
+    "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://www.rosengo.in/rose_logo.png"
+    }
+}
+</script>
+
+<style>
 
 *{
     margin:0;
@@ -45,11 +230,6 @@ body{
     --cream:#fbfaf5;
     --gold:#b89545;
 }
-
-
-/* =========================================================
-   HEADER
-========================================================= */
 
 header{
     width:100%;
@@ -132,11 +312,6 @@ header{
     margin-top:4px;
 }
 
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
 nav{
     display:flex;
     align-items:center;
@@ -176,11 +351,6 @@ nav a.active{
     background:var(--olive-dark);
 }
 
-
-/* =========================================================
-   DONATE INTRO
-========================================================= */
-
 .donate-intro{
     background:var(--olive);
     color:#fff;
@@ -200,11 +370,6 @@ nav a.active{
     line-height:1.6;
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
-
 main{
     padding:40px 4% 65px;
 }
@@ -213,11 +378,6 @@ main{
     width:min(1100px,100%);
     margin:auto;
 }
-
-
-/* =========================================================
-   CARDS
-========================================================= */
 
 .card{
     background:#fffdf7;
@@ -251,11 +411,6 @@ main{
     color:#4c514b;
 }
 
-
-/* =========================================================
-   NOTICE
-========================================================= */
-
 .notice{
     background:#f7f2e4;
     border:1px solid rgba(184,149,69,.35);
@@ -269,11 +424,6 @@ main{
 .notice strong{
     color:var(--olive-dark);
 }
-
-
-/* =========================================================
-   PAYMENT BOX
-========================================================= */
 
 .payment-box{
     background:var(--olive-light);
@@ -290,11 +440,6 @@ main{
     word-break:break-word;
     margin:12px 0;
 }
-
-
-/* =========================================================
-   BANK DETAILS
-========================================================= */
 
 .bank-details{
     background:#faf8f0;
@@ -323,11 +468,6 @@ main{
     color:#30352f;
 }
 
-
-/* =========================================================
-   DONATION VERIFICATION BUTTON
-========================================================= */
-
 .verification-button{
     width:100%;
     margin-top:25px;
@@ -345,11 +485,6 @@ main{
 .verification-button:hover{
     background:var(--olive-dark);
 }
-
-
-/* =========================================================
-   VERIFICATION FORM
-========================================================= */
 
 .verification-form{
     display:none;
@@ -395,11 +530,6 @@ main{
     background:var(--olive-light);
 }
 
-
-/* =========================================================
-   FORM
-========================================================= */
-
 label{
     display:block;
     margin-top:18px;
@@ -422,11 +552,6 @@ input:focus{
     border-color:var(--olive);
     box-shadow:0 0 0 2px rgba(88,107,58,.08);
 }
-
-
-/* =========================================================
-   CHECKBOX
-========================================================= */
 
 .checkbox-row{
     display:flex;
@@ -451,11 +576,6 @@ input:focus{
     color:#4c514b;
 }
 
-
-/* =========================================================
-   SUBMIT BUTTON
-========================================================= */
-
 .submit-button{
     width:100%;
     margin-top:20px;
@@ -479,11 +599,6 @@ input:focus{
     cursor:not-allowed;
 }
 
-
-/* =========================================================
-   DONATION STATUS
-========================================================= */
-
 #donationStatus{
     display:none;
     margin-top:20px;
@@ -491,11 +606,6 @@ input:focus{
     border-radius:8px;
     line-height:1.6;
 }
-
-
-/* =========================================================
-   TWO COLUMN INFORMATION SECTION
-========================================================= */
 
 .bottom-info{
     display:grid;
@@ -508,11 +618,6 @@ input:focus{
     margin-bottom:25px;
     height:100%;
 }
-
-
-/* =========================================================
-   DONATION HELP
-========================================================= */
 
 .help{
     text-align:center;
@@ -532,11 +637,6 @@ input:focus{
     color:var(--gold);
 }
 
-
-/* =========================================================
-   WHERE DONATION HELPS
-========================================================= */
-
 .money-list{
     line-height:2;
     padding-left:22px;
@@ -546,11 +646,6 @@ input:focus{
 .money-list li::marker{
     color:var(--olive);
 }
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
 
 footer{
     background:var(--olive-dark);
@@ -669,11 +764,6 @@ footer{
     text-decoration:none;
 }
 
-
-/* =========================================================
-   TABLET
-========================================================= */
-
 @media(max-width:1000px){
 
     header{
@@ -684,7 +774,6 @@ footer{
         gap:15px;
     }
 
-    /* Navigation remains visible on tablet */
     nav{
         display:flex;
         width:100%;
@@ -741,11 +830,6 @@ footer{
 
 }
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
 @media(max-width:650px){
 
     header{
@@ -753,7 +837,6 @@ footer{
         align-items:center;
     }
 
-    /* Navigation remains visible and can be swiped horizontally */
     nav{
         display:flex;
         width:100%;
@@ -1068,8 +1151,6 @@ Please note: Fill in this form only after you have completed the bank transfer. 
 </p>
 
 
-<!-- DONATION AMOUNT -->
-
 <label for="customAmount">
 Donation Amount
 </label>
@@ -1085,8 +1166,6 @@ required
 >
 
 
-<!-- FULL NAME -->
-
 <label for="fullName">
 Full Name
 </label>
@@ -1101,8 +1180,6 @@ required
 >
 
 
-<!-- EMAIL -->
-
 <label for="email">
 Email Address
 </label>
@@ -1116,8 +1193,6 @@ required
 >
 
 
-<!-- PHONE -->
-
 <label for="phone">
 Phone Number
 </label>
@@ -1130,8 +1205,6 @@ placeholder="Enter your phone number"
 required
 >
 
-
-<!-- PAN -->
 
 <label for="pan">
 
@@ -1151,10 +1224,6 @@ maxlength="10"
 placeholder="Enter PAN if required"
 >
 
-
-<!-- =====================================================
-     BANK TRANSACTION DETAILS
-===================================================== -->
 
 <label for="transactionId">
 Transaction / UTR Number
@@ -1210,8 +1279,6 @@ required
 >
 
 
-<!-- LAST 4 DIGITS -->
-
 <label for="lastFourDigits">
 Last 4 Digits of Donor's Bank Account
 </label>
@@ -1227,10 +1294,6 @@ placeholder="Enter the last 4 digits of your account"
 required
 >
 
-
-<!-- =====================================================
-     CONFIRMATION
-===================================================== -->
 
 <div class="checkbox-row">
 
@@ -1249,10 +1312,6 @@ donation transaction using UPI or bank transfer.
 </div>
 
 
-<!-- =====================================================
-     SUBMIT
-===================================================== -->
-
 <button
 type="button"
 id="donateButton"
@@ -1266,10 +1325,6 @@ class="submit-button">
 <div id="donationStatus">
 </div>
 
-
-<!-- =====================================================
-     CLOSE
-===================================================== -->
 
 <button
 type="button"
@@ -1286,14 +1341,8 @@ Close Verification Form
 </div>
 
 
-<!-- =====================================================
-     WHERE DONATION HELPS + QUESTIONS
-===================================================== -->
-
 <div class="bottom-info">
 
-
-<!-- WHERE DONATION HELPS -->
 
 <div class="card">
 
@@ -1336,8 +1385,6 @@ Social Empowerment
 </div>
 
 
-<!-- QUESTIONS -->
-
 <div class="card help">
 
 <h2>
@@ -1379,16 +1426,10 @@ Reach out to us at
 </main>
 
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
 <footer>
 
 <div class="footer-container">
 
-
-<!-- FOOTER BRAND -->
 
 <div>
 
@@ -1422,8 +1463,6 @@ and Sustainable Life
 
 </div>
 
-
-<!-- QUICK LINKS -->
 
 <div class="footer-column">
 
@@ -1473,8 +1512,6 @@ Contact
 
 </div>
 
-
-<!-- PROGRAMS -->
 
 <div class="footer-column">
 
@@ -1530,8 +1567,6 @@ Social Empowerment
 
 </div>
 
-
-<!-- CONTACT -->
 
 <div class="footer-column">
 
@@ -1599,8 +1634,6 @@ Regd No. 632/2022 under Indian Trusts Act, 1882
 </div>
 
 
-<!-- FOOTER BOTTOM -->
-
 <div class="footer-bottom">
 
 <div>
@@ -1627,12 +1660,7 @@ Terms of Use
 </footer>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
-
 <script>
-
 
 /* =========================================================
    VERIFICATION FORM OPEN / CLOSE
@@ -1833,10 +1861,6 @@ donateButton.addEventListener(
             );
 
 
-        /* ==========================================
-           PAYMENT CONFIRMATION
-        ========================================== */
-
         if(
             !paymentCompleted.checked
         ){
@@ -1852,10 +1876,6 @@ donateButton.addEventListener(
         }
 
 
-        /* ==========================================
-           NAME
-        ========================================== */
-
         if(!name){
 
             alert(
@@ -1867,10 +1887,6 @@ donateButton.addEventListener(
             return;
         }
 
-
-        /* ==========================================
-           EMAIL
-        ========================================== */
 
         if(!donorEmail){
 
@@ -1884,10 +1900,6 @@ donateButton.addEventListener(
         }
 
 
-        /* ==========================================
-           PHONE
-        ========================================== */
-
         if(!donorPhone){
 
             alert(
@@ -1899,10 +1911,6 @@ donateButton.addEventListener(
             return;
         }
 
-
-        /* ==========================================
-           AMOUNT
-        ========================================== */
 
         if(
             !amount ||
@@ -1919,10 +1927,6 @@ donateButton.addEventListener(
         }
 
 
-        /* ==========================================
-           TRANSACTION / UTR
-        ========================================== */
-
         if(!transaction){
 
             alert(
@@ -1934,10 +1938,6 @@ donateButton.addEventListener(
             return;
         }
 
-
-        /* ==========================================
-           TRANSACTION DATE
-        ========================================== */
 
         if(!date){
 
@@ -1951,10 +1951,6 @@ donateButton.addEventListener(
         }
 
 
-        /* ==========================================
-           BANK NAME
-        ========================================== */
-
         if(!bank){
 
             alert(
@@ -1967,10 +1963,6 @@ donateButton.addEventListener(
         }
 
 
-        /* ==========================================
-           ACCOUNT HOLDER
-        ========================================== */
-
         if(!accountHolder){
 
             alert(
@@ -1982,10 +1974,6 @@ donateButton.addEventListener(
             return;
         }
 
-
-        /* ==========================================
-           LAST 4 DIGITS
-        ========================================== */
 
         if(
             !/^[0-9]{4}$/.test(
@@ -2003,10 +1991,6 @@ donateButton.addEventListener(
         }
 
 
-        /* ==========================================
-           PAN
-        ========================================== */
-
         if(
             donorPan &&
             !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(
@@ -2023,10 +2007,6 @@ donateButton.addEventListener(
             return;
         }
 
-
-        /* ==========================================
-           SUBMIT
-        ========================================== */
 
         donateButton.disabled =
             true;

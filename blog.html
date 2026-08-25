@@ -3,7 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- =========================================================
+     SEO: PRIMARY META INFORMATION
+     Provides search engines with page-specific information
+     about the ROSE Blog page.
+     ========================================================= -->
 <title>Blog | Rural Organisation for Social Emancipation | ROSE</title>
+<meta name="description" content="Read insights and perspectives from Rural Organisation for Social Emancipation (ROSE) on education, skills, opportunity, empowerment, livelihoods and social development.">
+<meta name="robots" content="index, follow">
+
+<!-- =========================================================
+     SEO: WEBSITE DOMAIN
+     Official ROSE website domain used for SEO and social
+     sharing URLs on this page.
+     ========================================================= -->
+<!-- Replace https://www.rosengo.in/ only if the official
+     ROSE website domain changes in the future. -->
+
+<!-- =========================================================
+     SEO: CANONICAL
+     Tells search engines the official URL of this Blog page.
+     ========================================================= -->
+<link rel="canonical" href="https://www.rosengo.in/blog.html">
+
+<!-- =========================================================
+     SEO: OPEN GRAPH / SOCIAL SHARING
+     Provides the title, description, URL and image used when
+     the ROSE Blog page is shared on social platforms.
+     ========================================================= -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog | Rural Organisation for Social Emancipation | ROSE">
+<meta property="og:description" content="Read insights and perspectives from Rural Organisation for Social Emancipation (ROSE) on education, skills, opportunity, empowerment, livelihoods and social development.">
+<meta property="og:url" content="https://www.rosengo.in/blog.html">
+<meta property="og:site_name" content="Rural Organisation for Social Emancipation (ROSE)">
+<meta property="og:locale" content="en_IN">
+<meta property="og:image" content="https://www.rosengo.in/rose_logo.png">
+<meta property="og:image:alt" content="Rural Organisation for Social Emancipation (ROSE) logo">
+
+<!-- =========================================================
+     SEO: X / TWITTER CARD
+     Provides social-sharing metadata for X and compatible
+     social platforms.
+     ========================================================= -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Blog | Rural Organisation for Social Emancipation | ROSE">
+<meta name="twitter:description" content="Read insights and perspectives from Rural Organisation for Social Emancipation (ROSE) on education, skills, opportunity, empowerment, livelihoods and social development.">
+<meta name="twitter:url" content="https://www.rosengo.in/blog.html">
+<meta name="twitter:image" content="https://www.rosengo.in/rose_logo.png">
+<meta name="twitter:image:alt" content="Rural Organisation for Social Emancipation (ROSE) logo">
+
+<!-- =========================================================
+     SEO: ORGANIZATION STRUCTURED DATA
+     Helps search engines understand the official ROSE
+     organisation and its official website.
+     ========================================================= -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Rural Organisation for Social Emancipation",
+    "alternateName": "ROSE",
+    "url": "https://www.rosengo.in/",
+    "logo": "https://www.rosengo.in/rose_logo.png",
+    "sameAs": [
+        "PASTE_FACEBOOK_URL_HERE",
+        "PASTE_INSTAGRAM_URL_HERE",
+        "PASTE_X_TWITTER_URL_HERE"
+    ]
+}
+</script>
+
+<!-- =========================================================
+     SEO: SOCIAL MEDIA PROFILES
+     Replace the placeholders below with ROSE's official
+     Facebook, Instagram and X/Twitter profile URLs.
+     Do not change the surrounding structured-data code.
+     ========================================================= -->
+
+<!-- =========================================================
+     SEO: WEBSITE / WEBPAGE STRUCTURED DATA
+     Helps search engines understand this specific ROSE
+     Blog page and its relationship with the main website.
+     ========================================================= -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://www.rosengo.in/blog.html",
+    "url": "https://www.rosengo.in/blog.html",
+    "name": "Blog | Rural Organisation for Social Emancipation | ROSE",
+    "description": "Read insights and perspectives from Rural Organisation for Social Emancipation (ROSE) on education, skills, opportunity, empowerment, livelihoods and social development.",
+    "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.rosengo.in/#website",
+        "url": "https://www.rosengo.in/",
+        "name": "Rural Organisation for Social Emancipation (ROSE)"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Rural Organisation for Social Emancipation",
+        "alternateName": "ROSE",
+        "url": "https://www.rosengo.in/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.rosengo.in/rose_logo.png"
+        }
+    }
+}
+</script>
 
 <style>
 *{
@@ -1225,8 +1333,6 @@ Regd No. 632/2022 under Indian Trusts Act, 1882<br>
 
 <script>
 
-/* ==================== MOBILE MENU ==================== */
-
 const mobileMenuBtn=document.getElementById("mobileMenuBtn");
 const mobileNav=document.getElementById("mobileNav");
 
@@ -1244,8 +1350,6 @@ mobileMenuBtn.innerHTML=isOpen ? "✕" : "☰";
 });
 
 
-/* Close mobile menu after selecting a page */
-
 mobileNav.querySelectorAll("a").forEach(function(link){
 
 link.addEventListener("click",function(){
@@ -1260,10 +1364,6 @@ mobileMenuBtn.innerHTML="☰";
 
 });
 
-
-/* =========================================================
-   ARTICLE DATA
-   ========================================================= */
 
 const articles = {
 
@@ -1388,10 +1488,6 @@ paragraphs:[
 };
 
 
-/* =========================================================
-   OPEN ARTICLE
-   ========================================================= */
-
 function openArticle(number){
 
 const article=articles[number];
@@ -1435,10 +1531,6 @@ document.body.style.overflow="hidden";
 }
 
 
-/* =========================================================
-   CLOSE ARTICLE
-   ========================================================= */
-
 function closeArticle(){
 
 const modal=document.getElementById("articleModal");
@@ -1452,10 +1544,6 @@ document.body.style.overflow="auto";
 }
 
 
-/* =========================================================
-   CLOSE MODAL WHEN CLICKING OUTSIDE
-   ========================================================= */
-
 document.getElementById("articleModal").addEventListener(
 "click",
 function(event){
@@ -1467,10 +1555,6 @@ closeArticle();
 }
 );
 
-
-/* =========================================================
-   CLOSE MODAL WITH ESCAPE
-   ========================================================= */
 
 document.addEventListener(
 "keydown",
@@ -1489,10 +1573,6 @@ closeArticle();
 }
 );
 
-
-/* =========================================================
-   ARTICLE CAROUSEL
-   ========================================================= */
 
 (function(){
 

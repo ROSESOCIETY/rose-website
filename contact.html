@@ -5,9 +5,128 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Contact Us | Rural Organisation for Social Emancipation</title>
 
-<style>
+<!-- =========================================================
+     SEO: PRIMARY META INFORMATION
+     Provides search engines with a page-specific description
+     explaining the purpose of the ROSE Contact Us page.
+     ========================================================= -->
+<meta name="description" content="Contact Rural Organisation for Social Emancipation (ROSE) for inquiries, partnerships, volunteering, programs, donations, and opportunities to get involved.">
+<meta name="robots" content="index,follow">
+<meta name="author" content="Rural Organisation for Social Emancipation (ROSE)">
 
-/* ==================== GLOBAL ==================== */
+<!-- =========================================================
+     SEO: WEBSITE DOMAIN
+     Temporary domain used for this production SEO setup.
+     Replace https://www.yourwebsite.com with the real
+     ROSE website domain when available.
+     ========================================================= -->
+
+<!-- =========================================================
+     SEO: CANONICAL
+     Tells Google the official URL of this specific page.
+     ========================================================= -->
+<link rel="canonical" href="https://www.rosengo.in/contact.html">
+
+<!-- =========================================================
+     SEO: OPEN GRAPH / SOCIAL SHARING
+     Controls how the Contact page appears when shared on
+     Facebook and other platforms supporting Open Graph.
+     ========================================================= -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contact Us | Rural Organisation for Social Emancipation">
+<meta property="og:description" content="Contact ROSE for inquiries, partnerships, volunteering, programs, donations, and opportunities to get involved.">
+<meta property="og:url" content="https://www.rosengo.in/contact.html">
+<meta property="og:site_name" content="Rural Organisation for Social Emancipation (ROSE)">
+<meta property="og:locale" content="en_IN">
+<meta property="og:image" content="https://www.rosengo.in/rose_logo.png">
+<meta property="og:image:alt" content="ROSE - Rural Organisation for Social Emancipation">
+
+<!-- =========================================================
+     SEO: X (TWITTER) CARD
+     Provides an appropriate preview when the Contact page
+     is shared on X/Twitter.
+     ========================================================= -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Contact Us | Rural Organisation for Social Emancipation">
+<meta name="twitter:description" content="Contact ROSE for inquiries, partnerships, volunteering, programs, donations, and opportunities to get involved.">
+<meta name="twitter:image" content="https://www.rosengo.in/rose_logo.png">
+<meta name="twitter:image:alt" content="ROSE - Rural Organisation for Social Emancipation">
+
+<!-- =========================================================
+     SEO: ORGANIZATION + WEBPAGE STRUCTURED DATA
+     Helps search engines understand ROSE as an organization
+     and identifies this page specifically as the Contact page.
+     ========================================================= -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Organization",
+            "@id": "https://www.rosengo.in/#organization",
+            "name": "Rural Organisation for Social Emancipation",
+            "alternateName": "ROSE",
+            "url": "https://www.rosengo.in/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.rosengo.in/rose_logo.png"
+            },
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "67/11, Mariapuram, Ravindra Nagar Post",
+                "addressLocality": "Y.S.R. Kadapa",
+                "addressRegion": "Andhra Pradesh",
+                "postalCode": "516001",
+                "addressCountry": "IN"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91 79957 19034",
+                "email": "roseorg22@gmail.com",
+                "contactType": "customer service",
+                "areaServed": "IN"
+            },
+
+            <!-- =========================================================
+                 SEO: SOCIAL MEDIA PROFILES
+                 Replace the placeholders below with ROSE's official
+                 Facebook, Instagram, and X/Twitter profile URLs.
+                 ========================================================= -->
+            "sameAs": [
+                "PASTE_FACEBOOK_URL_HERE",
+                "PASTE_INSTAGRAM_URL_HERE",
+                "PASTE_X_TWITTER_URL_HERE"
+            ]
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://www.rosengo.in/contact.html#webpage",
+            "url": "https://www.rosengo.in/contact.html",
+            "name": "Contact Us | Rural Organisation for Social Emancipation",
+            "description": "Contact Rural Organisation for Social Emancipation (ROSE) for inquiries, partnerships, volunteering, programs, donations, and opportunities to get involved.",
+            "isPartOf": {
+                "@id": "https://www.rosengo.in/#website"
+            },
+            "about": {
+                "@id": "https://www.rosengo.in/#organization"
+            },
+            "inLanguage": "en-IN"
+        },
+        {
+            "@type": "WebSite",
+            "@id": "https://www.rosengo.in/#website",
+            "url": "https://www.rosengo.in/",
+            "name": "Rural Organisation for Social Emancipation (ROSE)",
+            "publisher": {
+                "@id": "https://www.rosengo.in/#organization"
+            },
+            "inLanguage": "en-IN"
+        }
+    ]
+}
+</script>
+
+<style>
 
 *{
 margin:0;
@@ -33,9 +152,6 @@ overflow-x:hidden
 --gold:#b89545;
 --text:#29352b
 }
-
-
-/* ==================== HEADER ==================== */
 
 header{
 width:100%;
@@ -119,9 +235,6 @@ color:var(--olive-dark)
 margin-top:4px
 }
 
-
-/* ==================== NAVIGATION ==================== */
-
 nav{
 display:flex;
 align-items:center;
@@ -161,9 +274,6 @@ margin-left:4px
 background:var(--olive-dark)
 }
 
-
-/* ==================== CONTACT INTRO ==================== */
-
 .contact-intro{
 background:var(--olive);
 color:#fff;
@@ -187,9 +297,6 @@ margin:0 auto;
 color:#f4f5ed
 }
 
-
-/* ==================== CONTACT SECTION ==================== */
-
 .contact-section{
 min-height:calc(100vh - 105px);
 padding:65px 20px 85px;
@@ -204,9 +311,6 @@ grid-template-columns:1fr 1.25fr;
 gap:35px;
 align-items:start
 }
-
-
-/* ==================== CONTACT INFORMATION ==================== */
 
 .contact-info{
 background:#fffefa;
@@ -262,9 +366,6 @@ font-size:14px;
 line-height:1.6;
 color:#4b554c
 }
-
-
-/* ==================== CONTACT FORM ==================== */
 
 .contact-card{
 background:#fffefa;
@@ -351,9 +452,6 @@ opacity:.65;
 cursor:not-allowed
 }
 
-
-/* ==================== FORM MESSAGE ==================== */
-
 .form-message{
 display:none;
 margin-top:14px;
@@ -377,9 +475,6 @@ background:#eef7ed;
 color:#38663a;
 border:1px solid #cfe2cd
 }
-
-
-/* ==================== FOOTER ==================== */
 
 footer{
 background:var(--olive-dark);
@@ -498,9 +593,6 @@ color:#e9e8d5;
 text-decoration:none
 }
 
-
-/* ==================== TABLET ==================== */
-
 @media(max-width:1000px){
 
 header{
@@ -551,9 +643,6 @@ gap:40px
 }
 
 }
-
-
-/* ==================== MOBILE ==================== */
 
 @media(max-width:600px){
 
@@ -648,9 +737,6 @@ text-align:center
 
 <body>
 
-
-<!-- ==================== HEADER ==================== -->
-
 <header>
 
 <div class="brand">
@@ -667,7 +753,6 @@ text-align:center
 
 </div>
 
-
 <div class="brand-text">
 
 <div class="brand-title">
@@ -681,9 +766,6 @@ FOR SOCIAL EMANCIPATION
 </div>
 
 </div>
-
-
-<!-- ==================== MAIN NAVIGATION ==================== -->
 
 <nav>
 
@@ -723,9 +805,6 @@ Contact
 
 </header>
 
-
-<!-- ==================== CONTACT INTRO ==================== -->
-
 <section class="contact-intro">
 
 <h1>
@@ -739,15 +818,9 @@ partnerships, or to get involved.
 
 </section>
 
-
-<!-- ==================== CONTACT SECTION ==================== -->
-
 <main class="contact-section">
 
 <div class="contact-container">
-
-
-<!-- ==================== CONTACT INFORMATION ==================== -->
 
 <div class="contact-info">
 
@@ -759,7 +832,6 @@ Get in Touch
 Whether you have a question, would like to partner with us,
 or want to get involved with ROSE, we would be happy to hear from you.
 </p>
-
 
 <div class="info-item">
 
@@ -782,7 +854,6 @@ Y.S.R. Kadapa, Andhra Pradesh - 516001
 
 </div>
 
-
 <div class="info-item">
 
 <div class="info-icon">
@@ -803,7 +874,6 @@ Phone
 
 </div>
 
-
 <div class="info-item">
 
 <div class="info-icon">
@@ -823,7 +893,6 @@ roseorg22@gmail.com
 </div>
 
 </div>
-
 
 <div class="info-item">
 
@@ -848,18 +917,13 @@ Monday - Saturday<br>
 
 </div>
 
-
-<!-- ==================== CONTACT FORM ==================== -->
-
 <div class="contact-card">
 
 <h2>
 Send Us a Message
 </h2>
 
-
 <form id="contactForm">
-
 
 <div class="form-group">
 
@@ -878,7 +942,6 @@ required>
 
 </div>
 
-
 <div class="form-group">
 
 <label for="contactEmail">
@@ -894,7 +957,6 @@ placeholder="Enter your email address"
 required>
 
 </div>
-
 
 <div class="form-group">
 
@@ -935,7 +997,6 @@ Other
 
 </div>
 
-
 <div class="form-group">
 
 <label for="contactMessage">
@@ -956,7 +1017,6 @@ Maximum 500 characters
 
 </div>
 
-
 <button
 class="send-message-btn"
 id="sendMessageBtn"
@@ -966,12 +1026,10 @@ type="submit">
 
 </button>
 
-
 <div
 id="contactFormMessage"
 class="form-message">
 </div>
-
 
 </form>
 
@@ -981,15 +1039,9 @@ class="form-message">
 
 </main>
 
-
-<!-- ==================== FOOTER ==================== -->
-
 <footer>
 
 <div class="footer-container">
-
-
-<!-- ==================== ORGANISATION DETAILS ==================== -->
 
 <div>
 
@@ -1013,15 +1065,11 @@ FOR SOCIAL EMANCIPATION
 
 </div>
 
-
 <p class="footer-description">
 Empowering Every Individual to Build an Independent and Sustainable Life
 </p>
 
 </div>
-
-
-<!-- ==================== QUICK LINKS ==================== -->
 
 <div class="footer-column">
 
@@ -1070,9 +1118,6 @@ Contact
 </ul>
 
 </div>
-
-
-<!-- ==================== PROGRAMS ==================== -->
 
 <div class="footer-column">
 
@@ -1128,15 +1173,11 @@ Social Empowerment
 
 </div>
 
-
-<!-- ==================== CONTACT AND TRUST ==================== -->
-
 <div class="footer-column">
 
 <h3>
 Contact &amp; Trust
 </h3>
-
 
 <div class="footer-contact-item">
 
@@ -1151,7 +1192,6 @@ Y.S.R. Kadapa, Andhra Pradesh - 516001
 
 </div>
 
-
 <div class="footer-contact-item">
 
 <span class="footer-contact-icon">
@@ -1163,7 +1203,6 @@ Y.S.R. Kadapa, Andhra Pradesh - 516001
 </span>
 
 </div>
-
 
 <div class="footer-contact-item">
 
@@ -1177,7 +1216,6 @@ roseorg22@gmail.com
 
 </div>
 
-
 <div class="trust">
 
 Regd No. 632/2022 under Indian Trusts Act, 1882<br>
@@ -1189,15 +1227,11 @@ Regd No. 632/2022 under Indian Trusts Act, 1882<br>
 
 </div>
 
-
-<!-- ==================== COPYRIGHT ==================== -->
-
 <div class="footer-bottom">
 
 <div>
 © 2026 Rural Organisation For Social Emancipation (ROSE). All rights reserved.
 </div>
-
 
 <div class="footer-bottom-links">
 
@@ -1215,9 +1249,6 @@ Terms of Use
 
 </footer>
 
-
-<!-- ==================== CONTACT FORM JAVASCRIPT ==================== -->
-
 <script>
 
 const contactForm=document.getElementById("contactForm");
@@ -1234,15 +1265,9 @@ const sendMessageBtn=document.getElementById("sendMessageBtn");
 
 const contactFormMessage=document.getElementById("contactFormMessage");
 
-
-/* ==================== FORM SUBMISSION ==================== */
-
 contactForm.addEventListener("submit",async function(event){
 
 event.preventDefault();
-
-
-/* ==================== GET VALUES ==================== */
 
 const nameValue=contactName.value.trim();
 
@@ -1251,9 +1276,6 @@ const emailValue=contactEmail.value.trim();
 const subjectValue=contactSubject.value.trim();
 
 const messageValue=contactMessage.value.trim();
-
-
-/* ==================== VALIDATE NAME ==================== */
 
 if(!nameValue){
 
@@ -1269,9 +1291,6 @@ return;
 
 }
 
-
-/* ==================== VALIDATE EMAIL ==================== */
-
 if(!emailValue||!contactEmail.checkValidity()){
 
 contactFormMessage.textContent="Please enter a valid email address.";
@@ -1285,9 +1304,6 @@ contactEmail.focus();
 return;
 
 }
-
-
-/* ==================== VALIDATE MESSAGE ==================== */
 
 if(!messageValue){
 
@@ -1303,9 +1319,6 @@ return;
 
 }
 
-
-/* ==================== VALIDATE MESSAGE LENGTH ==================== */
-
 if(messageValue.length>500){
 
 contactFormMessage.textContent="Message must not exceed 500 characters.";
@@ -1318,24 +1331,15 @@ return;
 
 }
 
-
-/* ==================== DISABLE BUTTON ==================== */
-
 sendMessageBtn.disabled=true;
 
 sendMessageBtn.textContent="Sending...";
-
-
-/* ==================== SHOW PROCESSING MESSAGE ==================== */
 
 contactFormMessage.textContent="Sending your message...";
 
 contactFormMessage.className="form-message";
 
 contactFormMessage.style.display="block";
-
-
-/* ==================== SEND TO FLASK ==================== */
 
 try{
 
@@ -1355,15 +1359,11 @@ message:messageValue
 }
 );
 
-
-/* ==================== CHECK SERVER RESPONSE ==================== */
-
 const responseText=await response.text();
 
 console.log("Server status:",response.status);
 
 console.log("Server response:",responseText);
-
 
 let data;
 
@@ -1384,9 +1384,6 @@ throw new Error(
 
 }
 
-
-/* ==================== SUCCESS ==================== */
-
 if(response.ok&&data.success===true){
 
 contactFormMessage.textContent=
@@ -1397,21 +1394,12 @@ contactFormMessage.className=
 
 contactFormMessage.style.display="block";
 
-
-/* Clear the form after successful submission. */
-
 contactForm.reset();
-
-
-/* Keep success message visible. */
 
 contactFormMessage.scrollIntoView({
 behavior:"smooth",
 block:"center"
 });
-
-
-/* ==================== ERROR FROM FLASK ==================== */
 
 }else{
 
@@ -1428,9 +1416,6 @@ contactFormMessage.style.display="block";
 
 }
 
-
-/* ==================== CONNECTION ERROR ==================== */
-
 catch(error){
 
 console.error(
@@ -1446,9 +1431,6 @@ contactFormMessage.className="form-message error";
 contactFormMessage.style.display="block";
 
 }
-
-
-/* ==================== RESTORE BUTTON ==================== */
 
 finally{
 
