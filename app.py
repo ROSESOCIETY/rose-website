@@ -1043,6 +1043,292 @@ def subscribe():
 
 
 # ==========================================================
+# DONATION VERIFICATION EMAILS
+# ==========================================================
+#
+# This function:
+# 1. Sends a confirmation email to the donor.
+# 2. Sends a notification email to ROSE.
+#
+# It runs in the background so the donor does not have to
+# wait for the SMTP email process before receiving the API
+# response.
+# ==========================================================
+
+def send_donation_emails(
+    name,
+    email,
+    phone,
+    pan,
+    amount,
+    transaction_id,
+    transaction_date,
+    bank_name,
+    account_holder_name,
+    last_four_digits,
+    donation_type,
+    payment_method,
+    submitted_at
+):
+
+    # ------------------------------------------------------
+    # EMAIL TO THE DONOR
+    # ------------------------------------------------------
+
+    donor_subject = (
+        "ROSE Donation Verification Received"
+    )
+
+    donor_body = f"""
+Dear {name},
+
+Thank you for supporting the Rural Organisation for Social Emancipation (ROSE).
+
+We have successfully received your donation details for verification.
+
+Donation Amount:
+{amount}
+
+Transaction / UTR Number:
+{transaction_id}
+
+Transaction Date:
+{transaction_date}
+
+Bank Name:
+{bank_name}
+
+Account Holder Name:
+{account_holder_name}
+
+Last 4 Digits of Bank Account:
+{last_four_digits}
+
+Payment Method:
+{payment_method}
+
+Submitted On:
+{submitted_at}
+
+Our team will verify the transaction against our bank records.
+
+Please note that this email confirms receipt of your verification details. It does not by itself confirm that the transaction has been successfully verified.
+
+Thank you for supporting ROSE.
+
+Regards,
+
+Rural Organisation for Social Emancipation (ROSE)
+
+{ROSE_EMAIL}
+"""
+
+    # Safely escape values before putting them into HTML.
+    safe_name = html.escape(name)
+    safe_email = html.escape(email)
+    safe_phone = html.escape(phone)
+    safe_pan = html.escape(pan) if pan else "Not provided"
+    safe_amount = html.escape(str(amount))
+    safe_transaction_id = html.escape(transaction_id)
+    safe_transaction_date = html.escape(transaction_date)
+    safe_bank_name = html.escape(bank_name)
+    safe_account_holder_name = html.escape(
+        account_holder_name
+    )
+    safe_last_four_digits = html.escape(
+        last_four_digits
+    )
+    safe_donation_type = html.escape(
+        donation_type
+    )
+    safe_payment_method = html.escape(
+        payment_method
+    )
+    safe_submitted_at = html.escape(
+        submitted_at
+    )
+
+    donor_html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+<title>ROSE Donation Verification</title>
+</head>
+
+<body style="
+margin:0;
+padding:30px;
+background:#f3f3f3;
+font-family:Arial,Helvetica,sans-serif;
+color:#444;
+">
+
+<div style="
+max-width:640px;
+margin:auto;
+background:#ffffff;
+border-radius:16px;
+padding:35px;
+">
+
+<h1 style="
+text-align:center;
+color:#34472b;
+">
+Donation details received.
+</h1>
+
+<p>
+Dear {safe_name},
+</p>
+
+<p style="line-height:1.6;">
+Thank you for supporting the Rural Organisation
+for Social Emancipation (ROSE).
+</p>
+
+<p style="line-height:1.6;">
+We have successfully received your donation
+details for verification.
+</p>
+
+<div style="
+background:#f7f8f9;
+border-radius:10px;
+padding:18px;
+">
+
+<strong>Donation Amount</strong>
+<p>{safe_amount}</p>
+
+<strong>Transaction / UTR Number</strong>
+<p>{safe_transaction_id}</p>
+
+<strong>Transaction Date</strong>
+<p>{safe_transaction_date}</p>
+
+<strong>Bank Name</strong>
+<p>{safe_bank_name}</p>
+
+<strong>Account Holder Name</strong>
+<p>{safe_account_holder_name}</p>
+
+<strong>Last 4 Digits of Bank Account</strong>
+<p>{safe_last_four_digits}</p>
+
+<strong>Payment Method</strong>
+<p>{safe_payment_method}</p>
+
+<strong>Submitted On</strong>
+<p>{safe_submitted_at}</p>
+
+</div>
+
+<p style="line-height:1.6;">
+Our team will verify the transaction against
+our bank records.
+</p>
+
+<p style="line-height:1.6;">
+Please note that this email confirms receipt of
+your verification details. It does not by itself
+confirm that the transaction has been successfully
+verified.
+</p>
+
+<hr>
+
+<p>
+Regards,<br>
+<strong>
+Rural Organisation for Social Emancipation (ROSE)
+</strong>
+<br>
+{ROSE_EMAIL}
+</p>
+
+</div>
+
+</body>
+</html>
+"""
+
+    send_email(
+        email,
+        donor_subject,
+        donor_body,
+        donor_html
+    )
+
+    # ------------------------------------------------------
+    # EMAIL TO ROSE
+    # ------------------------------------------------------
+
+    rose_subject = (
+        "New ROSE Donation Verification Submission"
+    )
+
+    rose_body = f"""
+A new donation verification submission has been received.
+
+DONOR DETAILS
+-------------
+
+Name:
+{name}
+
+Email:
+{email}
+
+Phone:
+{phone}
+
+PAN:
+{pan if pan else "Not provided"}
+
+Donation Amount:
+{amount}
+
+Transaction / UTR Number:
+{transaction_id}
+
+Transaction Date:
+{transaction_date}
+
+Bank Name:
+{bank_name}
+
+Account Holder Name:
+{account_holder_name}
+
+Last 4 Digits of Donor's Bank Account:
+{last_four_digits}
+
+Donation Type:
+{donation_type}
+
+Payment Method:
+{payment_method}
+
+Submitted On:
+{submitted_at}
+
+The donation details have been saved in:
+
+donorDetails.txt
+"""
+
+    send_email(
+        ROSE_EMAIL,
+        rose_subject,
+        rose_body
+    )
+
+
+# ==========================================================
 # CONTACT EMAILS
 # ==========================================================
 
@@ -1270,6 +1556,488 @@ The contact message has been saved in contacts.txt.
         rose_subject,
         rose_body
     )
+
+
+# ==========================================================
+# DONATION VERIFICATION API
+# ==========================================================
+#
+# IMPORTANT:
+#
+# /donate.html
+#     = displays the Donate page
+#
+# /donate
+#     = receives donation verification submissions
+#
+# The frontend donate.html must POST JSON data to:
+#
+# https://rose-website-pz0t.onrender.com/donate
+#
+# ==========================================================
+
+@app.route(
+    "/donate",
+    methods=["POST"]
+)
+def submit_donation():
+
+    # ------------------------------------------------------
+    # READ JSON DATA FROM DONATE PAGE
+    # ------------------------------------------------------
+
+    data = get_json_data()
+
+    name = data.get(
+        "name",
+        ""
+    )
+
+    email = data.get(
+        "email",
+        ""
+    )
+
+    phone = data.get(
+        "phone",
+        ""
+    )
+
+    pan = data.get(
+        "pan",
+        ""
+    )
+
+    amount = data.get(
+        "amount",
+        ""
+    )
+
+    transaction_id = data.get(
+        "transaction_id",
+        ""
+    )
+
+    transaction_date = data.get(
+        "transaction_date",
+        ""
+    )
+
+    bank_name = data.get(
+        "bank_name",
+        ""
+    )
+
+    account_holder_name = data.get(
+        "account_holder_name",
+        ""
+    )
+
+    last_four_digits = data.get(
+        "last_four_digits",
+        ""
+    )
+
+    donation_type = data.get(
+        "donation_type",
+        "Post-Payment Verification"
+    )
+
+    payment_method = data.get(
+        "payment_method",
+        "UPI / Bank Transfer"
+    )
+
+    # ------------------------------------------------------
+    # MAKE SURE VALUES ARE STRINGS WHERE APPROPRIATE
+    # ------------------------------------------------------
+
+    if not isinstance(name, str):
+        name = ""
+
+    if not isinstance(email, str):
+        email = ""
+
+    if not isinstance(phone, str):
+        phone = ""
+
+    if not isinstance(pan, str):
+        pan = ""
+
+    if not isinstance(transaction_id, str):
+        transaction_id = ""
+
+    if not isinstance(transaction_date, str):
+        transaction_date = ""
+
+    if not isinstance(bank_name, str):
+        bank_name = ""
+
+    if not isinstance(account_holder_name, str):
+        account_holder_name = ""
+
+    if not isinstance(last_four_digits, str):
+        last_four_digits = ""
+
+    if not isinstance(donation_type, str):
+        donation_type = ""
+
+    if not isinstance(payment_method, str):
+        payment_method = ""
+
+    # ------------------------------------------------------
+    # CLEAN INPUT
+    # ------------------------------------------------------
+
+    name = name.strip()
+    email = email.strip()
+    phone = phone.strip()
+    pan = pan.strip().upper()
+    transaction_id = transaction_id.strip()
+    transaction_date = transaction_date.strip()
+    bank_name = bank_name.strip()
+    account_holder_name = account_holder_name.strip()
+    last_four_digits = last_four_digits.strip()
+    donation_type = donation_type.strip()
+    payment_method = payment_method.strip()
+
+    # ------------------------------------------------------
+    # VALIDATE NAME
+    # ------------------------------------------------------
+
+    if not name:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter your full name."
+        }), 400
+
+    if len(name) > 100:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Name must not exceed 100 characters."
+        }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE EMAIL
+    # ------------------------------------------------------
+
+    if not valid_email(email):
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter a valid email address."
+        }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE PHONE
+    # ------------------------------------------------------
+
+    if not phone:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter your phone number."
+        }), 400
+
+    if len(phone) > 30:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Phone number is too long."
+        }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE AMOUNT
+    # ------------------------------------------------------
+
+    try:
+
+        amount_value = float(amount)
+
+    except (
+        TypeError,
+        ValueError
+    ):
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter a valid donation amount."
+        }), 400
+
+    if amount_value <= 0:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Donation amount must be greater than zero."
+        }), 400
+
+    # Keep the amount in a clean format.
+    amount = f"{amount_value:.2f}"
+
+    # ------------------------------------------------------
+    # VALIDATE TRANSACTION ID
+    # ------------------------------------------------------
+
+    if not transaction_id:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter your transaction or UTR number."
+        }), 400
+
+    if len(transaction_id) > 100:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Transaction / UTR number is too long."
+        }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE TRANSACTION DATE
+    # ------------------------------------------------------
+
+    if not transaction_date:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter the transaction date."
+        }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE BANK NAME
+    # ------------------------------------------------------
+
+    if not bank_name:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter the bank name."
+        }), 400
+
+    if len(bank_name) > 100:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Bank name must not exceed 100 characters."
+        }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE ACCOUNT HOLDER NAME
+    # ------------------------------------------------------
+
+    if not account_holder_name:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter the account holder name."
+        }), 400
+
+    if len(account_holder_name) > 100:
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Account holder name must not exceed 100 characters."
+        }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE LAST FOUR DIGITS
+    # ------------------------------------------------------
+
+    if not re.fullmatch(
+        r"[0-9]{4}",
+        last_four_digits
+    ):
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Please enter the last 4 digits of your bank account."
+        }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE PAN IF PROVIDED
+    # ------------------------------------------------------
+
+    if pan:
+
+        if not re.fullmatch(
+            r"[A-Z]{5}[0-9]{4}[A-Z]",
+            pan
+        ):
+
+            return jsonify({
+                "success": False,
+                "message":
+                    "Please enter a valid PAN number."
+            }), 400
+
+    # ------------------------------------------------------
+    # VALIDATE DONATION TYPE / PAYMENT METHOD
+    # ------------------------------------------------------
+
+    if not donation_type:
+
+        donation_type = (
+            "Post-Payment Verification"
+        )
+
+    if not payment_method:
+
+        payment_method = (
+            "UPI / Bank Transfer"
+        )
+
+    # ------------------------------------------------------
+    # RECORD SUBMISSION TIME
+    # ------------------------------------------------------
+
+    submitted_at = now_ist()
+
+    # ------------------------------------------------------
+    # CLEAN VALUES BEFORE SAVING
+    # ------------------------------------------------------
+
+    clean_name = clean_line(name)
+    clean_email = clean_line(email)
+    clean_phone = clean_line(phone)
+    clean_pan = clean_line(pan)
+    clean_transaction_id = clean_line(
+        transaction_id
+    )
+    clean_transaction_date = clean_line(
+        transaction_date
+    )
+    clean_bank_name = clean_line(
+        bank_name
+    )
+    clean_account_holder_name = clean_line(
+        account_holder_name
+    )
+    clean_last_four_digits = clean_line(
+        last_four_digits
+    )
+    clean_donation_type = clean_line(
+        donation_type
+    )
+    clean_payment_method = clean_line(
+        payment_method
+    )
+
+    # ------------------------------------------------------
+    # SAVE DONATION TO donorDetails.txt
+    # ------------------------------------------------------
+
+    try:
+
+        with DONOR_FILE.open(
+            "a",
+            encoding="utf-8"
+        ) as file:
+
+            file.write(
+                f"{submitted_at} | "
+                f"Name: {clean_name} | "
+                f"Email: {clean_email} | "
+                f"Phone: {clean_phone} | "
+                f"PAN: {clean_pan if clean_pan else 'Not provided'} | "
+                f"Amount: {amount} | "
+                f"Transaction ID: {clean_transaction_id} | "
+                f"Transaction Date: {clean_transaction_date} | "
+                f"Bank Name: {clean_bank_name} | "
+                f"Account Holder Name: {clean_account_holder_name} | "
+                f"Last 4 Digits: {clean_last_four_digits} | "
+                f"Donation Type: {clean_donation_type} | "
+                f"Payment Method: {clean_payment_method}\n"
+            )
+
+    except OSError as error:
+
+        print(
+            f"Donation file error: {error}"
+        )
+
+        return jsonify({
+            "success": False,
+            "message":
+                "Unable to save your donation details. "
+                "Please try again."
+        }), 500
+
+    # ------------------------------------------------------
+    # PRINT SUBMISSION TO RENDER LOGS
+    # ------------------------------------------------------
+
+    print(
+        f"New donation verification: "
+        f"{clean_name} | "
+        f"{clean_email} | "
+        f"Amount: {amount} | "
+        f"Transaction: {clean_transaction_id} | "
+        f"{submitted_at}"
+    )
+
+    # ------------------------------------------------------
+    # SEND BOTH EMAILS IN BACKGROUND
+    # ------------------------------------------------------
+
+    run_in_background(
+        send_donation_emails,
+
+        clean_name,
+
+        clean_email,
+
+        clean_phone,
+
+        clean_pan,
+
+        amount,
+
+        clean_transaction_id,
+
+        clean_transaction_date,
+
+        clean_bank_name,
+
+        clean_account_holder_name,
+
+        clean_last_four_digits,
+
+        clean_donation_type,
+
+        clean_payment_method,
+
+        submitted_at
+    )
+
+    # ------------------------------------------------------
+    # RETURN JSON TO donate.html
+    # ------------------------------------------------------
+
+    return jsonify({
+
+        "success": True,
+
+        "message":
+            "Donation details submitted successfully."
+
+    }), 200
 
 
 # ==========================================================
