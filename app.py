@@ -2187,6 +2187,27 @@ def gallery_image(
     )
 
 
+
+# ==========================================================
+# PUBLIC STATIC FILES
+# ==========================================================
+
+@app.route("/rose_logo.png")
+def rose_logo():
+    return send_from_directory(
+        BASE_DIR,
+        "rose_logo.png"
+    )
+
+
+@app.route("/gallery_js.js")
+def gallery_js():
+    return send_from_directory(
+        BASE_DIR,
+        "gallery_js.js"
+    )
+
+
 # ==========================================================
 # START SERVER
 # ==========================================================
