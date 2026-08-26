@@ -1,774 +1,1167 @@
 """
+
 ROSE Website Backend
 
 Handles:
-- Website pages
-- Newsletter subscriptions
-- Contact Us submissions
-- Post-payment donation verification
-- Confirmation and notification emails
-- Private admin login and data viewing
-- Admin gallery uploads and deletion
+
+\- Website pages
+
+\- Newsletter subscriptions
+
+\- Contact Us submissions
+
+\- Post-payment donation verification
+
+\- Confirmation and notification emails
+
+\- Private admin login and data viewing
+
+\- Admin gallery uploads and deletion
+
 """
 
 from flask import (
-    Flask,
-    request,
-    jsonify,
-    send_from_directory,
-    session,
-    redirect
+
+    Flask,
+
+    request,
+
+    jsonify,
+
+    send\_from\_directory,
+
+    session,
+
+    redirect
+
 )
 
 from pathlib import Path
+
 from datetime import datetime
+
 from email.message import EmailMessage
-from dotenv import load_dotenv
-from flask_cors import CORS
-from werkzeug.utils import secure_filename
+
+from dotenv import load\_dotenv
+
+from flask\_cors import CORS
+
+from werkzeug.utils import secure\_filename
 
 import smtplib
+
 import os
+
 import re
+
 import threading
+
 import html
+
 import json
 
 
-# ==========================================================
-# ENVIRONMENT
-# ==========================================================
 
-load_dotenv()
+\# ==========================================================
 
-app = Flask(__name__)
+\# ENVIRONMENT
 
-BASE_DIR = Path(__file__).resolve().parent
+\# ==========================================================
 
-app.secret_key = os.getenv(
-    "FLASK_SECRET_KEY",
-    "CHANGE-THIS-SECRET-KEY"
+load\_dotenv()
+
+app = Flask(\_\_name\_\_)
+
+BASE\_DIR = Path(\_\_file\_\_).resolve().parent
+
+app.secret\_key = os.getenv(
+
+    "FLASK\_SECRET\_KEY",
+
+    "CHANGE-THIS-SECRET-KEY"
+
 )
 
-frontend_origin = os.getenv(
-    "FRONTEND_ORIGIN",
-    "*"
+frontend\_origin = os.getenv(
+
+    "FRONTEND\_ORIGIN",
+
+    "\*"
+
 )
 
 CORS(
-    app,
-    origins=frontend_origin
+
+    app,
+
+    origins=frontend\_origin
+
 )
 
 
-# ==========================================================
-# DATA FILES
-# ==========================================================
 
-PRIVATE_DATA_FOLDER = BASE_DIR / "private_data"
-PRIVATE_DATA_FOLDER.mkdir(exist_ok=True)
+\# ==========================================================
 
-SUBSCRIBER_FILE = (
-    PRIVATE_DATA_FOLDER / "subscribers.txt"
+\# DATA FILES
+
+\# ==========================================================
+
+PRIVATE\_DATA\_FOLDER = BASE\_DIR / "private\_data"
+
+PRIVATE\_DATA\_FOLDER.mkdir(exist\_ok=True)
+
+SUBSCRIBER\_FILE = (
+
+    PRIVATE\_DATA\_FOLDER / "subscribers.txt"
+
 )
 
-CONTACT_FILE = (
-    PRIVATE_DATA_FOLDER / "contacts.txt"
+CONTACT\_FILE = (
+
+    PRIVATE\_DATA\_FOLDER / "contacts.txt"
+
 )
 
-DONOR_FILE = (
-    PRIVATE_DATA_FOLDER / "donorDetails.txt"
+DONOR\_FILE = (
+
+    PRIVATE\_DATA\_FOLDER / "donorDetails.txt"
+
 )
 
 
-# ==========================================================
-# GALLERY
-# ==========================================================
 
-GALLERY_FOLDER = BASE_DIR / "gallery"
-GALLERY_FOLDER.mkdir(exist_ok=True)
+\# ==========================================================
 
-GALLERY_JSON_FILE = (
-    BASE_DIR / "gallery_json.json"
+\# GALLERY
+
+\# ==========================================================
+
+GALLERY\_FOLDER = BASE\_DIR / "gallery"
+
+GALLERY\_FOLDER.mkdir(exist\_ok=True)
+
+GALLERY\_JSON\_FILE = (
+
+    BASE\_DIR / "gallery\_json.json"
+
 )
 
-ALLOWED_IMAGE_EXTENSIONS = {
-    "jpg",
-    "jpeg",
-    "png",
-    "webp"
+ALLOWED\_IMAGE\_EXTENSIONS = {
+
+    "jpg",
+
+    "jpeg",
+
+    "png",
+
+    "webp"
+
 }
 
-GALLERY_CATEGORIES = {
-    "essential-support":
-        "Essential Support",
+GALLERY\_CATEGORIES = {
 
-    "education":
-        "Education & Child Development",
+    "essential-support":
 
-    "health":
-        "Health & Well-being",
+        "Essential Support",
 
-    "women":
-        "Women Empowerment",
+    "education":
 
-    "skills":
-        "Skills & Opportunities",
+        "Education & Child Development",
 
-    "livelihoods":
-        "Livelihoods & Employment",
+    "health":
 
-    "social":
-        "Social Empowerment"
+        "Health & Well-being",
+
+    "women":
+
+        "Women Empowerment",
+
+    "skills":
+
+        "Skills & Opportunities",
+
+    "livelihoods":
+
+        "Livelihoods & Employment",
+
+    "social":
+
+        "Social Empowerment"
+
 }
 
 
-# ==========================================================
-# ROSE EMAIL
-# ==========================================================
 
-ROSE_EMAIL = "roseorg22@gmail.com"
+\# ==========================================================
+
+\# ROSE EMAIL
+
+\# ==========================================================
+
+ROSE\_EMAIL = "roseorg22\@gmail.com"
 
 
-# ==========================================================
-# SMTP
-# ==========================================================
 
-SMTP_HOST = "smtp.gmail.com"
-SMTP_PORT = 587
+\# ==========================================================
 
-SMTP_EMAIL = os.getenv(
-    "SMTP_EMAIL"
+\# SMTP
+
+\# ==========================================================
+
+SMTP\_HOST = "smtp.gmail.com"
+
+SMTP\_PORT = 587
+
+SMTP\_EMAIL = os.getenv(
+
+    "SMTP\_EMAIL"
+
 )
 
-SMTP_PASSWORD = os.getenv(
-    "SMTP_PASSWORD"
-)
+SMTP\_PASSWORD = os.getenv(
 
+    "SMTP\_PASSWORD"
 
-# ==========================================================
-# ADMIN
-# ==========================================================
-
-ADMIN_USERNAME = os.getenv(
-    "ADMIN_USERNAME"
-)
-
-ADMIN_PASSWORD = os.getenv(
-    "ADMIN_PASSWORD"
-)
-
-
-# ==========================================================
-# UPI
-# ==========================================================
-
-ROSE_UPI_ID = os.getenv(
-    "ROSE_UPI_ID",
-    ""
-)
-
-ROSE_UPI_NAME = (
-    "Rural Organisation For Social Emancipation"
 )
 
 
-# ==========================================================
-# SESSION SECURITY
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN
+
+\# ==========================================================
+
+ADMIN\_USERNAME = os.getenv(
+
+    "ADMIN\_USERNAME"
+
+)
+
+ADMIN\_PASSWORD = os.getenv(
+
+    "ADMIN\_PASSWORD"
+
+)
+
+
+
+\# ==========================================================
+
+\# UPI
+
+\# ==========================================================
+
+ROSE\_UPI\_ID = os.getenv(
+
+    "ROSE\_UPI\_ID",
+
+    ""
+
+)
+
+ROSE\_UPI\_NAME = (
+
+    "Rural Organisation For Social Emancipation"
+
+)
+
+
+
+\# ==========================================================
+
+\# SESSION SECURITY
+
+\# ==========================================================
 
 app.config.update(
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Lax",
-    SESSION_COOKIE_SECURE=
-        os.getenv(
-            "SESSION_COOKIE_SECURE",
-            "false"
-        ).lower() == "true"
+
+    SESSION\_COOKIE\_HTTPONLY=True,
+
+    SESSION\_COOKIE\_SAMESITE="Lax",
+
+    SESSION\_COOKIE\_SECURE=
+
+        os.getenv(
+
+            "SESSION\_COOKIE\_SECURE",
+
+            "false"
+
+        ).lower() == "true"
+
 )
 
 
-# ==========================================================
-# HELPER FUNCTIONS
-# ==========================================================
 
-def now_ist():
-    return datetime.now().strftime(
-        "%Y-%m-%d %H:%M:%S IST"
-    )
+\# ==========================================================
 
+\# HELPER FUNCTIONS
 
-def clean_line(value):
-    return (
-        str(value)
-        .replace("|", " ")
-        .replace("\r", " ")
-        .replace("\n", " ")
-        .strip()
-    )
+\# ==========================================================
+
+def now\_ist():
+
+    return datetime.now().strftime(
+
+        "%Y-%m-%d %H:%M:%S IST"
+
+    )
 
 
-def valid_email(email):
-    pattern = (
-        r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+"
-        r"@[A-Za-z0-9-]+"
-        r"(?:\.[A-Za-z0-9-]+)+$"
-    )
 
-    return (
-        bool(
-            re.fullmatch(
-                pattern,
-                email
-            )
-        )
-        and len(email) <= 254
-    )
+def clean\_line(value):
 
+    return (
 
-def get_json_data():
-    if not request.is_json:
-        return {}
+        str(value)
 
-    try:
-        data = request.get_json(
-            silent=True
-        )
+        .replace("|", " ")
 
-        if isinstance(
-            data,
-            dict
-        ):
-            return data
+        .replace("\r", " ")
 
-        return {}
+        .replace("\n", " ")
 
-    except Exception as error:
-        print(
-            f"JSON parsing error: {error}"
-        )
-        return {}
+        .strip()
+
+    )
 
 
-def send_email(
-    receiver,
-    subject,
-    body,
-    html_body=None
+
+def valid\_email(email):
+
+    pattern = (
+
+        r"^[A-Za-z0-9.!#$%&'\*+/=?^\_\`{|}\~-]+"
+
+        r"@[A-Za-z0-9-]+"
+
+        r"(?:**\\.**[A-Za-z0-9-]+)+$"
+
+    )
+
+    return (
+
+        bool(
+
+            re.fullmatch(
+
+                pattern,
+
+                email
+
+            )
+
+        )
+
+        and len(email) <= 254
+
+    )
+
+
+
+def get\_json\_data():
+
+    if not request.is\_json:
+
+        return {}
+
+    try:
+
+        data = request.get\_json(
+
+            silent=True
+
+        )
+
+        if isinstance(
+
+            data,
+
+            dict
+
+        ):
+
+            return data
+
+        return {}
+
+    except Exception as error:
+
+        print(
+
+            f"JSON parsing error: {error}"
+
+        )
+
+        return {}
+
+
+
+def send\_email(
+
+    receiver,
+
+    subject,
+
+    body,
+
+    html\_body=None
+
 ):
 
-    if not SMTP_EMAIL or not SMTP_PASSWORD:
-        print(
-            "SMTP email credentials are not configured."
-        )
-        return False
+    if not SMTP\_EMAIL or not SMTP\_PASSWORD:
 
-    try:
+        print(
 
-        message = EmailMessage()
+            "SMTP email credentials are not configured."
 
-        message["From"] = SMTP_EMAIL
-        message["To"] = receiver
-        message["Subject"] = subject
+        )
 
-        message.set_content(
-            body
-        )
+        return False
 
-        if html_body:
-            message.add_alternative(
-                html_body,
-                subtype="html"
-            )
+    try:
 
-        with smtplib.SMTP(
-            SMTP_HOST,
-            SMTP_PORT
-        ) as server:
+        message = EmailMessage()
 
-            server.starttls()
+        message["From"] = SMTP\_EMAIL
 
-            server.login(
-                SMTP_EMAIL,
-                SMTP_PASSWORD
-            )
+        message["To"] = receiver
 
-            server.send_message(
-                message
-            )
+        message["Subject"] = subject
 
-        print(
-            f"Email sent successfully to: {receiver}"
-        )
+        message.set\_content(
 
-        return True
+            body
 
-    except Exception as error:
+        )
 
-        print(
-            f"Email error for {receiver}: {error}"
-        )
+        if html\_body:
 
-        return False
+            message.add\_alternative(
+
+                html\_body,
+
+                subtype="html"
+
+            )
+
+        with smtplib.SMTP(
+
+            SMTP\_HOST,
+
+            SMTP\_PORT
+
+        ) as server:
+
+            server.starttls()
+
+            server.login(
+
+                SMTP\_EMAIL,
+
+                SMTP\_PASSWORD
+
+            )
+
+            server.send\_message(
+
+                message
+
+            )
+
+        print(
+
+            f"Email sent successfully to: {receiver}"
+
+        )
+
+        return True
+
+    except Exception as error:
+
+        print(
+
+            f"Email error for {receiver}: {error}"
+
+        )
+
+        return False
 
 
-def run_in_background(
-    function,
-    *args
+
+def run\_in\_background(
+
+    function,
+
+    \*args
+
 ):
 
-    thread = threading.Thread(
-        target=function,
-        args=args,
-        daemon=True
-    )
+    thread = threading.Thread(
 
-    thread.start()
+        target=function,
 
+        args=args,
 
-def already_subscribed(email):
+        daemon=True
 
-    if not SUBSCRIBER_FILE.exists():
-        return False
+    )
 
-    with SUBSCRIBER_FILE.open(
-        "r",
-        encoding="utf-8"
-    ) as file:
-
-        for line in file:
-
-            line = line.strip()
-
-            if (
-                not line
-                or line.startswith("#")
-            ):
-                continue
-
-            saved_email = (
-                line
-                .split("|", 1)[0]
-                .strip()
-            )
-
-            if (
-                saved_email.lower()
-                == email.lower()
-            ):
-                return True
-
-    return False
+    thread.start()
 
 
-# ==========================================================
-# GALLERY JSON HELPERS
-# ==========================================================
 
-def default_gallery_data():
+def already\_subscribed(email):
 
-    return {
-        "sections": [
+    if not SUBSCRIBER\_FILE.exists():
 
-            {
-                "id":
-                    "essential-support",
+        return False
 
-                "title":
-                    "Essential Support",
+    with SUBSCRIBER\_FILE.open(
 
-                "photos": []
-            },
+        "r",
 
-            {
-                "id":
-                    "education",
+        encoding="utf-8"
 
-                "title":
-                    "Education & Child Development",
+    ) as file:
 
-                "photos": []
-            },
+        for line in file:
 
-            {
-                "id":
-                    "health",
+            line = line.strip()
 
-                "title":
-                    "Health & Well-being",
+            if (
 
-                "photos": []
-            },
+                not line
 
-            {
-                "id":
-                    "women",
+                or line.startswith("#")
 
-                "title":
-                    "Women Empowerment",
+            ):
 
-                "photos": []
-            },
+                continue
 
-            {
-                "id":
-                    "skills",
+            saved\_email = (
 
-                "title":
-                    "Skills & Opportunities",
+                line
 
-                "photos": []
-            },
+                .split("|", 1)[0]
 
-            {
-                "id":
-                    "livelihoods",
+                .strip()
 
-                "title":
-                    "Livelihoods & Employment",
+            )
 
-                "photos": []
-            },
+            if (
 
-            {
-                "id":
-                    "social",
+                saved\_email.lower()
 
-                "title":
-                    "Social Empowerment",
+                == email.lower()
 
-                "photos": []
-            }
-        ]
-    }
+            ):
+
+                return True
+
+    return False
 
 
-def save_gallery_data(data):
 
-    try:
+\# ==========================================================
 
-        with GALLERY_JSON_FILE.open(
-            "w",
-            encoding="utf-8"
-        ) as file:
+\# GALLERY JSON HELPERS
 
-            json.dump(
-                data,
-                file,
-                indent=2,
-                ensure_ascii=False
-            )
+\# ==========================================================
 
-        return True
+def default\_gallery\_data():
 
-    except OSError as error:
+    return {
 
-        print(
-            f"Gallery JSON save error: {error}"
-        )
+        "sections": [
 
-        return False
+            {
+
+                "id":
+
+                    "essential-support",
+
+                "title":
+
+                    "Essential Support",
+
+                "photos": []
+
+            },
+
+            {
+
+                "id":
+
+                    "education",
+
+                "title":
+
+                    "Education & Child Development",
+
+                "photos": []
+
+            },
+
+            {
+
+                "id":
+
+                    "health",
+
+                "title":
+
+                    "Health & Well-being",
+
+                "photos": []
+
+            },
+
+            {
+
+                "id":
+
+                    "women",
+
+                "title":
+
+                    "Women Empowerment",
+
+                "photos": []
+
+            },
+
+            {
+
+                "id":
+
+                    "skills",
+
+                "title":
+
+                    "Skills & Opportunities",
+
+                "photos": []
+
+            },
+
+            {
+
+                "id":
+
+                    "livelihoods",
+
+                "title":
+
+                    "Livelihoods & Employment",
+
+                "photos": []
+
+            },
+
+            {
+
+                "id":
+
+                    "social",
+
+                "title":
+
+                    "Social Empowerment",
+
+                "photos": []
+
+            }
+
+        ]
+
+    }
 
 
-def load_gallery_data():
 
-    if not GALLERY_JSON_FILE.exists():
+def save\_gallery\_data(data):
 
-        data = default_gallery_data()
+    try:
 
-        save_gallery_data(data)
+        with GALLERY\_JSON\_FILE.open(
 
-        return data
+            "w",
 
-    try:
+            encoding="utf-8"
 
-        with GALLERY_JSON_FILE.open(
-            "r",
-            encoding="utf-8"
-        ) as file:
+        ) as file:
 
-            data = json.load(file)
+            json.dump(
 
-        if (
-            not isinstance(data, dict)
-            or not isinstance(
-                data.get("sections"),
-                list
-            )
-        ):
+                data,
 
-            raise ValueError(
-                "Invalid gallery JSON structure."
-            )
+                file,
 
-        return data
+                indent=2,
 
-    except (
-        OSError,
-        json.JSONDecodeError,
-        ValueError
-    ) as error:
+                ensure\_ascii=False
 
-        print(
-            f"Gallery JSON error: {error}"
-        )
+            )
 
-        return default_gallery_data()
+        return True
+
+    except OSError as error:
+
+        print(
+
+            f"Gallery JSON save error: {error}"
+
+        )
+
+        return False
 
 
-def find_gallery_section(
-    data,
-    section_id
+
+def load\_gallery\_data():
+
+    if not GALLERY\_JSON\_FILE.exists():
+
+        data = default\_gallery\_data()
+
+        save\_gallery\_data(data)
+
+        return data
+
+    try:
+
+        with GALLERY\_JSON\_FILE.open(
+
+            "r",
+
+            encoding="utf-8"
+
+        ) as file:
+
+            data = json.load(file)
+
+        if (
+
+            not isinstance(data, dict)
+
+            or not isinstance(
+
+                data.get("sections"),
+
+                list
+
+            )
+
+        ):
+
+            raise ValueError(
+
+                "Invalid gallery JSON structure."
+
+            )
+
+        return data
+
+    except (
+
+        OSError,
+
+        json.JSONDecodeError,
+
+        ValueError
+
+    ) as error:
+
+        print(
+
+            f"Gallery JSON error: {error}"
+
+        )
+
+        return default\_gallery\_data()
+
+
+
+def find\_gallery\_section(
+
+    data,
+
+    section\_id
+
 ):
 
-    for section in data.get(
-        "sections",
-        []
-    ):
+    for section in data.get(
 
-        if section.get(
-            "id"
-        ) == section_id:
+        "sections",
 
-            return section
+        []
 
-    return None
+    ):
+
+        if section.get(
+
+            "id"
+
+        ) == section\_id:
+
+            return section
+
+    return None
 
 
-def find_gallery_photo(
-    data,
-    filename
+
+def find\_gallery\_photo(
+
+    data,
+
+    filename
+
 ):
 
-    for section in data.get(
-        "sections",
-        []
-    ):
+    for section in data.get(
 
-        for photo in section.get(
-            "photos",
-            []
-        ):
+        "sections",
 
-            if photo.get(
-                "filename"
-            ) == filename:
+        []
 
-                return section, photo
+    ):
 
-            if photo.get(
-                "file"
-            ) == f"/gallery/{filename}":
+        for photo in section.get(
 
-                return section, photo
+            "photos",
 
-            if photo.get(
-                "file"
-            ) == f"gallery/{filename}":
+            []
 
-                return section, photo
+        ):
 
-    return None, None
+            if photo.get(
+
+                "filename"
+
+            ) == filename:
+
+                return section, photo
+
+            if photo.get(
+
+                "file"
+
+            ) == f"/gallery/{filename}":
+
+                return section, photo
+
+            if photo.get(
+
+                "file"
+
+            ) == f"gallery/{filename}":
+
+                return section, photo
+
+    return None, None
 
 
-def add_image_to_gallery_json(
-    filename,
-    category,
-    title
+
+def add\_image\_to\_gallery\_json(
+
+    filename,
+
+    category,
+
+    title
+
 ):
 
-    data = load_gallery_data()
+    data = load\_gallery\_data()
 
-    section = find_gallery_section(
-        data,
-        category
-    )
+    section = find\_gallery\_section(
 
-    if section is None:
-        return False
+        data,
 
-    if "photos" not in section:
-        section["photos"] = []
+        category
 
-    section["photos"].append({
-        "filename":
-            filename,
+    )
 
-        "file":
-            f"/gallery/{filename}",
+    if section is None:
 
-        "title":
-            title
-    })
+        return False
 
-    return save_gallery_data(
-        data
-    )
+    if "photos" not in section:
+
+        section["photos"] = []
+
+    section["photos"].append({
+
+        "filename":
+
+            filename,
+
+        "file":
+
+            f"/gallery/{filename}",
+
+        "title":
+
+            title
+
+    })
+
+    return save\_gallery\_data(
+
+        data
+
+    )
 
 
-def remove_image_from_gallery_json(
-    filename
+
+def remove\_image\_from\_gallery\_json(
+
+    filename
+
 ):
 
-    data = load_gallery_data()
+    data = load\_gallery\_data()
 
-    for section in data.get(
-        "sections",
-        []
-    ):
+    for section in data.get(
 
-        photos = section.get(
-            "photos",
-            []
-        )
+        "sections",
 
-        original_count = len(
-            photos
-        )
+        []
 
-        section["photos"] = [
+    ):
 
-            photo
+        photos = section.get(
 
-            for photo in photos
+            "photos",
 
-            if (
-                photo.get("filename")
-                != filename
-            )
+            []
 
-            and (
-                photo.get("file")
-                != f"/gallery/{filename}"
-            )
+        )
 
-            and (
-                photo.get("file")
-                != f"gallery/{filename}"
-            )
-        ]
+        original\_count = len(
 
-        if len(
-            section["photos"]
-        ) < original_count:
+            photos
 
-            return save_gallery_data(
-                data
-            )
+        )
 
-    return False
+        section["photos"] = [
+
+            photo
+
+            for photo in photos
+
+            if (
+
+                photo.get("filename")
+
+                != filename
+
+            )
+
+            and (
+
+                photo.get("file")
+
+                != f"/gallery/{filename}"
+
+            )
+
+            and (
+
+                photo.get("file")
+
+                != f"gallery/{filename}"
+
+            )
+
+        ]
+
+        if len(
+
+            section["photos"]
+
+        ) < original\_count:
+
+            return save\_gallery\_data(
+
+                data
+
+            )
+
+    return False
 
 
-# ==========================================================
-# PAGE ROUTES
-# ==========================================================
+
+\# ==========================================================
+
+\# PAGE ROUTES
+
+\# ==========================================================
 
 @app.route("/index.html")
+
 def home():
 
-    return send_from_directory(
-        BASE_DIR,
-        "index.html"
-    )
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "index.html"
+
+    )
+
 
 
 @app.route("/newsletter.html")
+
 def newsletter():
 
-    return send_from_directory(
-        BASE_DIR,
-        "newsletter.html"
-    )
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "newsletter.html"
+
+    )
+
 
 
 @app.route("/contact.html")
-def contact_page():
 
-    return send_from_directory(
-        BASE_DIR,
-        "contact.html"
-    )
+def contact\_page():
+
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "contact.html"
+
+    )
+
 
 
 @app.route("/donate.html")
-def donate_page():
 
-    return send_from_directory(
-        BASE_DIR,
-        "donate.html"
-    )
+def donate\_page():
+
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "donate.html"
+
+    )
+
 
 
 @app.route("/aboutUs.html")
-def about_us():
 
-    return send_from_directory(
-        BASE_DIR,
-        "aboutUs.html"
-    )
+def about\_us():
+
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "aboutUs.html"
+
+    )
+
 
 
 @app.route("/programs.html")
+
 def programs():
 
-    return send_from_directory(
-        BASE_DIR,
-        "programs.html"
-    )
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "programs.html"
+
+    )
+
 
 
 @app.route("/blog.html")
+
 def blog():
 
-    return send_from_directory(
-        BASE_DIR,
-        "blog.html"
-    )
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "blog.html"
+
+    )
 
 
-@app.route("/gallery_html.html")
-def gallery_page():
 
-    return send_from_directory(
-        BASE_DIR,
-        "gallery_html.html"
-    )
+@app.route("/gallery\_html.html")
+
+def gallery\_page():
+
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "gallery\_html.html"
+
+    )
 
 
-# ==========================================================
-# GALLERY JSON ROUTES
-# ==========================================================
 
-@app.route("/gallery_json.json")
-def gallery_json():
+\# ==========================================================
 
-    return jsonify(
-        load_gallery_data()
-    )
+\# GALLERY JSON ROUTES
+
+\# ==========================================================
+
+@app.route("/gallery\_json.json")
+
+def gallery\_json():
+
+    return jsonify(
+
+        load\_gallery\_data()
+
+    )
+
 
 
 @app.route("/api/gallery")
-def gallery_api():
 
-    return jsonify(
-        load_gallery_data()
-    )
+def gallery\_api():
+
+    return jsonify(
+
+        load\_gallery\_data()
+
+    )
 
 
-# ==========================================================
-# NEWSLETTER EMAILS
-# ==========================================================
 
-def send_newsletter_emails(
-    email,
-    subscribed_at
+\# ==========================================================
+
+\# NEWSLETTER EMAILS
+
+\# ==========================================================
+
+def send\_newsletter\_emails(
+
+    email,
+
+    subscribed\_at
+
 ):
 
-    subject = (
-        "ROSE Newsletter Subscription Confirmation"
-    )
+    subject = (
 
-    plain = f"""
+        "ROSE Newsletter Subscription Confirmation"
+
+    )
+
+    plain = f"""
+
 Dear Subscriber,
 
 Thank you for subscribing to the ROSE Newsletter.
@@ -781,10 +1174,12 @@ Subscription Email:
 
 Subscription Date:
 
-{subscribed_at}
+{subscribed\_at}
 
 You will receive updates about our programs,
+
 success stories, events and other activities
+
 of the Rural Organisation for Social Emancipation (ROSE).
 
 Thank you for staying connected with ROSE.
@@ -793,138 +1188,220 @@ Regards,
 
 Rural Organisation for Social Emancipation (ROSE)
 
-{ROSE_EMAIL}
+{ROSE\_EMAIL}
+
 """
 
-    safe_email = html.escape(
-        email
-    )
+    safe\_email = html.escape(
 
-    safe_date = html.escape(
-        subscribed_at
-    )
+        email
 
-    html_body = f"""
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
+    )
+
+    safe\_date = html.escape(
+
+        subscribed\_at
+
+    )
+
+    html\_body = f"""
+
+\<!DOCTYPE html>
+
+\<html>
+
+\<head>
+
+\<meta charset="UTF-8">
+
+\<meta name="viewport"
+
 content="width=device-width,initial-scale=1.0">
-<title>ROSE Newsletter Confirmation</title>
-</head>
 
-<body style="
+\<title>ROSE Newsletter Confirmation\</title>
+
+\</head>
+
+\<body style="
+
 margin:0;
+
 padding:30px;
+
 background:#f3f3f3;
-font-family:Arial,Helvetica,sans-serif;
+
+font-family\:Arial,Helvetica,sans-serif;
+
 color:#444;
+
 ">
 
-<div style="
+\<div style="
+
 max-width:640px;
-margin:auto;
+
+margin\:auto;
+
 background:#fff;
+
 border-radius:16px;
+
 padding:35px;
-box-sizing:border-box;
+
+box-sizing\:border-box;
+
 ">
 
-<h1 style="
-text-align:center;
+\<h1 style="
+
+text-align\:center;
+
 color:#333;
+
 ">
+
 Your subscription has been received.
-</h1>
 
-<p>
+\</h1>
+
+\<p>
+
 Dear Subscriber,
-</p>
 
-<p>
+\</p>
+
+\<p>
+
 Thank you for subscribing to the ROSE Newsletter.
-</p>
 
-<p>
+\</p>
+
+\<p>
+
 Your subscription was successfully received.
-</p>
 
-<div style="
+\</p>
+
+\<div style="
+
 background:#f7f8f9;
+
 border-radius:8px;
+
 padding:16px;
+
 ">
 
-<div style="
+\<div style="
+
 color:#999;
+
 font-size:14px;
+
 ">
+
 Subscription Email
-</div>
 
-<div style="
+\</div>
+
+\<div style="
+
 font-size:16px;
-font-weight:bold;
+
+font-weight\:bold;
+
 color:#1769d1;
-">
-{safe_email}
-</div>
 
-<div style="
+">
+
+{safe\_email}
+
+\</div>
+
+\<div style="
+
 color:#999;
+
 font-size:14px;
+
 margin-top:15px;
+
 ">
+
 Subscription Date
-</div>
 
-<div style="
+\</div>
+
+\<div style="
+
 font-size:16px;
+
 ">
-{safe_date}
-</div>
 
-</div>
+{safe\_date}
 
-<p style="
+\</div>
+
+\</div>
+
+\<p style="
+
 line-height:1.6;
+
 ">
+
 You will receive updates about our programs,
+
 success stories, events and other activities
+
 of the Rural Organisation for Social Emancipation (ROSE).
-</p>
 
-<p>
+\</p>
+
+\<p>
+
 Thank you for staying connected with ROSE.
-</p>
 
-<p>
-Regards,<br>
+\</p>
 
-<strong>
+\<p>
+
+Regards,\<br>
+
+\<strong>
+
 Rural Organisation for Social Emancipation (ROSE)
-</strong>
 
-<br>
+\</strong>
 
-{ROSE_EMAIL}
-</p>
+\<br>
 
-</div>
+{ROSE\_EMAIL}
 
-</body>
-</html>
+\</p>
+
+\</div>
+
+\</body>
+
+\</html>
+
 """
 
-    send_email(
-        email,
-        subject,
-        plain,
-        html_body
-    )
+    send\_email(
 
-    rose_body = f"""
+        email,
+
+        subject,
+
+        plain,
+
+        html\_body
+
+    )
+
+    rose\_body = f"""
+
 A new newsletter subscription has been received.
 
 Subscriber Email:
@@ -933,133 +1410,196 @@ Subscriber Email:
 
 Subscription Date:
 
-{subscribed_at}
+{subscribed\_at}
 
 The subscriber has been added to subscribers.txt.
+
 """
 
-    send_email(
-        ROSE_EMAIL,
-        "New ROSE Newsletter Subscriber",
-        rose_body
-    )
+    send\_email(
+
+        ROSE\_EMAIL,
+
+        "New ROSE Newsletter Subscriber",
+
+        rose\_body
+
+    )
 
 
-# ==========================================================
-# NEWSLETTER API
-# ==========================================================
+
+\# ==========================================================
+
+\# NEWSLETTER API
+
+\# ==========================================================
 
 @app.route(
-    "/subscribe",
-    methods=["POST"]
+
+    "/subscribe",
+
+    methods=["POST"]
+
 )
+
 def subscribe():
 
-    data = get_json_data()
+    data = get\_json\_data()
 
-    email = data.get(
-        "email",
-        ""
-    )
+    email = data.get(
 
-    if not isinstance(
-        email,
-        str
-    ):
+        "email",
 
-        email = ""
+        ""
 
-    email = email.strip()
+    )
 
-    if not valid_email(email):
+    if not isinstance(
 
-        return jsonify({
-            "success":
-                False,
+        email,
 
-            "message":
-                "Please enter a valid email address."
-        }), 400
+        str
 
-    if already_subscribed(email):
+    ):
 
-        return jsonify({
-            "success":
-                False,
+        email = ""
 
-            "message":
-                "This email is already subscribed."
-        }), 200
+    email = email.strip()
 
-    subscribed_at = now_ist()
+    if not valid\_email(email):
 
-    try:
+        return jsonify({
 
-        with SUBSCRIBER_FILE.open(
-            "a",
-            encoding="utf-8"
-        ) as file:
+            "success":
 
-            file.write(
-                f"{email} | subscribed on: "
-                f"{subscribed_at}\n"
-            )
+                False,
 
-    except OSError as error:
+            "message":
 
-        print(
-            f"Subscriber file error: {error}"
-        )
+                "Please enter a valid email address."
 
-        return jsonify({
-            "success":
-                False,
+        }), 400
 
-            "message":
-                "Unable to save your subscription. "
-                "Please try again."
-        }), 500
+    if already\_subscribed(email):
 
-    print(
-        f"New subscriber: {email} | "
-        f"Subscribed on: {subscribed_at}"
-    )
+        return jsonify({
 
-    run_in_background(
-        send_newsletter_emails,
-        email,
-        subscribed_at
-    )
+            "success":
 
-    return jsonify({
-        "success":
-            True,
+                False,
 
-        "message":
-            "Subscribed successfully!"
-    }), 200
+            "message":
+
+                "This email is already subscribed."
+
+        }), 200
+
+    subscribed\_at = now\_ist()
+
+    try:
+
+        with SUBSCRIBER\_FILE.open(
+
+            "a",
+
+            encoding="utf-8"
+
+        ) as file:
+
+            file.write(
+
+                f"{email} | subscribed on: "
+
+                f"{subscribed\_at}\n"
+
+            )
+
+    except OSError as error:
+
+        print(
+
+            f"Subscriber file error: {error}"
+
+        )
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "Unable to save your subscription. "
+
+                "Please try again."
+
+        }), 500
+
+    print(
+
+        f"New subscriber: {email} | "
+
+        f"Subscribed on: {subscribed\_at}"
+
+    )
+
+    run\_in\_background(
+
+        send\_newsletter\_emails,
+
+        email,
+
+        subscribed\_at
+
+    )
+
+    return jsonify({
+
+        "success":
+
+            True,
+
+        "message":
+
+            "Subscribed successfully!"
+
+    }), 200
 
 
-# ==========================================================
-# CONTACT EMAILS
-# ==========================================================
 
-def send_contact_emails(
-    name,
-    email,
-    subject,
-    message,
-    contacted_at
+\# ==========================================================
+
+\# CONTACT EMAILS
+
+\# ==========================================================
+
+def send\_contact\_emails(
+
+    name,
+
+    email,
+
+    subject,
+
+    message,
+
+    contacted\_at
+
 ):
 
-    visitor_subject = (
-        "ROSE Contact Form Confirmation"
-    )
+    visitor\_subject = (
 
-    visitor_body = f"""
+        "ROSE Contact Form Confirmation"
+
+    )
+
+    visitor\_body = f"""
+
 Dear {name},
 
 Thank you for contacting the Rural Organisation
+
 for Social Emancipation (ROSE).
 
 We have successfully received your message.
@@ -1082,9 +1622,10 @@ Your Message:
 
 Submitted on:
 
-{contacted_at}
+{contacted\_at}
 
 Our team will review your message and
+
 get back to you as soon as possible.
 
 Thank you for reaching out to ROSE.
@@ -1093,151 +1634,210 @@ Regards,
 
 Rural Organisation for Social Emancipation (ROSE)
 
-{ROSE_EMAIL}
+{ROSE\_EMAIL}
+
 """
 
-    safe_name = html.escape(name)
-    safe_email = html.escape(email)
-    safe_subject = html.escape(subject)
-    safe_message = html.escape(message)
-    safe_date = html.escape(contacted_at)
+    safe\_name = html.escape(name)
 
-    visitor_html = f"""
-<!DOCTYPE html>
-<html>
+    safe\_email = html.escape(email)
 
-<head>
+    safe\_subject = html.escape(subject)
 
-<meta charset="UTF-8">
+    safe\_message = html.escape(message)
 
-<meta name="viewport"
+    safe\_date = html.escape(contacted\_at)
+
+    visitor\_html = f"""
+
+\<!DOCTYPE html>
+
+\<html>
+
+\<head>
+
+\<meta charset="UTF-8">
+
+\<meta name="viewport"
+
 content="width=device-width,initial-scale=1.0">
 
-<title>ROSE Contact Confirmation</title>
+\<title>ROSE Contact Confirmation\</title>
 
-</head>
+\</head>
 
-<body style="
+\<body style="
+
 margin:0;
+
 padding:30px;
+
 background:#f3f3f3;
-font-family:Arial,Helvetica,sans-serif;
+
+font-family\:Arial,Helvetica,sans-serif;
+
 color:#444;
+
 ">
 
-<div style="
+\<div style="
+
 max-width:640px;
-margin:auto;
+
+margin\:auto;
+
 background:#ffffff;
+
 border-radius:16px;
+
 padding:35px;
+
 ">
 
-<h1 style="
-text-align:center;
+\<h1 style="
+
+text-align\:center;
+
 color:#34472b;
+
 ">
+
 Your message has been received.
-</h1>
 
-<p>
-Dear {safe_name},
-</p>
+\</h1>
 
-<p style="line-height:1.6;">
+\<p>
+
+Dear {safe\_name},
+
+\</p>
+
+\<p style="line-height:1.6;">
+
 Thank you for contacting the Rural Organisation
+
 for Social Emancipation (ROSE).
-</p>
 
-<p style="line-height:1.6;">
+\</p>
+
+\<p style="line-height:1.6;">
+
 We have successfully received your message.
-</p>
 
-<div style="
+\</p>
+
+\<div style="
+
 background:#f7f8f9;
+
 border-radius:10px;
+
 padding:18px;
+
 ">
 
-<strong>Name</strong>
+\<strong>Name\</strong>
 
-<p>{safe_name}</p>
+\<p>{safe\_name}\</p>
 
-<strong>Email</strong>
+\<strong>Email\</strong>
 
-<p>{safe_email}</p>
+\<p>{safe\_email}\</p>
 
-<strong>Subject</strong>
+\<strong>Subject\</strong>
 
-<p>{safe_subject}</p>
+\<p>{safe\_subject}\</p>
 
-<strong>Your Message</strong>
+\<strong>Your Message\</strong>
 
-<div style="
+\<div style="
+
 background:#ffffff;
+
 border:1px solid #e2e2e2;
+
 border-radius:7px;
+
 padding:12px;
+
 line-height:1.6;
+
 ">
 
-{safe_message}
+{safe\_message}
 
-</div>
+\</div>
 
-<p>
+\<p>
 
-<strong>Submitted on</strong><br>
+\<strong>Submitted on\</strong>\<br>
 
-{safe_date}
+{safe\_date}
 
-</p>
+\</p>
 
-</div>
+\</div>
 
-<p style="line-height:1.6;">
+\<p style="line-height:1.6;">
+
 Our team will review your message and get back
+
 to you as soon as possible.
-</p>
 
-<hr>
+\</p>
 
-<p>
+\<hr>
+
+\<p>
+
 Thank you for reaching out to ROSE.
-</p>
 
-<p>
+\</p>
 
-Regards,<br>
+\<p>
 
-<strong>
+Regards,\<br>
+
+\<strong>
+
 Rural Organisation for Social Emancipation (ROSE)
-</strong>
 
-<br>
+\</strong>
 
-{ROSE_EMAIL}
+\<br>
 
-</p>
+{ROSE\_EMAIL}
 
-</div>
+\</p>
 
-</body>
-</html>
+\</div>
+
+\</body>
+
+\</html>
+
 """
 
-    send_email(
-        email,
-        visitor_subject,
-        visitor_body,
-        visitor_html
-    )
+    send\_email(
 
-    rose_subject = (
-        f"New ROSE Contact Message - {subject}"
-    )
+        email,
 
-    rose_body = f"""
+        visitor\_subject,
+
+        visitor\_body,
+
+        visitor\_html
+
+    )
+
+    rose\_subject = (
+
+        f"New ROSE Contact Message - {subject}"
+
+    )
+
+    rose\_body = f"""
+
 A new Contact Us message has been received.
 
 Name:
@@ -1258,932 +1858,1394 @@ Message:
 
 Submitted on:
 
-{contacted_at}
+{contacted\_at}
 
 The contact message has been saved in contacts.txt.
+
 """
 
-    send_email(
-        ROSE_EMAIL,
-        rose_subject,
-        rose_body
-    )
+    send\_email(
+
+        ROSE\_EMAIL,
+
+        rose\_subject,
+
+        rose\_body
+
+    )
 
 
-# ==========================================================
-# CONTACT API
-# ==========================================================
 
-@app.route(
-    "/contact",
-    methods=["POST"]
-)
-def submit_contact():
+\# ==========================================================
 
-    data = get_json_data()
+\# CONTACT API
 
-    name = data.get(
-        "name",
-        ""
-    )
-
-    email = data.get(
-        "email",
-        ""
-    )
-
-    subject = data.get(
-        "subject",
-        "General Inquiry"
-    )
-
-    message = data.get(
-        "message",
-        ""
-    )
-
-    if not isinstance(name, str):
-        name = ""
-
-    if not isinstance(email, str):
-        email = ""
-
-    if not isinstance(subject, str):
-        subject = "General Inquiry"
-
-    if not isinstance(message, str):
-        message = ""
-
-    name = name.strip()
-    email = email.strip()
-    subject = subject.strip()
-    message = message.strip()
-
-    if not name:
-
-        return jsonify({
-            "success":
-                False,
-
-            "message":
-                "Please enter your name."
-        }), 400
-
-    if len(name) > 100:
-
-        return jsonify({
-            "success":
-                False,
-
-            "message":
-                "Name must not exceed 100 characters."
-        }), 400
-
-    if not valid_email(email):
-
-        return jsonify({
-            "success":
-                False,
-
-            "message":
-                "Please enter a valid email address."
-        }), 400
-
-    if not subject:
-        subject = "General Inquiry"
-
-    if len(subject) > 100:
-
-        return jsonify({
-            "success":
-                False,
-
-            "message":
-                "Subject must not exceed 100 characters."
-        }), 400
-
-    if not message:
-
-        return jsonify({
-            "success":
-                False,
-
-            "message":
-                "Please enter your message."
-        }), 400
-
-    if len(message) > 500:
-
-        return jsonify({
-            "success":
-                False,
-
-            "message":
-                "Message must not exceed 500 characters."
-        }), 400
-
-    contacted_at = now_ist()
-
-    clean_name = clean_line(name)
-    clean_email = clean_line(email)
-    clean_subject = clean_line(subject)
-    clean_message = clean_line(message)
-
-    try:
-
-        with CONTACT_FILE.open(
-            "a",
-            encoding="utf-8"
-        ) as file:
-
-            file.write(
-                f"{contacted_at} | "
-                f"Name: {clean_name} | "
-                f"Email: {clean_email} | "
-                f"Subject: {clean_subject} | "
-                f"Message: {clean_message}\n"
-            )
-
-    except OSError as error:
-
-        print(
-            f"Contact file error: {error}"
-        )
-
-        return jsonify({
-            "success":
-                False,
-
-            "message":
-                "Unable to save your message. "
-                "Please try again."
-        }), 500
-
-    print(
-        f"New contact: {clean_name} | "
-        f"{clean_email} | "
-        f"{clean_subject} | "
-        f"{contacted_at}"
-    )
-
-    run_in_background(
-        send_contact_emails,
-        clean_name,
-        clean_email,
-        clean_subject,
-        clean_message,
-        contacted_at
-    )
-
-    return jsonify({
-        "success":
-            True,
-
-        "message":
-            "Thank you for contacting ROSE. "
-            "Your message has been sent successfully."
-    }), 200
-
-# ==========================================================
-# DONATION API
-# ==========================================================
+\# ==========================================================
 
 @app.route(
-    "/donation",
-    methods=["POST"]
+
+    "/contact",
+
+    methods=["POST"]
+
 )
-def submit_donation():
 
-    data = get_json_data()
+def submit\_contact():
 
-    name = data.get("name", "")
-    email = data.get("email", "")
-    phone = data.get("phone", "")
-    pan = data.get("pan", "")
-    amount = str(data.get("amount", "")).strip()
-    transaction_id = data.get("transaction_id", "")
-    transaction_date = data.get("transaction_date", "")
-    bank_name = data.get("bank_name", "")
-    account_holder_name = data.get(
-        "account_holder_name",
-        ""
-    )
-    account_last_four = data.get(
-        "last_four_digits",
-        ""
-    )
-    payment_method = data.get(
-        "payment_method",
-        ""
-    )
+    data = get\_json\_data()
 
+    name = data.get(
 
-    # Make sure all values are strings
-    name = str(name).strip()
-    email = str(email).strip()
-    phone = str(phone).strip()
-    pan = str(pan).strip()
-    transaction_id = str(
-        transaction_id
-    ).strip()
-    transaction_date = str(
-        transaction_date
-    ).strip()
-    bank_name = str(
-        bank_name
-    ).strip()
-    account_holder_name = str(
-        account_holder_name
-    ).strip()
-    account_last_four = str(
-        account_last_four
-    ).strip()
-    payment_method = str(
-        payment_method
-    ).strip()
+        "name",
 
+        ""
 
-    # ------------------------------------------------------
-    # BASIC VALIDATION
-    # ------------------------------------------------------
+    )
 
-    if not name:
+    email = data.get(
 
-        return jsonify({
-            "success": False,
-            "message": "Please enter your name."
-        }), 400
+        "email",
 
+        ""
 
-    if not valid_email(email):
+    )
 
-        return jsonify({
-            "success": False,
-            "message": "Please enter a valid email address."
-        }), 400
+    subject = data.get(
 
+        "subject",
 
-    if not amount:
+        "General Inquiry"
 
-        return jsonify({
-            "success": False,
-            "message": "Please enter the donation amount."
-        }), 400
+    )
 
+    message = data.get(
 
-    if not transaction_id:
+        "message",
 
-        return jsonify({
-            "success": False,
-            "message": "Please enter the transaction ID."
-        }), 400
+        ""
 
+    )
 
-    if not transaction_date:
+    if not isinstance(name, str):
 
-        return jsonify({
-            "success": False,
-            "message": "Please enter the transaction date."
-        }), 400
+        name = ""
 
+    if not isinstance(email, str):
 
-    donated_at = now_ist()
+        email = ""
 
+    if not isinstance(subject, str):
 
-    # ------------------------------------------------------
-    # SAVE DONATION DETAILS
-    # ------------------------------------------------------
+        subject = "General Inquiry"
 
-    clean_name = clean_line(name)
-    clean_email = clean_line(email)
-    clean_phone = clean_line(phone)
-    clean_pan = clean_line(pan)
-    clean_amount = clean_line(amount)
-    clean_transaction_id = clean_line(
-        transaction_id
-    )
-    clean_transaction_date = clean_line(
-        transaction_date
-    )
-    clean_bank_name = clean_line(
-        bank_name
-    )
-    clean_account_holder_name = clean_line(
-        account_holder_name
-    )
-    clean_account_last_four = clean_line(
-        account_last_four
-    )
-    clean_payment_method = clean_line(
-        payment_method
-    )
+    if not isinstance(message, str):
 
+        message = ""
 
-    try:
+    name = name.strip()
 
-        with DONOR_FILE.open(
-            "a",
-            encoding="utf-8"
-        ) as file:
+    email = email.strip()
 
-            file.write(
-                f"{donated_at} | "
-                f"Name: {clean_name} | "
-                f"Email: {clean_email} | "
-                f"Phone: {clean_phone} | "
-                f"PAN: {clean_pan} | "
-                f"Amount: {clean_amount} | "
-                f"Transaction ID: "
-                f"{clean_transaction_id} | "
-                f"Transaction Date: "
-                f"{clean_transaction_date} | "
-                f"Bank Name: {clean_bank_name} | "
-                f"Account Holder: "
-                f"{clean_account_holder_name} | "
-                f"Account Last Four: "
-                f"{clean_account_last_four} | "
-                f"Payment Method: "
-                f"{clean_payment_method}\n"
-            )
+    subject = subject.strip()
 
+    message = message.strip()
 
-    except OSError as error:
+    if not name:
 
-        print(
-            f"Donation file error: {error}"
-        )
+        return jsonify({
 
-        return jsonify({
-            "success": False,
-            "message":
-                "Unable to save your donation details. "
-                "Please try again."
-        }), 500
+            "success":
 
+                False,
 
-    print(
-        f"New donation: {clean_name} | "
-        f"{clean_email} | "
-        f"Amount: {clean_amount} | "
-        f"Transaction ID: "
-        f"{clean_transaction_id} | "
-        f"{donated_at}"
-    )
+            "message":
 
+                "Please enter your name."
 
-    return jsonify({
-        "success": True,
-        "message":
-            "Thank you for your donation. "
-            "Your payment details have been "
-            "submitted successfully."
-    }), 200
-# ==========================================================
-# ADMIN AUTHENTICATION
-# ==========================================================
+        }), 400
 
-def admin_required():
+    if len(name) > 100:
 
-    return session.get(
-        "admin_logged_in",
-        False
-    )
+        return jsonify({
 
+            "success":
 
-# ==========================================================
-# ADMIN LOGIN PAGE
-# ==========================================================
+                False,
+
+            "message":
+
+                "Name must not exceed 100 characters."
+
+        }), 400
+
+    if not valid\_email(email):
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "Please enter a valid email address."
+
+        }), 400
+
+    if not subject:
+
+        subject = "General Inquiry"
+
+    if len(subject) > 100:
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "Subject must not exceed 100 characters."
+
+        }), 400
+
+    if not message:
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "Please enter your message."
+
+        }), 400
+
+    if len(message) > 500:
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "Message must not exceed 500 characters."
+
+        }), 400
+
+    contacted\_at = now\_ist()
+
+    clean\_name = clean\_line(name)
+
+    clean\_email = clean\_line(email)
+
+    clean\_subject = clean\_line(subject)
+
+    clean\_message = clean\_line(message)
+
+    try:
+
+        with CONTACT\_FILE.open(
+
+            "a",
+
+            encoding="utf-8"
+
+        ) as file:
+
+            file.write(
+
+                f"{contacted\_at} | "
+
+                f"Name: {clean\_name} | "
+
+                f"Email: {clean\_email} | "
+
+                f"Subject: {clean\_subject} | "
+
+                f"Message: {clean\_message}\n"
+
+            )
+
+    except OSError as error:
+
+        print(
+
+            f"Contact file error: {error}"
+
+        )
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "Unable to save your message. "
+
+                "Please try again."
+
+        }), 500
+
+    print(
+
+        f"New contact: {clean\_name} | "
+
+        f"{clean\_email} | "
+
+        f"{clean\_subject} | "
+
+        f"{contacted\_at}"
+
+    )
+
+    run\_in\_background(
+
+        send\_contact\_emails,
+
+        clean\_name,
+
+        clean\_email,
+
+        clean\_subject,
+
+        clean\_message,
+
+        contacted\_at
+
+    )
+
+    return jsonify({
+
+        "success":
+
+            True,
+
+        "message":
+
+            "Thank you for contacting ROSE. "
+
+            "Your message has been sent successfully."
+
+    }), 200
+
+\# ==========================================================
+
+\# DONATION API
+
+\# ==========================================================
 
 @app.route(
-    "/admin",
-    methods=["GET"]
+
+    "/donation",
+
+    methods=["POST"]
+
 )
-def admin_page():
 
-    return send_from_directory(
-        BASE_DIR,
-        "admin.html"
-    )
+def submit\_donation():
+
+    data = get\_json\_data()
+
+    name = data.get("name", "")
+
+    email = data.get("email", "")
+
+    phone = data.get("phone", "")
+
+    pan = data.get("pan", "")
+
+    amount = data.get("amount", "")
+
+    transaction\_id = data.get("transaction\_id", "")
+
+    transaction\_date = data.get("transaction\_date", "")
+
+    bank\_name = data.get("bank\_name", "")
+
+    account\_holder\_name = data.get(
+
+        "account\_holder\_name",
+
+        ""
+
+    )
+
+    account\_last\_four = data.get(
+
+        "last\_four\_digits",
+
+        ""
+
+    )
+
+    payment\_method = data.get(
+
+        "payment\_method",
+
+        ""
+
+    )
+
+    # Make sure all values are strings
+
+    fields = [
+
+        "name",
+
+        "email",
+
+        "phone",
+
+        "pan",
+
+        "amount",
+
+        "transaction\_id",
+
+        "transaction\_date",
+
+        "bank\_name",
+
+        "account\_holder\_name",
+
+        "account\_last\_four",
+
+        "payment\_method"
+
+    ]
+
+    for field in fields:
+
+        value = data.get(field, "")
+
+        if not isinstance(value, str):
+
+            value = ""
+
+        data[field] = value.strip()
+
+    name = data["name"]
+
+    email = data["email"]
+
+    phone = data["phone"]
+
+    pan = data["pan"]
+
+    amount = data["amount"]
+
+    transaction\_id = data["transaction\_id"]
+
+    transaction\_date = data["transaction\_date"]
+
+    bank\_name = data["bank\_name"]
+
+    account\_holder\_name = data["account\_holder\_name"]
+
+    account\_last\_four = data["account\_last\_four"]
+
+    payment\_method = data["payment\_method"]
+
+    # ------------------------------------------------------
+
+    # BASIC VALIDATION
+
+    # ------------------------------------------------------
+
+    if not name:
+
+        return jsonify({
+
+            "success": False,
+
+            "message": "Please enter your name."
+
+        }), 400
+
+    if not valid\_email(email):
+
+        return jsonify({
+
+            "success": False,
+
+            "message": "Please enter a valid email address."
+
+        }), 400
+
+    if not amount:
+
+        return jsonify({
+
+            "success": False,
+
+            "message": "Please enter the donation amount."
+
+        }), 400
+
+    if not transaction\_id:
+
+        return jsonify({
+
+            "success": False,
+
+            "message": "Please enter the transaction ID."
+
+        }), 400
+
+    if not transaction\_date:
+
+        return jsonify({
+
+            "success": False,
+
+            "message": "Please enter the transaction date."
+
+        }), 400
+
+    donated\_at = now\_ist()
+
+    # ------------------------------------------------------
+
+    # SAVE DONATION DETAILS
+
+    # ------------------------------------------------------
+
+    clean\_name = clean\_line(name)
+
+    clean\_email = clean\_line(email)
+
+    clean\_phone = clean\_line(phone)
+
+    clean\_pan = clean\_line(pan)
+
+    clean\_amount = clean\_line(amount)
+
+    clean\_transaction\_id = clean\_line(transaction\_id)
+
+    clean\_transaction\_date = clean\_line(transaction\_date)
+
+    clean\_bank\_name = clean\_line(bank\_name)
+
+    clean\_account\_holder\_name = clean\_line(
+
+        account\_holder\_name
+
+    )
+
+    clean\_account\_last\_four = clean\_line(
+
+        account\_last\_four
+
+    )
+
+    clean\_payment\_method = clean\_line(
+
+        payment\_method
+
+    )
+
+    try:
+
+        with DONOR\_FILE.open(
+
+            "a",
+
+            encoding="utf-8"
+
+        ) as file:
+
+            file.write(
+
+                f"{donated\_at} | "
+
+                f"Name: {clean\_name} | "
+
+                f"Email: {clean\_email} | "
+
+                f"Phone: {clean\_phone} | "
+
+                f"PAN: {clean\_pan} | "
+
+                f"Amount: {clean\_amount} | "
+
+                f"Transaction ID: "
+
+                f"{clean\_transaction\_id} | "
+
+                f"Transaction Date: "
+
+                f"{clean\_transaction\_date} | "
+
+                f"Bank Name: {clean\_bank\_name} | "
+
+                f"Account Holder: "
+
+                f"{clean\_account\_holder\_name} | "
+
+                f"Account Last Four: "
+
+                f"{clean\_account\_last\_four} | "
+
+                f"Payment Method: "
+
+                f"{clean\_payment\_method}\n"
+
+            )
+
+    except OSError as error:
+
+        print(
+
+            f"Donation file error: {error}"
+
+        )
+
+        return jsonify({
+
+            "success": False,
+
+            "message":
+
+                "Unable to save your donation details. "
+
+                "Please try again."
+
+        }), 500
+
+    print(
+
+        f"New donation: {clean\_name} | "
+
+        f"{clean\_email} | "
+
+        f"Amount: {clean\_amount} | "
+
+        f"Transaction ID: "
+
+        f"{clean\_transaction\_id} | "
+
+        f"{donated\_at}"
+
+    )
+
+    return jsonify({
+
+        "success": True,
+
+        "message":
+
+            "Thank you for your donation. "
+
+            "Your payment details have been "
+
+            "submitted successfully."
+
+    }), 200
+
+\# ==========================================================
+
+\# ADMIN AUTHENTICATION
+
+\# ==========================================================
+
+def admin\_required():
+
+    return session.get(
+
+        "admin\_logged\_in",
+
+        False
+
+    )
 
 
-# ==========================================================
-# ADMIN LOGIN
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN LOGIN PAGE
+
+\# ==========================================================
 
 @app.route(
-    "/admin/login",
-    methods=["POST"]
+
+    "/admin",
+
+    methods=["GET"]
+
 )
-def admin_login():
 
-    data = get_json_data()
+def admin\_page():
 
-    print("DONATION DEBUG DATA:", data)
-    print("DONATION DEBUG AMOUNT:", repr(data.get("amount")), type(data.get("amount")))
+    return send\_from\_directory(
 
-    username = data.get(
-        "username",
-        ""
-    )
+        BASE\_DIR,
 
-    password = data.get(
-        "password",
-        ""
-    )
+        "admin.html"
 
-    if not isinstance(
-        username,
-        str
-    ):
-        username = ""
-
-    if not isinstance(
-        password,
-        str
-    ):
-        password = ""
-
-    username = username.strip()
-
-    if not ADMIN_USERNAME or not ADMIN_PASSWORD:
-
-        return jsonify({
-            "success":
-                False,
-
-            "message":
-                "Admin credentials are not configured."
-        }), 500
-
-    if (
-        username == ADMIN_USERNAME
-        and password == ADMIN_PASSWORD
-    ):
-
-        session.clear()
-
-        session["admin_logged_in"] = True
-        session["admin_username"] = username
-
-        return jsonify({
-            "success":
-                True,
-
-            "message":
-                "Login successful."
-        }), 200
-
-    return jsonify({
-        "success":
-            False,
-
-        "message":
-            "Invalid username or password."
-    }), 401
+    )
 
 
-# ==========================================================
-# ADMIN DASHBOARD
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN LOGIN
+
+\# ==========================================================
 
 @app.route(
-    "/admin/dashboard",
-    methods=["GET"]
+
+    "/admin/login",
+
+    methods=["POST"]
+
 )
-def admin_dashboard():
 
-    if not admin_required():
+def admin\_login():
 
-        return redirect(
-            "/admin"
-        )
+    data = get\_json\_data()
 
-    return send_from_directory(
-        BASE_DIR,
-        "admin_dashboard.html"
-    )
+    username = data.get(
+
+        "username",
+
+        ""
+
+    )
+
+    password = data.get(
+
+        "password",
+
+        ""
+
+    )
+
+    if not isinstance(
+
+        username,
+
+        str
+
+    ):
+
+        username = ""
+
+    if not isinstance(
+
+        password,
+
+        str
+
+    ):
+
+        password = ""
+
+    username = username.strip()
+
+    if not ADMIN\_USERNAME or not ADMIN\_PASSWORD:
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "Admin credentials are not configured."
+
+        }), 500
+
+    if (
+
+        username == ADMIN\_USERNAME
+
+        and password == ADMIN\_PASSWORD
+
+    ):
+
+        session.clear()
+
+        session["admin\_logged\_in"] = True
+
+        session["admin\_username"] = username
+
+        return jsonify({
+
+            "success":
+
+                True,
+
+            "message":
+
+                "Login successful."
+
+        }), 200
+
+    return jsonify({
+
+        "success":
+
+            False,
+
+        "message":
+
+            "Invalid username or password."
+
+    }), 401
 
 
-# ==========================================================
-# ADMIN LOGOUT
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN DASHBOARD
+
+\# ==========================================================
 
 @app.route(
-    "/admin/logout",
-    methods=["GET"]
+
+    "/admin/dashboard",
+
+    methods=["GET"]
+
 )
-def admin_logout():
 
-    session.clear()
+def admin\_dashboard():
 
-    return redirect(
-        "/admin"
-    )
+    if not admin\_required():
+
+        return redirect(
+
+            "/admin"
+
+        )
+
+    return send\_from\_directory(
+
+        BASE\_DIR,
+
+        "admin\_dashboard.html"
+
+    )
 
 
-# ==========================================================
-# ADMIN PRIVATE DATA
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN LOGOUT
+
+\# ==========================================================
 
 @app.route(
-    "/admin/private-data",
-    methods=["GET"]
+
+    "/admin/logout",
+
+    methods=["GET"]
+
 )
-def admin_private_data():
 
-    if not admin_required():
+def admin\_logout():
 
-        return jsonify({
-            "success":
-                False,
+    session.clear()
 
-            "message":
-                "Unauthorized."
-        }), 401
+    return redirect(
 
-    files = [
-        SUBSCRIBER_FILE,
-        CONTACT_FILE,
-        DONOR_FILE
-    ]
+        "/admin"
 
-    result = {}
-
-    for file_path in files:
-
-        filename = file_path.name
-
-        if not file_path.exists():
-
-            result[filename] = ""
-
-            continue
-
-        try:
-
-            result[filename] = (
-                file_path.read_text(
-                    encoding="utf-8"
-                )
-            )
-
-        except OSError as error:
-
-            print(
-                f"Private data read error: {error}"
-            )
-
-            result[filename] = (
-                "Unable to read this file."
-            )
-
-    return jsonify({
-        "success":
-            True,
-
-        "files":
-            result
-    }), 200
+    )
 
 
-# ==========================================================
-# ADMIN GALLERY DATA
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN PRIVATE DATA
+
+\# ==========================================================
 
 @app.route(
-    "/admin/gallery/data",
-    methods=["GET"]
+
+    "/admin/private-data",
+
+    methods=["GET"]
+
 )
-def admin_gallery_data():
 
-    if not admin_required():
+def admin\_private\_data():
 
-        return jsonify({
-            "success":
-                False,
+    if not admin\_required():
 
-            "message":
-                "Unauthorized."
-        }), 401
+        return jsonify({
 
-    data = load_gallery_data()
+            "success":
 
-    return jsonify(
-        data
-    ), 200
+                False,
+
+            "message":
+
+                "Unauthorized."
+
+        }), 401
+
+    files = [
+
+        SUBSCRIBER\_FILE,
+
+        CONTACT\_FILE,
+
+        DONOR\_FILE
+
+    ]
+
+    result = {}
+
+    for file\_path in files:
+
+        filename = file\_path.name
+
+        if not file\_path.exists():
+
+            result[filename] = ""
+
+            continue
+
+        try:
+
+            result[filename] = (
+
+                file\_path.read\_text(
+
+                    encoding="utf-8"
+
+                )
+
+            )
+
+        except OSError as error:
+
+            print(
+
+                f"Private data read error: {error}"
+
+            )
+
+            result[filename] = (
+
+                "Unable to read this file."
+
+            )
+
+    return jsonify({
+
+        "success":
+
+            True,
+
+        "files":
+
+            result
+
+    }), 200
 
 
-# ==========================================================
-# ADMIN GALLERY UPLOAD
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN GALLERY DATA
+
+\# ==========================================================
 
 @app.route(
-    "/admin/gallery/upload",
-    methods=["POST"]
+
+    "/admin/gallery/data",
+
+    methods=["GET"]
+
 )
-def upload_gallery_image():
 
-    if not admin_required():
+def admin\_gallery\_data():
 
-        return jsonify({
-            "success":
-                False,
+    if not admin\_required():
 
-            "message":
-                "Unauthorized."
-        }), 401
+        return jsonify({
 
-    images = request.files.getlist(
-        "images"
-    )
+            "success":
 
-    if not images:
+                False,
 
-        return jsonify({
-            "success":
-                False,
+            "message":
 
-            "message":
-                "No images selected."
-        }), 400
+                "Unauthorized."
 
-    category = request.form.get(
-        "category",
-        ""
-    ).strip()
+        }), 401
 
-    if category not in GALLERY_CATEGORIES:
+    data = load\_gallery\_data()
 
-        return jsonify({
-            "success":
-                False,
+    return jsonify(
 
-            "message":
-                "Please select a valid gallery section."
-        }), 400
+        data
 
-    title = request.form.get(
-        "title",
-        ""
-    ).strip()
-
-    if not title:
-
-        title = GALLERY_CATEGORIES[
-            category
-        ]
-
-    uploaded_files = []
-    failed_files = []
-
-    for image in images:
-
-        if not image.filename:
-            continue
-
-        original_filename = (
-            image.filename
-        )
-
-        extension = (
-            Path(
-                original_filename
-            )
-            .suffix
-            .lower()
-            .replace(
-                ".",
-                ""
-            )
-        )
-
-        if extension not in ALLOWED_IMAGE_EXTENSIONS:
-
-            failed_files.append(
-                original_filename
-            )
-
-            continue
-
-        filename = secure_filename(
-            original_filename
-        )
-
-        if not filename:
-
-            failed_files.append(
-                original_filename
-            )
-
-            continue
-
-        save_path = (
-            GALLERY_FOLDER
-            / filename
-        )
-
-        try:
-
-            image.save(
-                save_path
-            )
-
-            json_saved = (
-                add_image_to_gallery_json(
-                    filename,
-                    category,
-                    title
-                )
-            )
-
-            if json_saved:
-
-                uploaded_files.append(
-                    filename
-                )
-
-            else:
-
-                try:
-                    save_path.unlink()
-                except OSError:
-                    pass
-
-                failed_files.append(
-                    original_filename
-                )
-
-        except OSError as error:
-
-            print(
-                f"Gallery upload error: {error}"
-            )
-
-            failed_files.append(
-                original_filename
-            )
-
-    return jsonify({
-
-        "success":
-            len(uploaded_files) > 0,
-
-        "uploaded":
-            uploaded_files,
-
-        "failed":
-            failed_files,
-
-        "message":
-            f"{len(uploaded_files)} image(s) uploaded successfully."
-    }), 200
+    ), 200
 
 
-# ==========================================================
-# ADMIN GALLERY DELETE
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN GALLERY UPLOAD
+
+\# ==========================================================
 
 @app.route(
-    "/admin/gallery/delete",
-    methods=["POST"]
+
+    "/admin/gallery/upload",
+
+    methods=["POST"]
+
 )
-def delete_gallery_images():
 
-    if not admin_required():
+def upload\_gallery\_image():
 
-        return jsonify({
-            "success":
-                False,
+    if not admin\_required():
 
-            "message":
-                "Unauthorized."
-        }), 401
+        return jsonify({
 
-    data = get_json_data()
+            "success":
 
-    filenames = data.get(
-        "filenames",
-        []
-    )
+                False,
 
-    if not isinstance(
-        filenames,
-        list
-    ):
+            "message":
 
-        filenames = []
+                "Unauthorized."
 
-    if not filenames:
+        }), 401
 
-        return jsonify({
-            "success":
-                False,
+    images = request.files.getlist(
 
-            "message":
-                "No images selected for deletion."
-        }), 400
+        "images"
 
-    deleted_count = 0
-    failed_count = 0
+    )
 
-    for filename in filenames:
+    if not images:
 
-        if not isinstance(
-            filename,
-            str
-        ):
+        return jsonify({
 
-            failed_count += 1
-            continue
+            "success":
 
-        safe_filename = secure_filename(
-            filename
-        )
+                False,
 
-        if (
-            not safe_filename
-            or safe_filename != filename
-        ):
+            "message":
 
-            failed_count += 1
-            continue
+                "No images selected."
 
-        image_path = (
-            GALLERY_FOLDER
-            / safe_filename
-        )
+        }), 400
 
-        try:
+    category = request.form.get(
 
-            json_removed = (
-                remove_image_from_gallery_json(
-                    safe_filename
-                )
-            )
+        "category",
 
-            if image_path.exists():
+        ""
 
-                image_path.unlink()
+    ).strip()
 
-                deleted_count += 1
+    if category not in GALLERY\_CATEGORIES:
 
-            elif json_removed:
+        return jsonify({
 
-                deleted_count += 1
+            "success":
 
-            else:
+                False,
 
-                failed_count += 1
+            "message":
 
-        except OSError as error:
+                "Please select a valid gallery section."
 
-            print(
-                f"Gallery delete error: {error}"
-            )
+        }), 400
 
-            failed_count += 1
+    title = request.form.get(
 
-    return jsonify({
+        "title",
 
-        "success":
-            True,
+        ""
 
-        "deleted":
-            deleted_count,
+    ).strip()
 
-        "failed":
-            failed_count,
+    if not title:
 
-        "message":
-            f"{deleted_count} image(s) deleted."
-    }), 200
+        title = GALLERY\_CATEGORIES[
+
+            category
+
+        ]
+
+    uploaded\_files = []
+
+    failed\_files = []
+
+    for image in images:
+
+        if not image.filename:
+
+            continue
+
+        original\_filename = (
+
+            image.filename
+
+        )
+
+        extension = (
+
+            Path(
+
+                original\_filename
+
+            )
+
+            .suffix
+
+            .lower()
+
+            .replace(
+
+                ".",
+
+                ""
+
+            )
+
+        )
+
+        if extension not in ALLOWED\_IMAGE\_EXTENSIONS:
+
+            failed\_files.append(
+
+                original\_filename
+
+            )
+
+            continue
+
+        filename = secure\_filename(
+
+            original\_filename
+
+        )
+
+        if not filename:
+
+            failed\_files.append(
+
+                original\_filename
+
+            )
+
+            continue
+
+        save\_path = (
+
+            GALLERY\_FOLDER
+
+            / filename
+
+        )
+
+        try:
+
+            image.save(
+
+                save\_path
+
+            )
+
+            json\_saved = (
+
+                add\_image\_to\_gallery\_json(
+
+                    filename,
+
+                    category,
+
+                    title
+
+                )
+
+            )
+
+            if json\_saved:
+
+                uploaded\_files.append(
+
+                    filename
+
+                )
+
+            else:
+
+                try:
+
+                    save\_path.unlink()
+
+                except OSError:
+
+                    pass
+
+                failed\_files.append(
+
+                    original\_filename
+
+                )
+
+        except OSError as error:
+
+            print(
+
+                f"Gallery upload error: {error}"
+
+            )
+
+            failed\_files.append(
+
+                original\_filename
+
+            )
+
+    return jsonify({
+
+        "success":
+
+            len(uploaded\_files) > 0,
+
+        "uploaded":
+
+            uploaded\_files,
+
+        "failed":
+
+            failed\_files,
+
+        "message":
+
+            f"{len(uploaded\_files)} image(s) uploaded successfully."
+
+    }), 200
 
 
-# ==========================================================
-# GALLERY IMAGE ROUTE
-# ==========================================================
+
+\# ==========================================================
+
+\# ADMIN GALLERY DELETE
+
+\# ==========================================================
 
 @app.route(
-    "/gallery/<filename>"
+
+    "/admin/gallery/delete",
+
+    methods=["POST"]
+
 )
-def gallery_image(
-    filename
+
+def delete\_gallery\_images():
+
+    if not admin\_required():
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "Unauthorized."
+
+        }), 401
+
+    data = get\_json\_data()
+
+    filenames = data.get(
+
+        "filenames",
+
+        []
+
+    )
+
+    if not isinstance(
+
+        filenames,
+
+        list
+
+    ):
+
+        filenames = []
+
+    if not filenames:
+
+        return jsonify({
+
+            "success":
+
+                False,
+
+            "message":
+
+                "No images selected for deletion."
+
+        }), 400
+
+    deleted\_count = 0
+
+    failed\_count = 0
+
+    for filename in filenames:
+
+        if not isinstance(
+
+            filename,
+
+            str
+
+        ):
+
+            failed\_count += 1
+
+            continue
+
+        safe\_filename = secure\_filename(
+
+            filename
+
+        )
+
+        if (
+
+            not safe\_filename
+
+            or safe\_filename != filename
+
+        ):
+
+            failed\_count += 1
+
+            continue
+
+        image\_path = (
+
+            GALLERY\_FOLDER
+
+            / safe\_filename
+
+        )
+
+        try:
+
+            json\_removed = (
+
+                remove\_image\_from\_gallery\_json(
+
+                    safe\_filename
+
+                )
+
+            )
+
+            if image\_path.exists():
+
+                image\_path.unlink()
+
+                deleted\_count += 1
+
+            elif json\_removed:
+
+                deleted\_count += 1
+
+            else:
+
+                failed\_count += 1
+
+        except OSError as error:
+
+            print(
+
+                f"Gallery delete error: {error}"
+
+            )
+
+            failed\_count += 1
+
+    return jsonify({
+
+        "success":
+
+            True,
+
+        "deleted":
+
+            deleted\_count,
+
+        "failed":
+
+            failed\_count,
+
+        "message":
+
+            f"{deleted\_count} image(s) deleted."
+
+    }), 200
+
+
+
+\# ==========================================================
+
+\# GALLERY IMAGE ROUTE
+
+\# ==========================================================
+
+@app.route(
+
+    "/gallery/\<filename>"
+
+)
+
+def gallery\_image(
+
+    filename
+
 ):
 
-    return send_from_directory(
-        GALLERY_FOLDER,
-        filename
-    )
+    return send\_from\_directory(
+
+        GALLERY\_FOLDER,
+
+        filename
+
+    )
 
 
-# ==========================================================
-# START SERVER
-# ==========================================================
 
-if __name__ == "__main__":
+\# ==========================================================
 
-    app.run(
-        host="127.0.0.1",
-        port=5000,
-        debug=False
-    )
+\# START SERVER
+
+\# ==========================================================
+
+if \_\_name\_\_ == "\_\_main\_\_":
+
+    app.run(
+
+        host="127.0.0.1",
+
+        port=5000,
+
+        debug=False
+
+    )
