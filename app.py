@@ -1460,7 +1460,7 @@ def submit_donation():
     email = data.get("email", "")
     phone = data.get("phone", "")
     pan = data.get("pan", "")
-    amount = data.get("amount", "")
+    amount = str(data.get("amount", "")).strip()
     transaction_id = data.get("transaction_id", "")
     transaction_date = data.get("transaction_date", "")
     bank_name = data.get("bank_name", "")
