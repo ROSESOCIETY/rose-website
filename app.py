@@ -1456,120 +1456,168 @@ def submit_donation():
 
     data = get_json_data()
 
-    name = data.get("name", "")
-    email = data.get("email", "")
-    phone = data.get("phone", "")
-    pan = data.get("pan", "")
-    amount = str(data.get("amount", "")).strip()
-    transaction_id = data.get("transaction_id", "")
-    transaction_date = data.get("transaction_date", "")
-    bank_name = data.get("bank_name", "")
-    account_holder_name = data.get(
-        "account_holder_name",
-        ""
-    )
-    account_last_four = data.get(
-        "last_four_digits",
-        ""
-    )
-    payment_method = data.get(
-        "payment_method",
-        ""
-    )
+    # ------------------------------------------------------
+    # GET AND CLEAN DONATION DATA
+    # ------------------------------------------------------
 
-    # Make sure all values are strings
-    fields = [
-        "name",
-        "email",
-        "phone",
-        "pan",
-        "amount",
-        "transaction_id",
-        "transaction_date",
-        "bank_name",
-        "account_holder_name",
-        "account_last_four",
-        "payment_method"
-    ]
+    name = str(
+        data.get("name", "")
+    ).strip()
 
-    for field in fields:
+    email = str(
+        data.get("email", "")
+    ).strip()
 
-        value = data.get(field, "")
+    phone = str(
+        data.get("phone", "")
+    ).strip()
 
-        if not isinstance(value, str):
-            value = ""
+    pan = str(
+        data.get("pan", "")
+    ).strip()
 
-        data[field] = value.strip()
+    # IMPORTANT:
+    # JavaScript sends amount as a number.
+    # Convert it to string before validation.
+    amount = str(
+        data.get("amount", "")
+    ).strip()
 
-    name = data["name"]
-    email = data["email"]
-    phone = data["phone"]
-    pan = data["pan"]
-    amount = data["amount"]
-    transaction_id = data["transaction_id"]
-    transaction_date = data["transaction_date"]
-    bank_name = data["bank_name"]
-    account_holder_name = data["account_holder_name"]
-    account_last_four = data["account_last_four"]
-    payment_method = data["payment_method"]
+    transaction_id = str(
+        data.get("transaction_id", "")
+    ).strip()
+
+    transaction_date = str(
+        data.get("transaction_date", "")
+    ).strip()
+
+    bank_name = str(
+        data.get("bank_name", "")
+    ).strip()
+
+    account_holder_name = str(
+        data.get("account_holder_name", "")
+    ).strip()
+
+    account_last_four = str(
+        data.get("last_four_digits", "")
+    ).strip()
+
+    payment_method = str(
+        data.get("payment_method", "")
+    ).strip()
+
 
     # ------------------------------------------------------
     # BASIC VALIDATION
     # ------------------------------------------------------
 
     if not name:
+
         return jsonify({
             "success": False,
             "message": "Please enter your name."
         }), 400
 
+
     if not valid_email(email):
+
         return jsonify({
             "success": False,
             "message": "Please enter a valid email address."
         }), 400
 
+
     if not amount:
+
         return jsonify({
             "success": False,
             "message": "Please enter the donation amount."
         }), 400
 
+
+    # Make sure amount is a valid positive number
+
+    try:
+
+        amount_value = float(amount)
+
+        if amount_value <= 0:
+
+            return jsonify({
+                "success": False,
+                "message": "Donation amount must be greater than zero."
+            }), 400
+
+    except (ValueError, TypeError):
+
+        return jsonify({
+            "success": False,
+            "message": "Please enter a valid donation amount."
+        }), 400
+
+
     if not transaction_id:
+
         return jsonify({
             "success": False,
             "message": "Please enter the transaction ID."
         }), 400
 
+
     if not transaction_date:
+
         return jsonify({
             "success": False,
             "message": "Please enter the transaction date."
         }), 400
 
+
     donated_at = now_ist()
+
+
+    # ------------------------------------------------------
+    # CLEAN DATA BEFORE SAVING
+    # ------------------------------------------------------
+
+    clean_name = clean_line(name)
+
+    clean_email = clean_line(email)
+
+    clean_phone = clean_line(phone)
+
+    clean_pan = clean_line(pan)
+
+    clean_amount = clean_line(amount)
+
+    clean_transaction_id = clean_line(
+        transaction_id
+    )
+
+    clean_transaction_date = clean_line(
+        transaction_date
+    )
+
+    clean_bank_name = clean_line(
+        bank_name
+    )
+
+    clean_account_holder_name = clean_line(
+        account_holder_name
+    )
+
+    clean_account_last_four = clean_line(
+        account_last_four
+    )
+
+    clean_payment_method = clean_line(
+        payment_method
+    )
+
 
     # ------------------------------------------------------
     # SAVE DONATION DETAILS
     # ------------------------------------------------------
-
-    clean_name = clean_line(name)
-    clean_email = clean_line(email)
-    clean_phone = clean_line(phone)
-    clean_pan = clean_line(pan)
-    clean_amount = clean_line(amount)
-    clean_transaction_id = clean_line(transaction_id)
-    clean_transaction_date = clean_line(transaction_date)
-    clean_bank_name = clean_line(bank_name)
-    clean_account_holder_name = clean_line(
-        account_holder_name
-    )
-    clean_account_last_four = clean_line(
-        account_last_four
-    )
-    clean_payment_method = clean_line(
-        payment_method
-    )
 
     try:
 
@@ -1589,7 +1637,8 @@ def submit_donation():
                 f"{clean_transaction_id} | "
                 f"Transaction Date: "
                 f"{clean_transaction_date} | "
-                f"Bank Name: {clean_bank_name} | "
+                f"Bank Name: "
+                f"{clean_bank_name} | "
                 f"Account Holder: "
                 f"{clean_account_holder_name} | "
                 f"Account Last Four: "
@@ -1597,6 +1646,7 @@ def submit_donation():
                 f"Payment Method: "
                 f"{clean_payment_method}\n"
             )
+
 
     except OSError as error:
 
@@ -1611,6 +1661,11 @@ def submit_donation():
                 "Please try again."
         }), 500
 
+
+    # ------------------------------------------------------
+    # SERVER LOG
+    # ------------------------------------------------------
+
     print(
         f"New donation: {clean_name} | "
         f"{clean_email} | "
@@ -1619,6 +1674,11 @@ def submit_donation():
         f"{clean_transaction_id} | "
         f"{donated_at}"
     )
+
+
+    # ------------------------------------------------------
+    # SUCCESS RESPONSE
+    # ------------------------------------------------------
 
     return jsonify({
         "success": True,
