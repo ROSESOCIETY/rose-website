@@ -1477,77 +1477,78 @@ def submit_donation():
         ""
     )
 
+
     # Make sure all values are strings
-    fields = [
-        "name",
-        "email",
-        "phone",
-        "pan",
-        "amount",
-        "transaction_id",
-        "transaction_date",
-        "bank_name",
-        "account_holder_name",
-        "account_last_four",
-        "payment_method"
-    ]
+    name = str(name).strip()
+    email = str(email).strip()
+    phone = str(phone).strip()
+    pan = str(pan).strip()
+    transaction_id = str(
+        transaction_id
+    ).strip()
+    transaction_date = str(
+        transaction_date
+    ).strip()
+    bank_name = str(
+        bank_name
+    ).strip()
+    account_holder_name = str(
+        account_holder_name
+    ).strip()
+    account_last_four = str(
+        account_last_four
+    ).strip()
+    payment_method = str(
+        payment_method
+    ).strip()
 
-    for field in fields:
-
-        value = data.get(field, "")
-
-        if not isinstance(value, str):
-            value = ""
-
-        data[field] = value.strip()
-
-    name = data["name"]
-    email = data["email"]
-    phone = data["phone"]
-    pan = data["pan"]
-    amount = data["amount"]
-    transaction_id = data["transaction_id"]
-    transaction_date = data["transaction_date"]
-    bank_name = data["bank_name"]
-    account_holder_name = data["account_holder_name"]
-    account_last_four = data["account_last_four"]
-    payment_method = data["payment_method"]
 
     # ------------------------------------------------------
     # BASIC VALIDATION
     # ------------------------------------------------------
 
     if not name:
+
         return jsonify({
             "success": False,
             "message": "Please enter your name."
         }), 400
 
+
     if not valid_email(email):
+
         return jsonify({
             "success": False,
             "message": "Please enter a valid email address."
         }), 400
 
+
     if not amount:
+
         return jsonify({
             "success": False,
             "message": "Please enter the donation amount."
         }), 400
 
+
     if not transaction_id:
+
         return jsonify({
             "success": False,
             "message": "Please enter the transaction ID."
         }), 400
 
+
     if not transaction_date:
+
         return jsonify({
             "success": False,
             "message": "Please enter the transaction date."
         }), 400
 
+
     donated_at = now_ist()
+
 
     # ------------------------------------------------------
     # SAVE DONATION DETAILS
@@ -1558,9 +1559,15 @@ def submit_donation():
     clean_phone = clean_line(phone)
     clean_pan = clean_line(pan)
     clean_amount = clean_line(amount)
-    clean_transaction_id = clean_line(transaction_id)
-    clean_transaction_date = clean_line(transaction_date)
-    clean_bank_name = clean_line(bank_name)
+    clean_transaction_id = clean_line(
+        transaction_id
+    )
+    clean_transaction_date = clean_line(
+        transaction_date
+    )
+    clean_bank_name = clean_line(
+        bank_name
+    )
     clean_account_holder_name = clean_line(
         account_holder_name
     )
@@ -1570,6 +1577,7 @@ def submit_donation():
     clean_payment_method = clean_line(
         payment_method
     )
+
 
     try:
 
@@ -1598,6 +1606,7 @@ def submit_donation():
                 f"{clean_payment_method}\n"
             )
 
+
     except OSError as error:
 
         print(
@@ -1611,6 +1620,7 @@ def submit_donation():
                 "Please try again."
         }), 500
 
+
     print(
         f"New donation: {clean_name} | "
         f"{clean_email} | "
@@ -1619,6 +1629,7 @@ def submit_donation():
         f"{clean_transaction_id} | "
         f"{donated_at}"
     )
+
 
     return jsonify({
         "success": True,
