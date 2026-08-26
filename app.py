@@ -1667,6 +1667,9 @@ def admin_login():
 
     data = get_json_data()
 
+    print("DONATION DEBUG DATA:", data)
+    print("DONATION DEBUG AMOUNT:", repr(data.get("amount")), type(data.get("amount")))
+
     username = data.get(
         "username",
         ""
