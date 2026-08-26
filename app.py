@@ -662,7 +662,13 @@ def remove_image_from_gallery_json(
 # ==========================================================
 # PAGE ROUTES
 # ==========================================================
-
+@app.route("/")
+def root():
+    return send_from_directory(
+        BASE_DIR,
+        "index.html"
+    )
+    
 @app.route("/index.html")
 def home():
 
