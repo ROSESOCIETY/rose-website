@@ -668,7 +668,7 @@ def root():
         BASE_DIR,
         "index.html"
     )
-    
+
 @app.route("/index.html")
 def home():
 
@@ -1284,6 +1284,10 @@ The contact message has been saved in contacts.txt.
     "/contact",
     methods=["POST"]
 )
+
+
+
+
 def submit_contact():
 
     data = get_json_data()
@@ -1466,7 +1470,7 @@ def submit_donation():
     email = data.get("email", "")
     phone = data.get("phone", "")
     pan = data.get("pan", "")
-    amount = str(data.get("amount", "")).strip()
+    amount = data.get("amount", "")
     transaction_id = data.get("transaction_id", "")
     transaction_date = data.get("transaction_date", "")
     bank_name = data.get("bank_name", "")
@@ -1489,6 +1493,7 @@ def submit_donation():
     email = str(email).strip()
     phone = str(phone).strip()
     pan = str(pan).strip()
+    amount =str(amount).strip()
     transaction_id = str(
         transaction_id
     ).strip()
