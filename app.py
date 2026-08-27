@@ -33,6 +33,7 @@ import re
 import threading
 import html
 import json
+import resend
 
 
 # ==========================================================
@@ -257,52 +258,35 @@ def send_email(
     html_body=None
 ):
 
-    if not SMTP_EMAIL or not SMTP_PASSWORD:
-        print(
-            "SMTP email credentials are not configured."
-        )
+    resend_api_key = os.getenv("RESEND_API_KEY")
+
+    if not resend_api_key:
+        print("RESEND_API_KEY is not configured.")
         return False
 
     try:
+        resend.api_key = resend_api_key
 
-        message = EmailMessage()
-
-        message["From"] = SMTP_EMAIL
-        message["To"] = receiver
-        message["Subject"] = subject
-
-        message.set_content(
-            body
-        )
+        email_data = {
+            "from": "onboarding@resend.dev",
+            "to": [receiver],
+            "subject": subject,
+            "text": body
+        }
 
         if html_body:
-            message.add_alternative(
-                html_body,
-                subtype="html"
-            )
-
-        print(f"SMTP CONNECTION STARTING: {SMTP_HOST}:{SMTP_PORT}")
-
-        with smtplib.SMTP(
-            SMTP_HOST,
-            SMTP_PORT,
-            timeout=10
-        ) as server:
-
-            print("SMTP CONNECTION ESTABLISHED")
-            server.starttls()
-
-            server.login(
-                SMTP_EMAIL,
-                SMTP_PASSWORD
-            )
-
-            server.send_message(
-                message
-            )
+            email_data["html"] = html_body
 
         print(
-            f"Email sent successfully to: {receiver}"
+            f"RESEND EMAIL STARTING: {receiver}"
+        )
+
+        response = resend.Emails.send(
+            email_data
+        )
+
+        print(
+            f"RESEND EMAIL SENT: {response}"
         )
 
         return True
@@ -310,7 +294,7 @@ def send_email(
     except Exception as error:
 
         print(
-            f"Email error for {receiver}: {error}"
+            f"RESEND EMAIL ERROR for {receiver}: {error}"
         )
 
         return False
