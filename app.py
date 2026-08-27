@@ -1462,12 +1462,11 @@ def send_donation_emails(
     payment_method,
     donated_at
 ):
-
     print(f"DONATION EMAIL THREAD STARTED: {email}")
 
-    # ------------------------------------------------------
-    # DONOR CONFIRMATION EMAIL
-    # ------------------------------------------------------
+    # ======================================================
+    # 1. DONOR CONFIRMATION EMAIL
+    # ======================================================
 
     donor_subject = "ROSE Donation Submission Confirmation"
 
@@ -1550,16 +1549,11 @@ Rural Organisation for Social Emancipation (ROSE)
     donor_html = f"""
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width,initial-scale=1.0">
-
 <title>ROSE Donation Confirmation</title>
-
 </head>
 
 <body style="
@@ -1656,21 +1650,16 @@ Thank you for supporting ROSE.
 
 <p>
 Regards,<br>
-
 <strong>
 Rural Organisation for Social Emancipation (ROSE)
 </strong>
-
 <br>
-
 {ROSE_EMAIL}
-
 </p>
 
 </div>
 
 </body>
-
 </html>
 """
 
@@ -1678,7 +1667,7 @@ Rural Organisation for Social Emancipation (ROSE)
         f"DONATION DONOR EMAIL STARTING: {email}"
     )
 
-    send_email(
+    donor_result = send_email(
         email,
         donor_subject,
         donor_body,
@@ -1686,16 +1675,14 @@ Rural Organisation for Social Emancipation (ROSE)
     )
 
     print(
-        f"DONATION DONOR EMAIL ATTEMPT FINISHED: {email}"
+        f"DONATION DONOR EMAIL RESULT: {donor_result}"
     )
 
-    # ------------------------------------------------------
-    # ROSE OWNER EMAIL
-    # ------------------------------------------------------
+    # ======================================================
+    # 2. ROSE OWNER NOTIFICATION EMAIL
+    # ======================================================
 
-    rose_subject = (
-        f"New ROSE Donation - {amount}"
-    )
+    rose_subject = f"New ROSE Donation - {amount}"
 
     rose_body = f"""
 A new donation payment submission has been received.
@@ -1746,14 +1733,18 @@ Please verify the payment.
         f"DONATION ROSE EMAIL STARTING: {ROSE_EMAIL}"
     )
 
-    send_email(
+    rose_result = send_email(
         ROSE_EMAIL,
         rose_subject,
         rose_body
     )
 
     print(
-        f"DONATION ROSE EMAIL ATTEMPT FINISHED: {ROSE_EMAIL}"
+        f"DONATION ROSE EMAIL RESULT: {rose_result}"
+    )
+
+    print(
+        "DONATION EMAIL THREAD FINISHED"
     )
 
 # ==========================================================
