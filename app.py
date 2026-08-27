@@ -1036,235 +1036,236 @@ def subscribe():
     }), 200
 
 
-# ==========================================================
-# CONTACT EMAILS
-# ==========================================================
+    # ==========================================================
+    # CONTACT EMAILS
+    # ==========================================================
 
-def send_contact_emails(
-    name,
-    email,
-    subject,
-    message,
-    contacted_at
-):
-
-    visitor_subject = (
-        "ROSE Contact Form Confirmation"
-    )
-
-    visitor_body = f"""
-Dear {name},
-
-Thank you for contacting the Rural Organisation
-for Social Emancipation (ROSE).
-
-We have successfully received your message.
-
-Name:
-
-{name}
-
-Email:
-
-{email}
-
-Subject:
-
-{subject}
-
-Your Message:
-
-{message}
-
-Submitted on:
-
-{contacted_at}
-
-Our team will review your message and
-get back to you as soon as possible.
-
-Thank you for reaching out to ROSE.
-
-Regards,
-
-Rural Organisation for Social Emancipation (ROSE)
-
-{ROSE_EMAIL}
-"""
-
-    safe_name = html.escape(name)
-    safe_email = html.escape(email)
-    safe_subject = html.escape(subject)
-    safe_message = html.escape(message)
-    safe_date = html.escape(contacted_at)
-
-    visitor_html = f"""
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
-<title>ROSE Contact Confirmation</title>
-
-</head>
-
-<body style="
-margin:0;
-padding:30px;
-background:#f3f3f3;
-font-family:Arial,Helvetica,sans-serif;
-color:#444;
-">
-
-<div style="
-max-width:640px;
-margin:auto;
-background:#ffffff;
-border-radius:16px;
-padding:35px;
-">
-
-<h1 style="
-text-align:center;
-color:#34472b;
-">
-Your message has been received.
-</h1>
-
-<p>
-Dear {safe_name},
-</p>
-
-<p style="line-height:1.6;">
-Thank you for contacting the Rural Organisation
-for Social Emancipation (ROSE).
-</p>
-
-<p style="line-height:1.6;">
-We have successfully received your message.
-</p>
-
-<div style="
-background:#f7f8f9;
-border-radius:10px;
-padding:18px;
-">
-
-<strong>Name</strong>
-
-<p>{safe_name}</p>
-
-<strong>Email</strong>
-
-<p>{safe_email}</p>
-
-<strong>Subject</strong>
-
-<p>{safe_subject}</p>
-
-<strong>Your Message</strong>
-
-<div style="
-background:#ffffff;
-border:1px solid #e2e2e2;
-border-radius:7px;
-padding:12px;
-line-height:1.6;
-">
-
-{safe_message}
-
-</div>
-
-<p>
-
-<strong>Submitted on</strong><br>
-
-{safe_date}
-
-</p>
-
-</div>
-
-<p style="line-height:1.6;">
-Our team will review your message and get back
-to you as soon as possible.
-</p>
-
-<hr>
-
-<p>
-Thank you for reaching out to ROSE.
-</p>
-
-<p>
-
-Regards,<br>
-
-<strong>
-Rural Organisation for Social Emancipation (ROSE)
-</strong>
-
-<br>
-
-{ROSE_EMAIL}
-
-</p>
-
-</div>
-
-</body>
-</html>
-"""
-
-    send_email(
+    def send_contact_emails(
+        name,
         email,
-        visitor_subject,
-        visitor_body,
-        visitor_html
-    )
+        subject,
+        message,
+        contacted_at
+    ):
+            print(f"CONTACT EMAIL THREAD STARTED: {email}")
 
-    rose_subject = (
-        f"New ROSE Contact Message - {subject}"
-    )
+        visitor_subject = (
+            "ROSE Contact Form Confirmation"
+        )
 
-    rose_body = f"""
-A new Contact Us message has been received.
+        visitor_body = f"""
+    Dear {name},
 
-Name:
+    Thank you for contacting the Rural Organisation
+    for Social Emancipation (ROSE).
 
-{name}
+    We have successfully received your message.
 
-Email:
+    Name:
 
-{email}
+    {name}
 
-Subject:
+    Email:
 
-{subject}
+    {email}
 
-Message:
+    Subject:
 
-{message}
+    {subject}
 
-Submitted on:
+    Your Message:
 
-{contacted_at}
+    {message}
 
-The contact message has been saved in contacts.txt.
-"""
+    Submitted on:
 
-    send_email(
-        ROSE_EMAIL,
-        rose_subject,
-        rose_body
-    )
+    {contacted_at}
 
+    Our team will review your message and
+    get back to you as soon as possible.
+
+    Thank you for reaching out to ROSE.
+
+    Regards,
+
+    Rural Organisation for Social Emancipation (ROSE)
+
+    {ROSE_EMAIL}
+    """
+
+        safe_name = html.escape(name)
+        safe_email = html.escape(email)
+        safe_subject = html.escape(subject)
+        safe_message = html.escape(message)
+        safe_date = html.escape(contacted_at)
+
+        visitor_html = f"""
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width,initial-scale=1.0">
+
+    <title>ROSE Contact Confirmation</title>
+
+    </head>
+
+    <body style="
+    margin:0;
+    padding:30px;
+    background:#f3f3f3;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#444;
+    ">
+
+    <div style="
+    max-width:640px;
+    margin:auto;
+    background:#ffffff;
+    border-radius:16px;
+    padding:35px;
+    ">
+
+    <h1 style="
+    text-align:center;
+    color:#34472b;
+    ">
+    Your message has been received.
+    </h1>
+
+    <p>
+    Dear {safe_name},
+    </p>
+
+    <p style="line-height:1.6;">
+    Thank you for contacting the Rural Organisation
+    for Social Emancipation (ROSE).
+    </p>
+
+    <p style="line-height:1.6;">
+    We have successfully received your message.
+    </p>
+
+    <div style="
+    background:#f7f8f9;
+    border-radius:10px;
+    padding:18px;
+    ">
+
+    <strong>Name</strong>
+
+    <p>{safe_name}</p>
+
+    <strong>Email</strong>
+
+    <p>{safe_email}</p>
+
+    <strong>Subject</strong>
+
+    <p>{safe_subject}</p>
+
+    <strong>Your Message</strong>
+
+    <div style="
+    background:#ffffff;
+    border:1px solid #e2e2e2;
+    border-radius:7px;
+    padding:12px;
+    line-height:1.6;
+    ">
+
+    {safe_message}
+
+    </div>
+
+    <p>
+
+    <strong>Submitted on</strong><br>
+
+    {safe_date}
+
+    </p>
+
+    </div>
+
+    <p style="line-height:1.6;">
+    Our team will review your message and get back
+    to you as soon as possible.
+    </p>
+
+    <hr>
+
+    <p>
+    Thank you for reaching out to ROSE.
+    </p>
+
+    <p>
+
+    Regards,<br>
+
+    <strong>
+    Rural Organisation for Social Emancipation (ROSE)
+    </strong>
+
+    <br>
+
+    {ROSE_EMAIL}
+
+    </p>
+
+    </div>
+
+    </body>
+    </html>
+    """
+        print(f"CONTACT VISITOR EMAIL STARTING: {email}")
+        send_email(
+            email,
+            visitor_subject,
+            visitor_body,
+            visitor_html
+        )
+
+        rose_subject = (
+            f"New ROSE Contact Message - {subject}"
+        )
+
+        rose_body = f"""
+    A new Contact Us message has been received.
+
+    Name:
+
+    {name}
+
+    Email:
+
+    {email}
+
+    Subject:
+
+    {subject}
+
+    Message:
+
+    {message}
+
+    Submitted on:
+
+    {contacted_at}
+
+    The contact message has been saved in contacts.txt.
+    """
+        print(f"CONTACT ROSE EMAIL STARTING: {ROSE_EMAIL}")
+        send_email(
+            ROSE_EMAIL,
+            rose_subject,
+            rose_body
+        )
+        print(f"CONTACT ROSE EMAIL ATTEMPT FINISHED: {ROSE_EMAIL}")
 
 # ==========================================================
 # CONTACT API
