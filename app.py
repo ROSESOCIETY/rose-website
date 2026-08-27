@@ -770,6 +770,7 @@ def send_newsletter_emails(
     email,
     subscribed_at
 ):
+    print(f"NEWSLETTER EMAIL THREAD STARTED: {email}")
 
     subject = (
         "ROSE Newsletter Subscription Confirmation"
@@ -930,6 +931,7 @@ Rural Organisation for Social Emancipation (ROSE)
         plain,
         html_body
     )
+    print(f"NEWSLETTER SUBSCRIBER EMAIL ATTEMPT FINISHED: {email}")
 
     rose_body = f"""
 A new newsletter subscription has been received.
@@ -950,7 +952,7 @@ The subscriber has been added to subscribers.txt.
         "New ROSE Newsletter Subscriber",
         rose_body
     )
-
+    print(f"NEWSLETTER OWNER EMAIL ATTEMPT FINISHED: {ROSE_EMAIL}")
 
 # ==========================================================
 # NEWSLETTER API
