@@ -324,7 +324,7 @@ def run_in_background(
     thread = threading.Thread(
         target=function,
         args=args,
-        daemon=True
+        daemon=False
     )
 
     thread.start()
