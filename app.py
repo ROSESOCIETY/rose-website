@@ -1443,6 +1443,319 @@ def submit_contact():
             "Your message has been sent successfully."
     }), 200
 
+
+# ==========================================================
+# DONATION EMAILS
+# ==========================================================
+
+def send_donation_emails(
+    name,
+    email,
+    phone,
+    pan,
+    amount,
+    transaction_id,
+    transaction_date,
+    bank_name,
+    account_holder_name,
+    account_last_four,
+    payment_method,
+    donated_at
+):
+
+    print(f"DONATION EMAIL THREAD STARTED: {email}")
+
+    # ------------------------------------------------------
+    # DONOR CONFIRMATION EMAIL
+    # ------------------------------------------------------
+
+    donor_subject = "ROSE Donation Submission Confirmation"
+
+    donor_body = f"""
+Dear {name},
+
+Thank you for supporting the Rural Organisation for Social Emancipation (ROSE).
+
+We have received your donation payment details successfully.
+
+Donation Details:
+
+Name:
+{name}
+
+Email:
+{email}
+
+Phone:
+{phone}
+
+PAN:
+{pan}
+
+Amount:
+{amount}
+
+Transaction ID:
+{transaction_id}
+
+Transaction Date:
+{transaction_date}
+
+Bank Name:
+{bank_name}
+
+Account Holder Name:
+{account_holder_name}
+
+Last Four Digits:
+{account_last_four}
+
+Payment Method:
+{payment_method}
+
+Submitted on:
+{donated_at}
+
+Your payment details have been submitted successfully
+and are now available to the ROSE team for verification.
+
+Thank you for supporting ROSE.
+
+Regards,
+
+Rural Organisation for Social Emancipation (ROSE)
+
+{ROSE_EMAIL}
+"""
+
+    safe_name = html.escape(name)
+    safe_email = html.escape(email)
+    safe_phone = html.escape(phone)
+    safe_pan = html.escape(pan)
+    safe_amount = html.escape(amount)
+    safe_transaction_id = html.escape(transaction_id)
+    safe_transaction_date = html.escape(transaction_date)
+    safe_bank_name = html.escape(bank_name)
+    safe_account_holder_name = html.escape(
+        account_holder_name
+    )
+    safe_account_last_four = html.escape(
+        account_last_four
+    )
+    safe_payment_method = html.escape(
+        payment_method
+    )
+    safe_donated_at = html.escape(donated_at)
+
+    donor_html = f"""
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>ROSE Donation Confirmation</title>
+
+</head>
+
+<body style="
+margin:0;
+padding:30px;
+background:#f3f3f3;
+font-family:Arial,Helvetica,sans-serif;
+color:#444;
+">
+
+<div style="
+max-width:640px;
+margin:auto;
+background:#ffffff;
+border-radius:16px;
+padding:35px;
+">
+
+<h1 style="
+text-align:center;
+color:#34472b;
+">
+Thank you for your donation.
+</h1>
+
+<p>
+Dear {safe_name},
+</p>
+
+<p style="line-height:1.6;">
+Thank you for supporting the Rural Organisation
+for Social Emancipation (ROSE).
+</p>
+
+<p style="line-height:1.6;">
+We have received your donation payment details
+successfully.
+</p>
+
+<div style="
+background:#f7f8f9;
+border-radius:10px;
+padding:18px;
+">
+
+<strong>Name</strong>
+<p>{safe_name}</p>
+
+<strong>Email</strong>
+<p>{safe_email}</p>
+
+<strong>Phone</strong>
+<p>{safe_phone}</p>
+
+<strong>PAN</strong>
+<p>{safe_pan}</p>
+
+<strong>Amount</strong>
+<p>{safe_amount}</p>
+
+<strong>Transaction ID</strong>
+<p>{safe_transaction_id}</p>
+
+<strong>Transaction Date</strong>
+<p>{safe_transaction_date}</p>
+
+<strong>Bank Name</strong>
+<p>{safe_bank_name}</p>
+
+<strong>Account Holder Name</strong>
+<p>{safe_account_holder_name}</p>
+
+<strong>Last Four Digits</strong>
+<p>{safe_account_last_four}</p>
+
+<strong>Payment Method</strong>
+<p>{safe_payment_method}</p>
+
+<strong>Submitted on</strong>
+<p>{safe_donated_at}</p>
+
+</div>
+
+<p style="line-height:1.6;">
+Your payment details have been submitted successfully
+and are now available to the ROSE team for verification.
+</p>
+
+<hr>
+
+<p>
+Thank you for supporting ROSE.
+</p>
+
+<p>
+Regards,<br>
+
+<strong>
+Rural Organisation for Social Emancipation (ROSE)
+</strong>
+
+<br>
+
+{ROSE_EMAIL}
+
+</p>
+
+</div>
+
+</body>
+
+</html>
+"""
+
+    print(
+        f"DONATION DONOR EMAIL STARTING: {email}"
+    )
+
+    send_email(
+        email,
+        donor_subject,
+        donor_body,
+        donor_html
+    )
+
+    print(
+        f"DONATION DONOR EMAIL ATTEMPT FINISHED: {email}"
+    )
+
+    # ------------------------------------------------------
+    # ROSE OWNER EMAIL
+    # ------------------------------------------------------
+
+    rose_subject = (
+        f"New ROSE Donation - {amount}"
+    )
+
+    rose_body = f"""
+A new donation payment submission has been received.
+
+Donor Name:
+{name}
+
+Donor Email:
+{email}
+
+Phone:
+{phone}
+
+PAN:
+{pan}
+
+Amount:
+{amount}
+
+Transaction ID:
+{transaction_id}
+
+Transaction Date:
+{transaction_date}
+
+Bank Name:
+{bank_name}
+
+Account Holder Name:
+{account_holder_name}
+
+Last Four Digits:
+{account_last_four}
+
+Payment Method:
+{payment_method}
+
+Submitted on:
+{donated_at}
+
+The donation details have been saved
+in donorDetails.txt.
+
+Please verify the payment.
+"""
+
+    print(
+        f"DONATION ROSE EMAIL STARTING: {ROSE_EMAIL}"
+    )
+
+    send_email(
+        ROSE_EMAIL,
+        rose_subject,
+        rose_body
+    )
+
+    print(
+        f"DONATION ROSE EMAIL ATTEMPT FINISHED: {ROSE_EMAIL}"
+    )
+
 # ==========================================================
 # DONATION API
 # ==========================================================
@@ -1629,7 +1942,21 @@ def submit_donation():
         f"{clean_transaction_id} | "
         f"{donated_at}"
     )
-
+    run_in_background(
+        send_donation_emails,
+        clean_name,
+        clean_email,
+        clean_phone,
+        clean_pan,
+        clean_amount,
+        clean_transaction_id,
+        clean_transaction_date,
+        clean_bank_name,
+        clean_account_holder_name,
+        clean_account_last_four,
+        clean_payment_method,
+        donated_at
+        )
 
     return jsonify({
         "success": True,
