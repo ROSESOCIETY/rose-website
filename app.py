@@ -281,12 +281,15 @@ def send_email(
                 subtype="html"
             )
 
+        print(f"SMTP CONNECTION STARTING: {SMTP_HOST}:{SMTP_PORT}")
+
         with smtplib.SMTP(
             SMTP_HOST,
             SMTP_PORT,
-            timeout=15
+            timeout=10
         ) as server:
 
+        print("SMTP CONNECTION ESTABLISHED")
             server.starttls()
 
             server.login(
