@@ -289,7 +289,7 @@ def send_email(
             timeout=10
         ) as server:
 
-        print("SMTP CONNECTION ESTABLISHED")
+            print("SMTP CONNECTION ESTABLISHED")
             server.starttls()
 
             server.login(
