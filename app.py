@@ -268,7 +268,7 @@ def send_email(
         resend.api_key = resend_api_key
 
         email_data = {
-            "from": "onboarding@resend.dev",
+            "from": "ROSE <roseorg22@rosengo.in>",
             "to": [receiver],
             "subject": subject,
             "text": body
