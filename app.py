@@ -283,7 +283,8 @@ def send_email(
 
         with smtplib.SMTP(
             SMTP_HOST,
-            SMTP_PORT
+            SMTP_PORT,
+            timeout=15
         ) as server:
 
             server.starttls()
@@ -1031,7 +1032,8 @@ def subscribe():
         f"Subscribed on: {subscribed_at}"
     )
 
-    send_newsletter_emails(
+    run_in_background(
+    send_newsletter_emails,
     email,
     subscribed_at
     )
