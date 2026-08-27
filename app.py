@@ -1047,11 +1047,9 @@ def subscribe():
         message,
         contacted_at
     ):
-            print(f"CONTACT EMAIL THREAD STARTED: {email}")
+        print(f"CONTACT EMAIL THREAD STARTED: {email}")
 
-        visitor_subject = (
-            "ROSE Contact Form Confirmation"
-        )
+        visitor_subject = ("ROSE Contact Form Confirmation")
 
         visitor_body = f"""
     Dear {name},
