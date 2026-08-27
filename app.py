@@ -1031,10 +1031,9 @@ def subscribe():
         f"Subscribed on: {subscribed_at}"
     )
 
-    run_in_background(
-        send_newsletter_emails,
-        email,
-        subscribed_at
+    send_newsletter_emails(
+    email,
+    subscribed_at
     )
 
     return jsonify({
