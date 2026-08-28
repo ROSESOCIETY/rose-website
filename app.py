@@ -1515,6 +1515,21 @@ def submit_contact():
         f"{contacted_at}"
     )
 
+    google_sheets_result = send_to_google_sheets({
+        "token": GOOGLE_SHEETS_TOKEN,
+        "type": "contact",
+        "date": contacted_at,
+        "name": clean_name,
+        "email": clean_email,
+        "subject": clean_subject,
+        "message": clean_message
+    })
+
+    print(
+        f"GOOGLE SHEETS CONTACT RESULT: "
+        f"{google_sheets_result}"
+    )
+
     run_in_background(
         send_contact_emails,
         clean_name,
@@ -2027,6 +2042,29 @@ def submit_donation():
         f"{clean_transaction_id} | "
         f"{donated_at}"
     )
+
+    google_sheets_result = send_to_google_sheets({
+        "token": GOOGLE_SHEETS_TOKEN,
+        "type": "donation",
+        "date": donated_at,
+        "name": clean_name,
+        "email": clean_email,
+        "phone": clean_phone,
+        "pan": clean_pan,
+        "amount": clean_amount,
+        "transaction_id": clean_transaction_id,
+        "transaction_date": clean_transaction_date,
+        "bank_name": clean_bank_name,
+        "account_holder_name": clean_account_holder_name,
+        "last_four_digits": clean_account_last_four,
+        "payment_method": clean_payment_method
+        })
+
+    print(
+        f"GOOGLE SHEETS DONATION RESULT: "
+        f"{google_sheets_result}"
+    )
+
     run_in_background(
         send_donation_emails,
         clean_name,
