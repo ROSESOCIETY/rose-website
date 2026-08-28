@@ -1729,16 +1729,20 @@ in donorDetails.txt.
 Please verify the payment.
 """
 
-    print(
-        f"DONATION ROSE EMAIL STARTING: {ROSE_EMAIL}"
-    )
+    
+
+    print("==================================================")
+    print(f"DONATION ROSE EMAIL STARTING")
+    print(f"ROSE_EMAIL = {ROSE_EMAIL}")
+    print(f"ROSE SUBJECT = {rose_subject}")
+    print("==================================================")
 
     rose_result = send_email(
         ROSE_EMAIL,
         rose_subject,
         rose_body
     )
-
+    
     print(
         f"DONATION ROSE EMAIL RESULT: {rose_result}"
     )
