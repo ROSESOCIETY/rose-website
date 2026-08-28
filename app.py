@@ -1073,7 +1073,7 @@ def subscribe():
     )
 
 
-        google_sheets_result = send_to_google_sheets({
+    google_sheets_result = send_to_google_sheets({
         "token": GOOGLE_SHEETS_TOKEN,
         "type": "subscriber",
         "date": subscribed_at,
