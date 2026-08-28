@@ -130,6 +130,15 @@ GALLERY_CATEGORIES = {
 
 ROSE_EMAIL = "roseorg22@gmail.com"
 
+# ==========================================================
+# GOOGLE SHEETS
+# ==========================================================
+
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYKb52TZF4fMNrHv99c8uzknNv7j9yjnC62jAA8G1o4i5ACyGpfAcaxW9GwFAKamc-/exec"
+
+GOOGLE_SHEETS_TOKEN = "ruralorganisationforsocialemancipation2022!!!@@@"
+
+
 
 # ==========================================================
 # SMTP
@@ -192,6 +201,48 @@ app.config.update(
 # ==========================================================
 # HELPER FUNCTIONS
 # ==========================================================
+
+def send_to_google_sheets(data):
+    try:
+        import urllib.request
+
+        payload = json.dumps(data).encode("utf-8")
+
+        req = urllib.request.Request(
+            GOOGLE_SCRIPT_URL,
+            data=payload,
+            headers={
+                "Content-Type": "application/json"
+            },
+            method="POST"
+        )
+
+        with urllib.request.urlopen(
+            req,
+            timeout=15
+        ) as response:
+
+            response_text = response.read().decode(
+                "utf-8"
+            )
+
+        print(
+            f"GOOGLE SHEETS RESPONSE: {response_text}"
+        )
+
+        result = json.loads(response_text)
+
+        return result.get(
+            "success",
+            False
+        )
+
+    except Exception as error:
+        print(
+            f"GOOGLE SHEETS ERROR: {error}"
+        )
+        return False
+
 
 def now_ist():
     return datetime.now().strftime(
@@ -1019,6 +1070,19 @@ def subscribe():
     print(
         f"New subscriber: {email} | "
         f"Subscribed on: {subscribed_at}"
+    )
+
+
+        google_sheets_result = send_to_google_sheets({
+        "token": GOOGLE_SHEETS_TOKEN,
+        "type": "subscriber",
+        "date": subscribed_at,
+        "email": email
+    })
+
+    print(
+        f"GOOGLE SHEETS SUBSCRIBER RESULT: "
+        f"{google_sheets_result}"
     )
 
     run_in_background(
