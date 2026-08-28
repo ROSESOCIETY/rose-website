@@ -35,6 +35,9 @@ import html
 import json
 import resend
 
+import urllib.request
+import urllib.error
+
 
 # ==========================================================
 # ENVIRONMENT
@@ -134,9 +137,10 @@ ROSE_EMAIL = "roseorg22@gmail.com"
 # GOOGLE SHEETS
 # ==========================================================
 
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYKb52TZF4fMNrHv99c8uzknNv7j9yjnC62jAA8G1o4i5ACyGpfAcaxW9GwFAKamc-/exec"
+GOOGLE_SCRIPT_URL = os.getenv("GOOGLE_SCRIPT_URL")
 
-GOOGLE_SHEETS_TOKEN = "ruralorganisationforsocialemancipation2022!!!@@@"
+
+GOOGLE_SHEETS_TOKEN = os.getenv("GOOGLE_SHEETS_TOKEN")
 
 
 
@@ -204,8 +208,6 @@ app.config.update(
 
 def send_to_google_sheets(data):
     try:
-        import urllib.request
-
         payload = json.dumps(data).encode("utf-8")
 
         req = urllib.request.Request(
@@ -232,17 +234,45 @@ def send_to_google_sheets(data):
 
         result = json.loads(response_text)
 
-        return result.get(
-            "success",
-            False
-        )
+        return result
 
     except Exception as error:
         print(
             f"GOOGLE SHEETS ERROR: {error}"
         )
+
+        return {
+            "success": False,
+            "error": str(error)
+        }
+
+def subscriber_exists_in_google_sheets(email):
+    result = send_to_google_sheets({
+        "token": GOOGLE_SHEETS_TOKEN,
+        "type": "check_subscriber",
+        "email": email
+    })
+
+    if not isinstance(result, dict):
         return False
 
+    if result.get("success") is not True:
+        print(
+            "GOOGLE SHEETS SUBSCRIBER CHECK FAILED"
+        )
+        return False
+
+    exists = result.get(
+        "alreadySubscribed",
+        False
+    )
+
+    print(
+        f"GOOGLE SHEETS SUBSCRIBER CHECK: "
+        f"{email} -> {exists}"
+    )
+
+    return exists is True
 
 def now_ist():
     return datetime.now().strftime(
@@ -1028,14 +1058,10 @@ def subscribe():
                 "Please enter a valid email address."
         }), 400
 
-    if already_subscribed(email):
-
+    if subscriber_exists_in_google_sheets(email):
         return jsonify({
-            "success":
-                False,
-
-            "message":
-                "This email is already subscribed."
+            "success": False,
+            "message": "This email is already subscribed."
         }), 200
 
     subscribed_at = now_ist()
