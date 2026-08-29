@@ -47,15 +47,23 @@ load_dotenv()
 
 app = Flask(__name__)
 
+BASE_DIR = Path(__file__).resolve().parent
+
 @app.route("/sitemap.xml")
 def sitemap():
-    return send_from_directory(".", "sitemap.xml", mimetype="application/xml")
+    return send_from_directory(
+        BASE_DIR,
+        "sitemap.xml",
+        mimetype="application/xml"
+    )
 
 @app.route("/robots.txt")
 def robots():
-    return send_from_directory(".", "robots.txt", mimetype="text/plain")
-
-BASE_DIR = Path(__file__).resolve().parent
+    return send_from_directory(
+        BASE_DIR,
+        "robots.txt",
+        mimetype="text/plain"
+    )
 
 app.secret_key = os.getenv(
     "FLASK_SECRET_KEY",
