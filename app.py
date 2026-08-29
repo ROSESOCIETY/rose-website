@@ -47,6 +47,10 @@ load_dotenv()
 
 app = Flask(__name__)
 
+@app.route("/sitemap.xml")
+def sitemap():
+    return send_from_directory(".", "sitemap.xml", mimetype="application/xml")
+
 BASE_DIR = Path(__file__).resolve().parent
 
 app.secret_key = os.getenv(
