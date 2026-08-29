@@ -51,11 +51,21 @@ BASE_DIR = Path(__file__).resolve().parent
 
 @app.route("/sitemap.xml")
 def sitemap():
-    return send_from_directory(
-        BASE_DIR,
-        "sitemap.xml",
+    sitemap_file = BASE_DIR / "sitemap.xml"
+
+    xml = sitemap_file.read_text(encoding="utf-8")
+
+    response = app.response_class(
+        response=xml,
+        status=200,
         mimetype="application/xml"
     )
+
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+
+    return response
 
 @app.route("/robots.txt")
 def robots():
